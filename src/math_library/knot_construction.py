@@ -5,6 +5,10 @@ CONSTRUCTION OF LINK DIAGRAMS FROM ELEMENTS OF THE BROWN-THOMPSON GROUP
 import copy
 import numpy as np
 
+import sys
+sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/math_library')
+import group_operations
+
 """
 This function finds the biggest common word in two words representing an overstrand passing through a crossing.
 It returns the last character of both words.

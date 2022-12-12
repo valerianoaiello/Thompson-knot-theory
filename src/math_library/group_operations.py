@@ -341,3 +341,8 @@ def multiplication_tree_diagrams(tree_diagram_one, tree_diagram_two):
         if lenght_tree_plus == len(tree_diagram_prod.top):
             break
   return tree_diagram_prod
+
+if __name__ == '__main__':
+  x_0 = Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
+  x_0.print_tree_diagram()
+  print('hello')
