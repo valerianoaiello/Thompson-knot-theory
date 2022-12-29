@@ -110,8 +110,8 @@ def create_dataset(radius: np.ndarray, csv_path: str) -> None:
 
 if __name__ == '__main__':
   create_dataset(1, '/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/data.csv')
-  
-"""
+  print("hello")
+"""asdfasfd
 t = Ternary_tree_diagrams(['0', '1', '20', '21', '220', '221', '2220', '2221', '2222'], ['0', '1', '2000', '2001', '2002', '201', '202', '21', '22'])
   print(find_normal_form(t))
 
