@@ -4,6 +4,9 @@ GROUP OPERATIONS IN THE BROWN-THOMPSON GROUP F_3
 
 import copy
 import numpy as np
+import sys
+sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/math_library')
+from generators_F_3 import *
 
 """
 We describe ternary tree diagrams with pairs of ternary words. 
@@ -36,7 +39,7 @@ References:
 V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup vec{F}_3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
 Volume 21, Issue 07, 2250139, doi: 10.1142/S0219498822501390, preprint arXiv:1912.04730
 """
-def right_shift_homomorphism(ternary_tree_diagram):
+def right_shift_homomorphism(ternary_tree_diagram) -> Ternary_tree_diagrams:
   tree_plus_deep_cp = copy.deepcopy(ternary_tree_diagram.top)
   tree_minus_deep_cp = copy.deepcopy(ternary_tree_diagram.bottom) 
 
@@ -58,7 +61,7 @@ References:
 V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup F⃗3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
 Volume 21, Issue 07, 2250139, doi: 10.1142/S0219498822501390, preprint arXiv:1912.04730
 """
-def middle_shift_homomorphism(ternary_tree_diagram):
+def middle_shift_homomorphism(ternary_tree_diagram) -> Ternary_tree_diagrams:
   tree_plus_deep_cp = copy.deepcopy(ternary_tree_diagram.top)
   tree_minus_deep_cp = copy.deepcopy(ternary_tree_diagram.bottom) 
 
@@ -80,7 +83,7 @@ the trees about a vertical line.
 References:
 V. Aiello, T. Nagnibeda, On the 3-colorable subgroup and maximal subgroups of Thompson’s group F
 """
-def flip_automorphism(ternary_tree_diagram):
+def flip_automorphism(ternary_tree_diagram) -> Ternary_tree_diagrams:
   
   tree_plus_deep_cp = copy.deepcopy(ternary_tree_diagram.top)
   tree_minus_deep_cp = copy.deepcopy(ternary_tree_diagram.bottom) 
@@ -104,7 +107,7 @@ def flip_automorphism(ternary_tree_diagram):
 This function returns the words representing a complete ternary tree, that is it produces the labels of its leaves (these are words in the letters {0, 1, 2}).
 The heigth of the tree must be at least 1.
 """
-def generate_complete_ternary_tree(height):
+def generate_complete_ternary_tree(height) -> list:
   if height == 0:
     return [""]
   elif height == 1:
@@ -119,7 +122,7 @@ def generate_complete_ternary_tree(height):
 This function makes flattens a list.
 It is used in find_common_tree.
 """
-def flatten_list(outer_list):
+def flatten_list(outer_list) -> list:
     flat_list = []
     for element in outer_list:
         if type(element) is list:
@@ -132,14 +135,10 @@ def flatten_list(outer_list):
 
 
 """
-Create the graph for the top tree. 
-The keys are the sources, the values are the targets.
-
 Create the graph for the bottom tree. 
 The keys are the sources, the values are the targets.
 """
-
-def from_tree_to_graph(ternary_tree_diagram):
+def from_tree_to_graph(ternary_tree_diagram) -> dict:
 
 # Create graph for top tree.
   graph_plus = {}
@@ -159,12 +158,8 @@ def from_tree_to_graph(ternary_tree_diagram):
   else:
     graph_plus['+']=['+0']
 
-
-
 # graph for bottom tree
   tree_minus = copy.deepcopy(ternary_tree_diagram.bottom)
-
-
 
 # Create graph for bottom tree.
   
@@ -176,8 +171,6 @@ def from_tree_to_graph(ternary_tree_diagram):
       elif '-'+word[:i] in tree_minus: 
         graph_plus['-'+word[:i]].append('-' +  word[:i-1])        
         graph_plus['-'+word[:i-1]] = []
-
-
   
  # Add edges to root of bottom tree 
   if len(graph_plus)>1:
@@ -198,7 +191,7 @@ each reprententing a ternary tree. Both trees have the same number of leaves.
 The function reduce_tree_diagram takes two ternary trees and applies a reduction move if it can be performed.
 The function returns a pair of ternary tree diagrams.
 """
-def reduce_tree_diagram(tree_diagram):
+def reduce_tree_diagram(tree_diagram) -> Ternary_tree_diagrams:
   
   tree_plus = copy.deepcopy(tree_diagram.top)
   tree_minus = copy.deepcopy(tree_diagram.bottom)
@@ -221,7 +214,7 @@ This function takes two ternary tree diagrams as an input (tree_plus, tree_minus
 representative such that the second tree of the first tree diagram is equal to first tree of the second tree diagram.
 This will allow us to multiply easily the elements.
 """
-def find_common_tree(tree_diagram_one, tree_diagram_two):
+def find_common_tree(tree_diagram_one, tree_diagram_two) -> tuple:
   
   tree_plus = copy.deepcopy(tree_diagram_one.top)
   tree_minus = copy.deepcopy(tree_diagram_one.bottom)
@@ -261,7 +254,7 @@ the negative part is described by a vector of the form [b_0, ..., b_n],
 where a_0, ..., a_n, b_0, ..., b_n are all non-negative integers. 
 This function finds the gives the vectors with the smallest n such that at least one between a_n and b_n is non-zero.
 """
-def find_normal_form(tree_diagram):
+def find_normal_form(tree_diagram) -> tuple:
   length = tree_diagram.get_number_leaves()
 
   positive_part = np.zeros(length)
@@ -299,7 +292,7 @@ def find_normal_form(tree_diagram):
 This function calculate the power of an element of F_3.
 The element is in the variable "tree_diagram", while "exponent" is an integer
 """
-def power_tree_diagram(tree_diagram, exponent):
+def power_tree_diagram(tree_diagram, exponent) -> Ternary_tree_diagrams:
   result = Ternary_tree_diagrams()
   if exponent == 0:
     return result
@@ -317,7 +310,7 @@ The function takes two tree diagrams (described by two pairs of ternary words) f
 (prod_tree_plus_temp, prod_tree_minus_temp) which is then turned into its reduced form by means of the function 
 reduce_tree_diagram and do-while
 """
-def multiplication_tree_diagrams(tree_diagram_one, tree_diagram_two):
+def multiplication_tree_diagrams(tree_diagram_one, tree_diagram_two) -> Ternary_tree_diagrams:
   if tree_diagram_one.get_number_leaves() == 1:
     return tree_diagram_two
   elif tree_diagram_two.get_number_leaves() == 1:
@@ -343,6 +336,6 @@ def multiplication_tree_diagrams(tree_diagram_one, tree_diagram_two):
   return tree_diagram_prod
 
 if __name__ == '__main__':
-  x_0 = Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
+  x_0
+  print(from_tree_to_graph(x_0))
   x_0.print_tree_diagram()
-  print('hello')

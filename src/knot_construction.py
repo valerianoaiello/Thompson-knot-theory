@@ -6,8 +6,8 @@ import copy
 import numpy as np
 
 import sys
-sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/math_library')
-import group_operations
+sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src')
+from group_operations import *
 
 """
 This function finds the biggest common word in two words representing an overstrand passing through a crossing.
@@ -418,3 +418,5 @@ def tree_diagram_to_link_diagram(tree_diagram):
 
           planar_diagram.append(find_under_over_strand(crossing))
   return planar_diagram
+
+
