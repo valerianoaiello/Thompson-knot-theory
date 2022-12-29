@@ -4,9 +4,13 @@ GROUP OPERATIONS IN THE BROWN-THOMPSON GROUP F_3
 
 import copy
 import numpy as np
-import sys
-sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/math_library')
-from generators_F_3 import *
+
+
+
+
+#import sys
+#sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/')
+#from generators_F_3 import *
 
 """
 We describe ternary tree diagrams with pairs of ternary words. 
@@ -254,7 +258,7 @@ the negative part is described by a vector of the form [b_0, ..., b_n],
 where a_0, ..., a_n, b_0, ..., b_n are all non-negative integers. 
 This function finds the gives the vectors with the smallest n such that at least one between a_n and b_n is non-zero.
 """
-def find_normal_form(tree_diagram) -> tuple:
+def find_normal_form(tree_diagram):
   length = tree_diagram.get_number_leaves()
 
   positive_part = np.zeros(length)
@@ -273,20 +277,35 @@ def find_normal_form(tree_diagram) -> tuple:
       positive_part[i] = len(top_tree[i])-len(top_tree[i].rstrip('0'))-1
     elif top_tree[i][-1] == '0':
       positive_part[i] = len(top_tree[i])-len(top_tree[i].rstrip('0'))
-    elif bottom_tree[i][-1] == '0' and bottom_tree[i].rstrip('0') in right_side:
+    if bottom_tree[i][-1] == '0' and bottom_tree[i].rstrip('0') in right_side:
       negative_part[i] = len(bottom_tree[i])-len(bottom_tree[i].rstrip('0'))-1
     else:
       negative_part[i] = len(bottom_tree[i])-len(bottom_tree[i].rstrip('0'))
-  length_positive_part = np.nonzero(positive_part)[-1]
-  length_negative_part = np.nonzero(negative_part)[-1]
+
+  return positive_part, negative_part
+
+"""
+
+  nonzero_indices_positive_part = np.nonzero(positive_part)[-1]
+  nonzero_indices_negative_part = np.nonzero(negative_part)[-1] 
+
+  if len(nonzero_indices_positive_part)>0:
+    length_positive_part = nonzero_indices_positive_part[-1]
+  else:
+    length_positive_part = 0
+
+  if len(nonzero_indices_negative_part)>0:
+    length_negative_part = nonzero_indices_negative_part[-1]
+  else:
+    length_negative_part = 0
   if length_positive_part + length_negative_part >0:
     max_length = max(length_positive_part, length_negative_part)
-    positive_part = positive_part[:max_length[0] + 1]
-    negative_part = negative_part[:max_length[0] + 1]
-  else:    
+    positive_part = positive_part[:max_length + 1]
+    negative_part = negative_part[:max_length + 1]
+  else:   
     positive_part = np.array([])
     negative_part = np.array([])
-  return positive_part, negative_part
+"""
 
 """
 This function calculate the power of an element of F_3.
@@ -335,7 +354,31 @@ def multiplication_tree_diagrams(tree_diagram_one, tree_diagram_two) -> Ternary_
             break
   return tree_diagram_prod
 
+
+
+
+if __name__ == '__main__':
+  x_0 = Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
+  x_1 = Ternary_tree_diagrams(['0', '10', '11', '12', '2'], ['0', '1', '20', '21', '22'])
+  x_2 = right_shift_homomorphism(x_0)
+
+  x_0inv = x_0.inverse_tree_diagram()
+  x_1inv = x_1.inverse_tree_diagram()
+  x_2inv = x_2.inverse_tree_diagram()
+
+  product = multiplication_tree_diagrams(x_0, x_2)
+  print("product")
+  product.print_tree_diagram()
+  print("normal form:", find_normal_form(x_0))
+  print("normal form:", find_normal_form(x_0inv))
+  print("normal form:", find_normal_form(x_1))
+  print("normal form:", find_normal_form(x_1inv))
+  print("normal form:", find_normal_form(x_2))
+  print("normal form:", find_normal_form(x_2inv))
+
+"""
 if __name__ == '__main__':
   x_0
   print(from_tree_to_graph(x_0))
   x_0.print_tree_diagram()
+"""
