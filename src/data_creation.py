@@ -1,13 +1,16 @@
 """
 Here we create the data.
 """
+
+import sys
+from sage.all import *
+
 import csv
 import numpy as np
 import sys
-sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/math_library')
+sys.path.append('/afs/cern.ch/work/v/vaiello/private/Thompson-knot-theory/src/')
 from group_operations import *
 from knot_construction import *
-from generators_F_3 import *
 
 
 
@@ -39,7 +42,22 @@ This function takes a path starting from the identity of F_3 and returns the pro
 The path is described by a vector whose entries are 3, 2, 1, -1, -2, -3 representing x_2^-1, x_1^-1, x_0^-1, x_0, x_1, x_2.  
 """
 def multiply_elements_in_path(path_of_tree_diagrams):
-  number_of_elements = len(multiply_elements_in_path)
+  global x_0
+  global x_0inv
+  global x_1
+  global x_1inv
+  global x_2
+  global x_2inv
+
+  x_0 = Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
+  x_1 = Ternary_tree_diagrams(['0', '10', '11', '12', '2'], ['0', '1', '20', '21', '22'])
+  x_2 = right_shift_homomorphism(x_0)
+
+  x_0inv = x_0.inverse_tree_diagram()
+  x_1inv = x_1.inverse_tree_diagram()
+  x_2inv = x_2.inverse_tree_diagram()
+
+  number_of_elements = len(path_of_tree_diagrams)
   product = Ternary_tree_diagrams()
   if number_of_elements ==0:
     return product
@@ -62,35 +80,64 @@ def multiply_elements_in_path(path_of_tree_diagrams):
     return product
     
 
-t = Ternary_tree_diagrams()
-x_0.print_tree_diagram()
-print(len(generate_paths(3)))
-print(type(generate_complete_ternary_tree(3)))
-print(type(from_tree_to_graph(x_0)))
-print(generate_paths(2).shape)
-#for i in range(n):
-#    print('i=', i, generate_paths(2)[i][:])
 def create_dataset(radius: np.ndarray, csv_path: str) -> None:
-    with open(csv_path, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            'normal_form',
-            'leaves',
-            'connected_components',
-#            'HOMFLY',
-        ])
-        for i in range(radius):
-            elements = generate_paths(i)
-            number_of_elements, _ = elements.shape
-            for j in range(number_of_elements):
-                if check_reduced_path(elements[j][:]):
-                    element = elements[i][:]
-                    number_of_leaves = element.get_number_leaves()
-                    normal_form_of_element = find_normal_form(element)
-                    number_of_connected_components = tree_diagram_to_planar_diagram(element)
-                    writer.writerow(
-                        [normal_form_of_element] +
-                        [number_of_leaves] +
-                        [number_of_connected_components]
-                    )
-create_dataset(2, '/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/data.csv')
+
+  with open(csv_path, 'w') as f:
+      writer = csv.writer(f)
+      writer.writerow([
+          'word',
+          'normal_form',
+          'leaves',
+          'connected_components',
+          'HOMFLY',
+      ])
+      for i in range(1, radius + 1):
+        paths_from_identity = generate_paths(i)
+        number_of_elements, _ = paths_from_identity.shape
+        for j in range(number_of_elements):
+          if check_reduced_path(paths_from_identity[j][:]):
+            single_path = paths_from_identity[j][:]
+            element = multiply_elements_in_path(paths_from_identity[j][:])
+            number_of_leaves = element.get_number_leaves()
+            normal_form_of_element = find_normal_form(element)
+            normal_form_of_element_listed = [list(normal_form_of_element[0]), list(normal_form_of_element[1])]
+            planar_diagram = tree_diagram_to_planar_diagram(element)
+            number_of_connected_components = len(planar_diagram)
+            link = Link(planar_diagram)
+            homfly_polynomial  = link.homfly_polynomial()
+#            print('qui', normal_form_of_element)
+#            print(number_of_leaves, normal_form_of_element, type(element)) 
+            element.print_tree_diagram()
+            writer.writerow(
+                  [single_path] +
+                  [normal_form_of_element_listed] +
+                  [number_of_leaves] +
+                  [number_of_connected_components] +
+                  [homfly_polynomial]
+              )
+
+if __name__ == '__main__':
+  create_dataset(1, '/afs/cern.ch/work/v/vaiello/private/Thompson-knot-theory/src/data.csv')
+  
+"""
+t = Ternary_tree_diagrams(['0', '1', '20', '21', '220', '221', '2220', '2221', '2222'], ['0', '1', '2000', '2001', '2002', '201', '202', '21', '22'])
+  print(find_normal_form(t))
+
+
+
+
+
+  paths_from_identity = generate_paths(2)  
+#  print(paths_from_identity)  
+
+  number_of_elements, _ = paths_from_identity.shape
+  for j in range(number_of_elements):
+      if check_reduced_path(paths_from_identity[j][:]):
+          single_path = paths_from_identity[j][:]
+  element = multiply_elements_in_path(paths_from_identity[0][:])
+  print(paths_from_identity[0][:])
+  print(type(element))
+  print(element.top)
+  print(element.bottom)
+  print("normal form:", find_normal_form(element))
+"""
