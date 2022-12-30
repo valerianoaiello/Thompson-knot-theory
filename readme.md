@@ -24,15 +24,13 @@ Correspondingly, we have an injection of $F_+$ into $F_{3,+}$.
 In 2014 Vaughan Jones defined a method to construct link from elements of the Thompson group $F$, which was later extended to the Brown-Thompson group $F_3$, [Jo14, Jo18]. Both $F$ and $F_3$ are just as a good as the braid groups at producing links. More precisely, for every link $L$ there exists an element $g$ such that its closure $\mathcal{L}(g)$ is equivalent to $L$.
 Here we exemplify the procedure
 <p align="center">
-  <img src="https://github.com/valerianoaiello/Positive-Thompson-knots/blob/main/knots.png" />
+  <img src="https://github.com/valerianoaiello/Thompson-knot-theory/blob/main/knots.png" />
 </p>
 See [A2] for a survey on this area.
 
 
 ## Bibliography
 [A2] V. Aiello, An introduction to Thompson knot theory and to Jones subgroups. accepted for publication in J. of Knot Theory and its Ramifications (2022).
-
-[AiIo] V. Aiello, S. Iovieno, A computational study of the number of connected components of positive Thompson links.
 
 [B] J. Belk, Thompson's group F. Ph.D. Thesis (Cornell University).  preprint arXiv:0708.3609 (2007).
 
