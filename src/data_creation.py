@@ -44,7 +44,6 @@ def multiply_elements_in_path(path_of_tree_diagrams):
   global x_1inv
   global x_2
   global x_2inv
-
   x_0 = Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
   x_1 = Ternary_tree_diagrams(['0', '10', '11', '12', '2'], ['0', '1', '20', '21', '22'])
   x_2 = right_shift_homomorphism(x_0)
@@ -55,62 +54,63 @@ def multiply_elements_in_path(path_of_tree_diagrams):
 
   number_of_elements = len(path_of_tree_diagrams)
   product = Ternary_tree_diagrams()
-  if number_of_elements ==0:
+  if number_of_elements == 0:
     return product
-#  elif number_of_elements == 1:
-#    return path_of_tree_diagrams[0]
-  else:
+  elif number_of_elements>0:
     for i in range(len(path_of_tree_diagrams)):
       if path_of_tree_diagrams[i] == 1 :
         product = multiplication_tree_diagrams(product, x_0)
       elif path_of_tree_diagrams[i] == -1 :
-       product = multiplication_tree_diagrams(product, x_0inv)
+        product = multiplication_tree_diagrams(product, x_0inv)
       elif path_of_tree_diagrams[i] == 2:
         product = multiplication_tree_diagrams(product, x_1)
       elif path_of_tree_diagrams[i] == -2:
-       product = multiplication_tree_diagrams(product, x_1inv)
+        product = multiplication_tree_diagrams(product, x_1inv)
       elif path_of_tree_diagrams[i] == 3:
         product = multiplication_tree_diagrams(product, x_2)
       elif path_of_tree_diagrams[i] == -3:
-       product = multiplication_tree_diagrams(product, x_2inv)
+        product = multiplication_tree_diagrams(product, x_2inv)
     return product
-    
 
+"""
+This function creates the data.
+"""    
 def create_dataset(radius: np.ndarray, csv_path: str) -> None:
-
   with open(csv_path, 'w') as f:
       writer = csv.writer(f)
       writer.writerow([
           'word',
           'normal_form',
           'leaves',
-          'connected_components',
-#            'HOMFLY',
+#          'Planar_diagram'
       ])
+      cont = 0 
       for i in range(1, radius + 1):
         paths_from_identity = generate_paths(i)
         number_of_elements, _ = paths_from_identity.shape
+ #       print('shape', paths_from_identity.shape)
         for j in range(number_of_elements):
+  #        cont = cont + 1
+  #        if cont % 100 == 0:
+  #          print('cont = ', cont)          
           if check_reduced_path(paths_from_identity[j][:]):
             single_path = paths_from_identity[j][:]
             element = multiply_elements_in_path(paths_from_identity[j][:])
+#            print('single_path', single_path)
+#            element.print_tree_diagram()
             number_of_leaves = element.get_number_leaves()
             normal_form_of_element = find_normal_form(element)
             normal_form_of_element_listed = [list(normal_form_of_element[0]), list(normal_form_of_element[1])]
-            number_of_connected_components = len(tree_diagram_to_planar_diagram(element))
-            print('qui', normal_form_of_element)
-#            print(number_of_leaves, normal_form_of_element, type(element)) 
-            element.print_tree_diagram()
             writer.writerow(
                   [single_path] +
                   [normal_form_of_element_listed] +
-                  [number_of_leaves] +
-                  [number_of_connected_components]
+                  [number_of_leaves] 
+#                  [tree_diagram_to_planar_diagram(element)]
               )
 
 if __name__ == '__main__':
-  create_dataset(1, '/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/data.csv')
-  print("hello")
+  create_dataset(1, '/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/data_9.csv')
+  print("ciao")
 """asdfasfd
 t = Ternary_tree_diagrams(['0', '1', '20', '21', '220', '221', '2220', '2221', '2222'], ['0', '1', '2000', '2001', '2002', '201', '202', '21', '22'])
   print(find_normal_form(t))

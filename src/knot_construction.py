@@ -30,7 +30,6 @@ def remove_common_subword_up_to_exchange_syllables(word_one, word_two):
     word_one = exchange_syllables(word_one)[-1]
     word_two = exchange_syllables(word_two)[-1]
     return word_one, word_two
-  print(word_one, exchange_syllables(word_one), word_two, exchange_syllables(word_two))
   return word_one, word_two
 
 """
@@ -235,45 +234,6 @@ def check_same_edge(word_one, word_two, tree_diagram):
         return True 
   return False
 
-"""
-This function takes a 6-tuple of ternary words, which describes a crossing, and returns 
-a pair given by two vectors of length 3. 
-The first vectors contains the vertices met moving on the over strand (according to the orientation)
-The first vectors contains the vertices met moving on the under strand (according to the orientation)
-"""
-def find_under_over_strand(crossing):
-  indices = [0, 2, 3, 5]
-  crossing_temp = copy.deepcopy(crossing)
-  over_crossing_ = copy.deepcopy(crossing)
-  under_crossing_ = []
-
-
-
-  for i in indices:
-    if crossing[i][-1] == '1' and i == 0:
-      under_crossing_ = crossing[i : i+3]
-      over_crossing_.pop(2)
-      over_crossing_.pop(1)
-      over_crossing_.pop(0)
-    elif crossing[i][-1] == '1' and i == 2:
-      under_crossing_ = crossing[0 : i+1]
-      over_crossing_.pop(2)
-      over_crossing_.pop(1)
-      over_crossing_.pop(0)
-    elif crossing[i][-1] == '1' and i == 3:
-      under_crossing_ = crossing[i : i+3]
-      over_crossing_.pop(5)
-      over_crossing_.pop(4)
-      over_crossing_.pop(3)
-    elif crossing[i][-1] == '1' and i == 5:
-      under_crossing_ = crossing[i-2 : i+1]
-      over_crossing_.pop(5)
-      over_crossing_.pop(4)
-      over_crossing_.pop(3)
- 
-
-
-  return under_crossing_, over_crossing_
 
 """
 This function looks for the second occurrence of "element" in a list of list.
@@ -295,6 +255,14 @@ def find_second_occurrence(element, index_sublist, index_in_sublist, list_of_lis
           return index_two
 
   return index_two
+
+
+
+
+
+
+
+
 
 """
 This function converts the crossing described by labelling the vertices 
@@ -375,6 +343,8 @@ def tree_diagram_to_planar_diagram(tree_diagram):
 
 
 
+
+
 """
 This function takes a ternary tree diagrams and returns a list containing pairs of sublists. 
 Each pairs has as first element the vertices of the strand passing under the crossing (in the order that they are met moving in 
@@ -420,3 +390,37 @@ def tree_diagram_to_link_diagram(tree_diagram):
   return planar_diagram
 
 
+
+"""
+This function takes a 6-tuple of ternary words, which describes a crossing, and returns 
+a pair given by two vectors of length 3. 
+The first vectors contains the vertices met moving on the over strand (according to the orientation)
+The first vectors contains the vertices met moving on the under strand (according to the orientation)
+"""
+def find_under_over_strand(crossing):
+  indices = [0, 2, 3, 5]
+  crossing_temp = copy.deepcopy(crossing)
+  over_crossing_ = copy.deepcopy(crossing)
+  under_crossing_ = []
+#  print('ZZ', crossing)
+  for i in indices:
+    if crossing[i][-1] == '1' and i == 0:
+      index = i
+      under_crossing_ = crossing_temp[i : i+3]
+    elif crossing[i][-1] == '1' and i == 2:
+      index = 0
+      under_crossing_ = crossing_temp[0 : i+1]
+    elif crossing[i][-1] == '1' and i == 3:
+      index = i
+      under_crossing_ = crossing_temp[i : i+3]
+    elif crossing[i][-1] == '1' and i == 5:
+      index = i - 2
+      under_crossing_ = crossing_temp[i-2 : i+1]
+
+#  for i in under_crossing_:
+#    over_crossing_.remove(i)
+  for j in range(index + 2, index -1, -1):
+    del over_crossing_[j]
+#  print(under_crossing_, over_crossing_)
+
+  return under_crossing_, over_crossing_
