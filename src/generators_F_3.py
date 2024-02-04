@@ -7,7 +7,7 @@
 
 
 import sys
-sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/')
+sys.path.append('/afs/cern.ch/work/v/vaiello/private/Thompson-knot-theory/src/')
 from group_operations import *
 
 

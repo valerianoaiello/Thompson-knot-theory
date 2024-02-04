@@ -6,8 +6,21 @@ import copy
 import numpy as np
 
 import sys
-sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/')
-from group_operations import *
+sys.path.append('/afs/cern.ch/work/v/vaiello/private/Thompson-knot-theory/src')
+from group_operations import * 
+
+"""
+Given a word (= a string), it adds a + at the beginning.
+"""
+def add_plus_sign(word):
+  return '+' + word
+
+"""
+Given a word (= a string), it adds a - at the beginning.
+"""
+def add_minus_sign(word):
+  return '-' + word
+
 
 """
 This function finds the biggest common word in two words representing an overstrand passing through a crossing.
@@ -148,8 +161,9 @@ def walk_in_tree_diagram(tree_diagram):
   graph = from_tree_to_graph(tree_diagram)
 
   walk = []
+  leaves_top_tree = list(map(add_plus_sign, tree_diagram.top))
 
-  leaves_top_tree = ['+' + word for word in tree_diagram.top]
+#  leaves_top_tree = ['+' + word for word in tree_diagram.top]
   for leaf in leaves_top_tree:
     current_position = leaf
     walk_within_component_ = []
@@ -198,7 +212,10 @@ This function finds the sign in the middle of the word and then exchages the end
 for example, it turns words like +01+0 into +0+01 
 """
 def check_same_edge(word_one, word_two, tree_diagram):
-  leaves_top_tree = ['+' + word for word in tree_diagram.top]
+#  leaves_top_tree = ['+' + word for word in tree_diagram.top]
+
+  leaves_top_tree = list(map(add_plus_sign, tree_diagram.top))
+
 
   if word_one == word_two or word_one == exchange_syllables(word_two):
     return True
@@ -261,90 +278,6 @@ def find_second_occurrence(element, index_sublist, index_in_sublist, list_of_lis
 
 
 
-
-
-
-"""
-This function converts the crossing described by labelling the vertices 
-into crossing where the labels are on the edges.
-"""
-def tree_diagram_to_planar_diagram(tree_diagram):
-  link_diagram = tree_diagram_to_link_diagram(tree_diagram)
-  link_diagram_edge_labelled = []
-  number_of_crossings = len(link_diagram)
-  edge_labels = []
-  
-  j = 0
-  for i in range(number_of_crossings):
-# edge_one is the strand passing under the crossing, edge_two is the one passing over the crossing.
-    edge_one_in = link_diagram[i][0][0] + link_diagram[i][0][1]
-    edge_one_out = link_diagram[i][0][1] + link_diagram[i][0][2]
-    edge_two_in = link_diagram[i][1][0] + link_diagram[i][1][1]
-    edge_two_out = link_diagram[i][1][1] + link_diagram[i][1][2]
-
-    crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
-
-    difference_edge_two_in_out = remove_common_subword_up_to_exchange_syllables(edge_two_in, edge_two_out)
-    if (len(edge_one_in)>len(edge_one_out)) and (int(difference_edge_two_in_out[0])>int(difference_edge_two_in_out[1])):
-      if '+' in edge_two_out:      
-        crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
-        link_diagram_edge_labelled.append(crossing)  
-      else:
-        crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
-        link_diagram_edge_labelled.append(crossing)    
-    elif (len(edge_one_in)<len(edge_one_out)) and (int(difference_edge_two_in_out[0])>int(difference_edge_two_in_out[1])):      
-      if '+' in edge_two_out:      
-        crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
-        link_diagram_edge_labelled.append(crossing) 
-      else:
-        crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
-        link_diagram_edge_labelled.append(crossing)    
-    elif (len(edge_one_in)>len(edge_one_out)) and (int(difference_edge_two_in_out[0])<int(difference_edge_two_in_out[1])):      
-      if '+' in edge_two_out:      
-        crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
-        link_diagram_edge_labelled.append(crossing)
-      else:
-        crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
-        link_diagram_edge_labelled.append(crossing)       
-    elif (len(edge_one_in)<len(edge_one_out)) and (int(difference_edge_two_in_out[0])<int(difference_edge_two_in_out[1])):      
-      if '+' in edge_two_out:      
-        crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
-        link_diagram_edge_labelled.append(crossing) 
-      else:
-        crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
-        link_diagram_edge_labelled.append(crossing) 
-             
-
-
-# These lines identify the leaves of the top tree with those of the bottom tree
-  top_tree = tree_diagram.top
-  top_tree = ['+' + leaf for leaf in top_tree]
-
-  bottom_tree = tree_diagram.bottom
-  bottom_tree = ['-' + leaf for leaf in bottom_tree]
-
-  for i in range(len(link_diagram_edge_labelled)):
-    for j in range(len(link_diagram_edge_labelled[i])):
-      for k in range(len(bottom_tree)):
-        if bottom_tree[k] in link_diagram_edge_labelled[i][j]:
-          link_diagram_edge_labelled[i][j] = link_diagram_edge_labelled[i][j].replace(bottom_tree[k], top_tree[k])  
-
-  # Now we remove duplicates (if edges are described in the two different ways, we remove one of them), 
-  # for example we remove one among: +01+0 and +0+01
-  for i in range(len(link_diagram_edge_labelled)):
-    for j in range(i, len(link_diagram_edge_labelled)):
-      for k in range(4):
-        for l in range(4):
-          if check_same_edge(link_diagram_edge_labelled[i][k], link_diagram_edge_labelled[j][l], tree_diagram):
-            link_diagram_edge_labelled[i][k] = link_diagram_edge_labelled[j][l]
-
-  link_diagram_edge_labelled = change_labels_into_numbers(link_diagram_edge_labelled)
-  return link_diagram_edge_labelled
-
-
-
-
-
 """
 This function takes a ternary tree diagrams and returns a list containing pairs of sublists. 
 Each pairs has as first element the vertices of the strand passing under the crossing (in the order that they are met moving in 
@@ -361,10 +294,12 @@ def tree_diagram_to_link_diagram(tree_diagram):
 # to compare them with data produced by "walk_in_tree_diagram".
 # Then we concatenate these two trees in a sigle list. 
   top_tree = tree_diagram.top
-  top_tree = ['+' + leaf for leaf in top_tree]
+#  top_tree = ['+' + leaf for leaf in top_tree]
+  top_tree = list(map(add_plus_sign, top_tree))
 
   bottom_tree = tree_diagram.bottom
-  bottom_tree = ['-' + leaf for leaf in bottom_tree]
+#  bottom_tree = ['-' + leaf for leaf in bottom_tree]
+  bottom_tree = list(map(add_minus_sign, bottom_tree))
 
   whole_tree = top_tree + bottom_tree 
 
@@ -424,3 +359,93 @@ def find_under_over_strand(crossing):
 #  print(under_crossing_, over_crossing_)
 
   return under_crossing_, over_crossing_
+
+
+"""
+This function converts the crossing described by labelling the vertices 
+into crossing where the labels are on the edges.
+"""
+def tree_diagram_to_planar_diagram(tree_diagram):
+  link_diagram_edge_labelled = []
+  edge_labels = []
+  
+  number_of_leaves = tree_diagram.get_number_leaves()
+
+  if number_of_leaves == 1:
+    link_diagram_edge_labelled = [[2, 1, 1, 2]]
+    return link_diagram_edge_labelled
+  else:
+    link_diagram = tree_diagram_to_link_diagram(tree_diagram)
+    number_of_crossings = len(link_diagram)
+
+    j = 0
+    for i in range(number_of_crossings):
+  # edge_one is the strand passing under the crossing, edge_two is the one passing over the crossing.
+      edge_one_in = link_diagram[i][0][0] + link_diagram[i][0][1]
+      edge_one_out = link_diagram[i][0][1] + link_diagram[i][0][2]
+      edge_two_in = link_diagram[i][1][0] + link_diagram[i][1][1]
+      edge_two_out = link_diagram[i][1][1] + link_diagram[i][1][2]
+
+      crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
+
+      difference_edge_two_in_out = remove_common_subword_up_to_exchange_syllables(edge_two_in, edge_two_out)
+      if (len(edge_one_in)>len(edge_one_out)) and (int(difference_edge_two_in_out[0])>int(difference_edge_two_in_out[1])):
+        if '+' in edge_two_out:      
+          crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
+          link_diagram_edge_labelled.append(crossing)  
+        else:
+          crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
+          link_diagram_edge_labelled.append(crossing)    
+      elif (len(edge_one_in)<len(edge_one_out)) and (int(difference_edge_two_in_out[0])>int(difference_edge_two_in_out[1])):      
+        if '+' in edge_two_out:      
+          crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
+          link_diagram_edge_labelled.append(crossing) 
+        else:
+          crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
+          link_diagram_edge_labelled.append(crossing)    
+      elif (len(edge_one_in)>len(edge_one_out)) and (int(difference_edge_two_in_out[0])<int(difference_edge_two_in_out[1])):      
+        if '+' in edge_two_out:      
+          crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
+          link_diagram_edge_labelled.append(crossing)
+        else:
+          crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
+          link_diagram_edge_labelled.append(crossing)       
+      elif (len(edge_one_in)<len(edge_one_out)) and (int(difference_edge_two_in_out[0])<int(difference_edge_two_in_out[1])):      
+        if '+' in edge_two_out:      
+          crossing = [edge_one_in, edge_two_out, edge_one_out, edge_two_in]
+          link_diagram_edge_labelled.append(crossing) 
+        else:
+          crossing = [edge_one_in, edge_two_in, edge_one_out, edge_two_out]
+          link_diagram_edge_labelled.append(crossing) 
+              
+
+
+  # These lines identify the leaves of the top tree with those of the bottom tree
+    top_tree = tree_diagram.top
+#    top_tree = ['+' + leaf for leaf in top_tree]
+    top_tree = list(map(add_plus_sign, top_tree))
+
+
+    bottom_tree = tree_diagram.bottom
+#    bottom_tree = ['-' + leaf for leaf in bottom_tree]
+    bottom_tree = list(map(add_minus_sign, bottom_tree))
+
+    for i in range(len(link_diagram_edge_labelled)):
+      for j in range(len(link_diagram_edge_labelled[i])):
+        for k in range(len(bottom_tree)):
+          if bottom_tree[k] in link_diagram_edge_labelled[i][j]:
+            link_diagram_edge_labelled[i][j] = link_diagram_edge_labelled[i][j].replace(bottom_tree[k], top_tree[k])  
+
+    # Now we remove duplicates (if edges are described in the two different ways, we remove one of them), 
+    # for example we remove one among: +01+0 and +0+01
+    for i in range(len(link_diagram_edge_labelled)):
+      for j in range(i, len(link_diagram_edge_labelled)):
+        for k in range(4):
+          for l in range(4):
+            if check_same_edge(link_diagram_edge_labelled[i][k], link_diagram_edge_labelled[j][l], tree_diagram):
+              link_diagram_edge_labelled[i][k] = link_diagram_edge_labelled[j][l]
+
+    link_diagram_edge_labelled = change_labels_into_numbers(link_diagram_edge_labelled)
+  return link_diagram_edge_labelled
+
+
