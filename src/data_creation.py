@@ -110,7 +110,7 @@ def create_dataset(radius: int, csv_path: str) -> None:
               )
 
 """
-This function remove first and last characters from beginning and end of words,
+This function removes first and last characters from beginning and end of words,
 it also removes blank spaces at beginning of word.
 """
 def clean_word(word):
@@ -317,6 +317,7 @@ def add_homfly_diagram_to_dataset_bis(csv_path: str) -> None:
             row.append(number_components)
             row.append(polynomial)
             writer.writerow(row)
+              
 """
 This function adds the Jones polynomial for each element in our dataset.
 """
