@@ -12,10 +12,6 @@ import numpy as np
 #sys.path.append('/Users/valerianoaiello/Documents/GitHub/Thompson-knot-theory/src/')
 #from generators_F_3 import *
 """
-GROUP OPERATIONS IN THE BROWN-THOMPSON GROUP F_3
-"""
-
-"""
 We describe ternary tree diagrams with pairs of ternary words. 
 
 The method inverse_tree_diagram computes the inverse of an element of F_3. The inverse is simply obtained by exchanging the trees in 
@@ -41,10 +37,11 @@ class Ternary_tree_diagrams:
 
 
 """
-Given a ternary tree diagram (tree_plus, tree_minus), this function returns the image under the right shift homomorphism in the terminology of [AiNa].
+Given a ternary tree diagram (tree_plus, tree_minus), this function returns the image under the right shift homomorphism 
+in the terminology of [AiNa].
 
 References:
-V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup F⃗3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
+V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup F3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
 Volume 21, Issue 07, 2250139, doi: 10.1142/S0219498822501390, preprint arXiv:1912.04730
 """
 def right_shift_homomorphism(ternary_tree_diagram):
@@ -66,7 +63,7 @@ def right_shift_homomorphism(ternary_tree_diagram):
 Given a ternary tree diagram (tree_plus, tree_minus), this function returns the image under the middle shift homomorphism in the terminology of [AiNa].
 
 References:
-V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup F⃗3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
+V. Aiello, T. Nagnibeda, On the oriented Thompson subgroup F3 and its relatives in higher Brown-Thompson groups, Journal of Algebra and its Applications, 
 Volume 21, Issue 07, 2250139, doi: 10.1142/S0219498822501390, preprint arXiv:1912.04730
 """
 def middle_shift_homomorphism(ternary_tree_diagram):
