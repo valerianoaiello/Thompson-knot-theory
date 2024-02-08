@@ -28,6 +28,7 @@ Here we exemplify the procedure
 </p>
 See [A2] for a survey on this area.
 
+The purpose of this package is to study the knots produced from $F_3$.
 
 ## Bibliography
 [A2] V. Aiello, An introduction to Thompson knot theory and to Jones subgroups. accepted for publication in J. of Knot Theory and its Ramifications (2022).
