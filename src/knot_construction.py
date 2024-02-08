@@ -1,5 +1,9 @@
 """
 CONSTRUCTION OF LINK DIAGRAMS FROM ELEMENTS OF THE BROWN-THOMPSON GROUP
+
+The purpose of this module is to take elements of the Bornw-Thompson group and produce a representation of
+the corresponding link in such a way that SAGE can understand it,
+so that we can later compute the corresponding knot invariants (such as the HOMFLY polynomial)
 """
 
 import copy
@@ -61,7 +65,7 @@ def exchange_syllables(word):
 
 
 """
-With this "move" we go from the leaf of one tree to the correspongind leaf of the other tree
+With this "move" we go from the leaf of one tree to the correspongind leaf of the other tree.
 """
 def pass_through_leaves(current_position, tree_diagram, walk_within_component_):
 
