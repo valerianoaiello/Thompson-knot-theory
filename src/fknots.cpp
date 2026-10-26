@@ -10,7 +10,9 @@
 //   3. skip it if L(T+, T-) has more than one component;
 //   4. compute the HOMFLY polynomial with libhomfly and group the diagrams by HOMFLY up to mirror.
 //
-// usage: fknots n shard nshards out.tsv [max_reps] [vec]
+// usage: fknots n shard nshards out.tsv [max_reps] [vec|all] [only_key]
+// With only_key, representatives are stored only for the HOMFLY class with that key (the other classes
+// are still counted): this is used by oriented_index.py to get all the diagrams of one knot.
 // With "vec" only the elements of Jones' oriented subgroup vec{F} are kept (see Tree::parity). The
 // vertical reflection (flip) does not preserve vec{F}, so it is not used: the orbits are {g, g^-1}
 // ((T-, T+) is in vec{F} iff (T+, T-) is, and gives the mirror image).
@@ -341,6 +343,7 @@ int main(int argc, char **argv) {
     const char *outpath = argv[4];
     int max_reps = argc > 5 ? atoi(argv[5]) : 20;
     bool vec = argc > 6 && strcmp(argv[6], "vec") == 0;
+    std::string only_key = argc > 7 ? argv[7] : "";
     if (n < 2 || n > MAXN) {
         fprintf(stderr, "n must be in [2, %d]\n", MAXN);
         return 1;
@@ -356,10 +359,19 @@ int main(int argc, char **argv) {
     const size_t max_cache = 1000000;
     Diagram D;
     int walk[8 * MAXN];
+    // vec mode: (T+, T-) is in vec{F} iff T+ and T- have the same parity, so the candidates for T- are
+    // only the trees of the same parity class (the cost is proportional to the size of vec{F})
+    std::unordered_map<uint32_t, std::vector<int>> same_parity;
+    if (vec)
+        for (int t = 0; t < C; t++) same_parity[T[t].parity].push_back(t);  // increasing indices
     for (int i = shard; i < C; i += nshards) {
         int fi = T[i].flip;
         if (!vec && fi < i) continue;  // (flip T+, flip T-) would come first (not with vec)
-        for (int j = i; j < C; j++) {  // (T-, T+) would come first if j < i
+        const std::vector<int> *cand = vec ? &same_parity[T[i].parity] : nullptr;
+        size_t start = vec ? std::lower_bound(cand->begin(), cand->end(), i) - cand->begin() : 0;
+        size_t ncand = vec ? cand->size() - start : (size_t)(C - i);
+        for (size_t q = 0; q < ncand; q++) {  // j >= i: (T-, T+) would come first if j < i
+            int j = vec ? (*cand)[start + q] : i + (int)q;
             examined++;
             int fj = T[j].flip;
             std::pair<int, int> me(i, j);
@@ -393,7 +405,8 @@ int main(int argc, char **argv) {
             ClassInfo &ci = classes[key];
             ci.count++;
             ci.min_crossings = std::min(ci.min_crossings, (int)G.seq.size() / 2);
-            if ((int)ci.reps.size() < max_reps) ci.reps.push_back({i, j, gauss_string(G)});
+            if ((int)ci.reps.size() < max_reps && (only_key.empty() || key == only_key))
+                ci.reps.push_back({i, j, gauss_string(G)});
         }
     }
 

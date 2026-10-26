@@ -1,0 +1,13 @@
+n =  2: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n =  3: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n =  4: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n =  5: 1 prime knot diagrams (up to symmetry), 1 HOMFLY classes, 0.0 s
+n =  6: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n =  7: 14 prime knot diagrams (up to symmetry), 2 HOMFLY classes, 0.0 s
+n =  8: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n =  9: 264 prime knot diagrams (up to symmetry), 3 HOMFLY classes, 0.0 s
+n = 10: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 0.0 s
+n = 11: 5699 prime knot diagrams (up to symmetry), 11 HOMFLY classes, 0.1 s
+n = 12: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 1.8 s
+n = 13: 138127 prime knot diagrams (up to symmetry), 68 HOMFLY classes, 33.3 s
+python3 run.py 13 --group Fvec  202.30s user 2.71s system 573% cpu 35.729 total

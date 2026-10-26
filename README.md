@@ -20,6 +20,21 @@ python3 make_table.py      # final table: F-index, KnotInfo name, representative
 `identify.sage` needs the packages `database_knotinfo` and `snappy` in Sage's Python
 (`sage -pip install database_knotinfo snappy`).
 
+**F⃗-index (oriented subgroup).** Jones' oriented subgroup F⃗ ≤ F consists of the tree diagrams whose
+Tait graph is 2-colourable. Equivalently, every leaf has the same parity of right edges on the path from
+the root in T₊ and in T₋ (checked in `tests/check_vecF.sage`). The colouring orients the knot.
+
+```bash
+python3 run.py 13 --group Fvec       # -> results/raw_Fvec/n<n>.tsv   (bin/fknots ... vec)
+sage identify.sage 13 Fvec           # -> results/Fvec_index.csv, ...
+python3 make_table.py Fvec           # -> results/Fvec_index_table.md
+```
+
+The vertical reflection does not preserve F⃗, so in this mode the only symmetry used is g ↔ g⁻¹
+(which gives the mirror image). Knots only arise for odd n: for g ∈ F⃗ the number of components of L(g)
+has the parity of n. For a knot the HOMFLY polynomial does not depend on the orientation, so knots are
+listed up to mirror image and up to reversal of the orientation.
+
 **F₃-index.** The same pipeline works for the Brown–Thompson group F₃, with ternary tree diagrams:
 
 ```bash

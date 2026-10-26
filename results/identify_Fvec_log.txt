@@ -1,0 +1,32 @@
+reading the KnotInfo table on 8 processes ...
+12966 knots, 10596 distinct HOMFLY polynomials up to mirror
+n =  2: 0 classes to check, identified -
+n =  3: 0 classes to check, identified -
+n =  4: 0 classes to check, identified -
+n =  5: 0 classes to check, identified -
+n =  6: 0 classes to check, identified -
+n =  7: 1 classes to check, identified 4_1
+n =  8: 0 classes to check, identified -
+n =  9: 1 classes to check, identified 3_1
+n = 10: 0 classes to check, identified -
+n = 11: 8 classes to check, identified 6_1, 6_2, 6_3, 7_7, 8_12, 8_18, 10_136
+n = 12: 0 classes to check, identified -
+n = 13: 56 classes to check, identified 5_2, 7_6, 8_1, 8_13, 8_16, 8_17, 8_20, 8_4, 8_8, 9_17, 9_19, 9_22, 9_27, 9_29, 9_30, 9_33, 9_34, 9_37, 9_42, 9_44, 9_46, 9_48, 9_8, 10_123, 10_137, 10_138, 10_146, 10_151, 10_156, 10_158, 10_163, 10_35, 10_45, 10_58, 10_60, 10_88, 11a_128, 11a_5, 11n_100, 11n_101, 11n_124, 11n_165, 11n_179, 11n_32, 11n_33, 11n_83, 12n_18, 12n_274, 12n_314, 12n_356, 12n_460, 12n_49, 12n_847, 13n_1858, 13n_2273, 13n_2338
+naming the HOMFLY classes not in the table ...
+0 worker crashes, 0 representatives skipped (see dropped_representatives_Fvec.txt), 0 representatives with a get_knotinfo timeout (600 s)
+Fvec-index computed with tree diagrams up to n = 13
+0 worker crashes, 0 representatives skipped because they crash SnapPy/spherogram, 0 representatives with a get_knotinfo timeout (600 s)
+
+crossing number  3:    1 /    1 knots with known Fvec-index
+crossing number  4:    1 /    1 knots with known Fvec-index
+crossing number  5:    1 /    2 knots with known Fvec-index
+crossing number  6:    3 /    3 knots with known Fvec-index
+crossing number  7:    2 /    7 knots with known Fvec-index
+crossing number  8:    9 /   21 knots with known Fvec-index
+crossing number  9:   14 /   49 knots with known Fvec-index
+crossing number 10:   14 /  165 knots with known Fvec-index
+crossing number 11:   10 /  552 knots with known Fvec-index
+crossing number 12:    7 / 2176 knots with known Fvec-index
+crossing number 13:    3 / 9988 knots with known Fvec-index
+
+ identify.sage 13 Fvec  569.48s user 25.55s system 147% cpu 6:42.59 total
