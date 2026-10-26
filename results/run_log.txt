@@ -1,0 +1,12 @@
+n =  2: already done (results/raw/n2.tsv)
+n =  3: already done (results/raw/n3.tsv)
+n =  4: already done (results/raw/n4.tsv)
+n =  5: already done (results/raw/n5.tsv)
+n =  6: already done (results/raw/n6.tsv)
+n =  7: already done (results/raw/n7.tsv)
+n =  8: already done (results/raw/n8.tsv)
+n =  9: already done (results/raw/n9.tsv)
+n = 10: already done (results/raw/n10.tsv)
+n = 11: already done (results/raw/n11.tsv)
+n = 12: 42238280 prime knot diagrams (up to symmetry), 5251 HOMFLY classes, 177.6 s
+n = 13: 448235433 prime knot diagrams (up to symmetry), 37724 HOMFLY classes, 1855.1 s

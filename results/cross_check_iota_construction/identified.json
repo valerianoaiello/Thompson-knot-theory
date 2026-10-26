@@ -1,0 +1,2437 @@
+{
+ "- 1 - 2L^2 + 2L^4 + 2L^6 + M^2 + 3M^2L^2 - 3M^2L^4 - M^2L^6 - M^4L^2 + M^4L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_130']"
+  ]
+ },
+ "- 1 - 3L^2 + L^6 + 2M^2 + 6M^2L^2 + M^2L^4 - M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_151']",
+   "KnotInfo['K10_151r']"
+  ]
+ },
+ "- 1 - 4L^2 - 2L^4 + 3M^2 + 8M^2L^2 + 3M^2L^4 - M^4 - 5M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_7']"
+  ]
+ },
+ "- 1 - 4L^2 - 2L^4 + M^2 + 4M^2L^2 + M^2L^4 - M^4L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_20']"
+  ]
+ },
+ "- 1 - 4L^2 - 2L^4 - M^2L^-2 + 5M^2L^2 + 2M^2L^4 + M^4 - 2M^4L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1945']",
+   "KnotInfo['K13n_1945r']"
+  ]
+ },
+ "- 2 - 5L^2 - L^4 + L^6 + 3M^2 + 9M^2L^2 + 2M^2L^4 - M^4 - 5M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2436']",
+   "KnotInfo['K13n_2436r']"
+  ]
+ },
+ "- 2 - 6L^2 - 3L^4 + 3M^2 + 9M^2L^2 + 3M^2L^4 - M^4 - 5M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_10']"
+  ]
+ },
+ "- 2 - 6L^2 - 3L^4 + 5M^2 + 13M^2L^2 + 5M^2L^4 - 2M^4 - 9M^4L^2 - 2M^4L^4 + 2M^6L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_3956c']",
+   "KnotInfo['K13n_3956m']"
+  ]
+ },
+ "- 2 - 6L^2 - 3L^4 + 6M^2 + 16M^2L^2 + 8M^2L^4 + M^2L^6 - 5M^4 - 16M^4L^2 - 6M^4L^4 + M^6 + 7M^6L^2 + M^6L^4 - M^8L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_3393']"
+  ]
+ },
+ "- 2L^-10 - 7L^-8 - 6L^-6 + M^2L^-10 + 8M^2L^-8 + 11M^2L^-6 - 2M^4L^-8 - 6M^4L^-6 + M^6L^-6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K5_1']"
+  ]
+ },
+ "- 2L^-10 - 7L^-8 - 6L^-6 + M^2L^-12 + 6M^2L^-10 + 15M^2L^-8 + 14M^2L^-6 - 5M^4L^-10 - 13M^4L^-8 - 10M^4L^-6 + M^6L^-10 + 6M^6L^-8 + 2M^6L^-6 - M^8L^-8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2428']",
+   "KnotInfo['K13n_2428r']"
+  ]
+ },
+ "- 2L^-14 - 6L^-12 - 2L^-10 + 3L^-8 + M^2L^-14 + 13M^2L^-12 + 11M^2L^-10 - 11M^2L^-8 - 7M^4L^-12 - 15M^4L^-10 + 15M^4L^-8 + M^6L^-12 + 7M^6L^-10 - 7M^6L^-8 - M^8L^-10 + M^8L^-8": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_502']"
+  ]
+ },
+ "- 2L^-14 - 7L^-12 - 4L^-10 + 2L^-8 + M^2L^-14 + 13M^2L^-12 + 12M^2L^-10 - 11M^2L^-8 - 7M^4L^-12 - 15M^4L^-10 + 15M^4L^-8 + M^6L^-12 + 7M^6L^-10 - 7M^6L^-8 - M^8L^-10 + M^8L^-8": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_243']"
+  ]
+ },
+ "- 2L^-2 - 1 + 2L^2 + 2L^4 + M^2L^-2 + 3M^2 - 3M^2L^2 - M^2L^4 - M^4 + M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_138']",
+   "KnotInfo['K11n_79m']"
+  ],
+  "snappy": [
+   "11n_79",
+   "11n_79",
+   "11n_79",
+   "11n_79",
+   "11n_79"
+  ]
+ },
+ "- 2L^-2 - 1 + L^2 - L^6 + 2M^2 - 2M^2L^2 + M^2L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_141']"
+  ]
+ },
+ "- 2L^-2 - 2 + L^4 + 2M^2L^-2 + 6M^2 + M^2L^2 - M^4L^-2 - 4M^4 - M^4L^2 + M^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_158m']"
+  ]
+ },
+ "- 2L^-2 - 2 + L^4 + M^2L^-2 + 3M^2 - 2M^2L^2 - M^2L^4 - M^4 + M^4L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_4']"
+  ]
+ },
+ "- 2L^-2 - 2 - L^2 - L^4 - L^6 + 3M^2 + M^2L^2 + 2M^2L^4 - M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_142']"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 + 2M^2L^-2 + 5M^2 - M^2L^4 - 2M^4 + M^4L^2": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_8464"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 + 2M^2L^-4 + 5M^2L^-2 + 6M^2 + M^2L^2 - M^4L^-4 - 4M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K9_17']"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 + 3M^2L^-2 + 8M^2 + 3M^2L^2 - M^4L^-2 - 5M^4 - M^4L^2 + M^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_9']"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 + M^2L^-2 + 4M^2 + M^2L^2 - M^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_42']",
+   "KnotInfo['K9_42m']"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 + M^2L^-2 + 6M^2 + 5M^2L^2 + 2M^2L^4 - 2M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_17m']"
+  ]
+ },
+ "- 2L^-2 - 3 - 2L^2 - M^2L^-4 + 5M^2 + 2M^2L^2 + M^4L^-2 - 2M^4": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_8464"
+  ]
+ },
+ "- 2L^-2 - 3 - 3L^2 - 2L^4 - L^6 + M^2L^-2 + 6M^2 + 5M^2L^2 + 3M^2L^4 - 2M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_138m']"
+  ]
+ },
+ "- 2L^-2 - 3 - 4L^2 - 4L^4 - 2L^6 + M^2L^-2 + 8M^2 + 10M^2L^2 + 8M^2L^4 + M^2L^6 - 5M^4 - 12M^4L^2 - 5M^4L^4 + M^6 + 6M^6L^2 + M^6L^4 - M^8L^2": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_7243"
+  ]
+ },
+ "- 2L^-2 - 3 - L^2 + 2L^4 + L^6 + M^2L^-2 + 3M^2 - M^2L^2 - 2M^2L^4 - M^4 + M^4L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K6_1']"
+  ]
+ },
+ "- 2L^-2 - 4 - 4L^2 - L^4 + M^2L^-2 + 6M^2 + 6M^2L^2 + 2M^2L^4 - 2M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_22m']"
+  ]
+ },
+ "- 2L^-2 - 4 - 5L^2 - 3L^4 - L^6 + M^2L^-2 + 7M^2 + 8M^2L^2 + 4M^2L^4 - 2M^4 - 5M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_12009"
+  ]
+ },
+ "- 2L^-2 - 5 - 6L^2 - 2L^4 + M^2L^-2 + 7M^2 + 9M^2L^2 + 3M^2L^4 - 2M^4 - 5M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 14,
+  "names": [
+   "KnotInfo['K13n_2638']"
+  ]
+ },
+ "- 2L^-4 - 3L^-2 + 1 + L^2 + 2M^2L^-4 + 4M^2L^-2 - 3M^2 - 2M^2L^2 - 2M^4L^-2 + 2M^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_323c']",
+   "KnotInfo['K12n_323m']"
+  ]
+ },
+ "- 2L^-4 - 3L^-2 + 1 + L^2 + M^2L^-4 + 3M^2L^-2 - 2M^2 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K5_2']"
+  ]
+ },
+ "- 2L^-4 - 4L^-2 - 1 + 2M^2L^-4 + 5M^2L^-2 - M^2L^2 - 2M^4L^-2 + M^4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1945c']",
+   "KnotInfo['K13n_1945m']"
+  ]
+ },
+ "- 2L^-4 - 4L^-2 - 1 + 3M^2L^-4 + 8M^2L^-2 + 3M^2 - M^4L^-4 - 5M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_7m']"
+  ]
+ },
+ "- 2L^-4 - 4L^-2 - 1 + M^2L^-4 + 4M^2L^-2 + M^2 - M^4L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_20m']"
+  ]
+ },
+ "- 2L^-4 - 5L^-2 - 3 - L^2 + 2M^2L^-4 + 7M^2L^-2 + 5M^2 + M^2L^2 - M^4L^-4 - 4M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_29m']"
+  ]
+ },
+ "- 2L^-4 - 6L^-2 - 5 - 2L^2 + 3M^2L^-4 + 9M^2L^-2 + 7M^2 + M^2L^2 - M^4L^-4 - 5M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 14,
+  "names": [
+   "KnotInfo['K13n_2638m']"
+  ]
+ },
+ "- 2L^-6 - 4L^-4 - 4L^-2 - 3 - 2L^2 + M^2L^-6 + 8M^2L^-4 + 10M^2L^-2 + 8M^2 + M^2L^2 - 5M^4L^-4 - 12M^4L^-2 - 5M^4 + M^6L^-4 + 6M^6L^-2 + M^6 - M^8L^-2": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_7243"
+  ]
+ },
+ "- 2L^-6 - 5L^-4 - 4L^-2 + 3M^2L^-6 + 8M^2L^-4 + 4M^2L^-2 - M^4L^-6 - 5M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_5']"
+  ]
+ },
+ "- 2L^-6 - 5L^-4 - 4L^-2 + 5M^2L^-6 + 12M^2L^-4 + 6M^2L^-2 - 2M^4L^-6 - 9M^4L^-4 - 2M^4L^-2 + 2M^6L^-4": {
+  "crossings": 14,
+  "names": [
+   "KnotInfo['K13n_4508']",
+   "KnotInfo['K13n_4508r']"
+  ]
+ },
+ "- 2L^-8 - 2L^-6 + L^-4 + M^2L^-8 + 3M^2L^-6 - 3M^2L^-4 - M^4L^-6 + M^4L^-4": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_3']"
+  ]
+ },
+ "- 2L^-8 - 3L^-6 - L^-4 - L^-2 + M^2L^-8 + 4M^2L^-6 + M^2L^-2 - M^4L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_121m']"
+  ]
+ },
+ "- 2L^-8 - 3L^-6 - L^-4 - L^-2 + M^2L^-8 + 6M^2L^-6 + 4M^2L^-4 + 3M^2L^-2 - 2M^4L^-6 - 4M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_11m']"
+  ]
+ },
+ "- 2L^-8 - 4L^-6 - 3L^-4 - 2L^-2 + M^2L^-8 + 6M^2L^-6 + 5M^2L^-4 + 3M^2L^-2 - 2M^4L^-6 - 4M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K9_36m']"
+  ]
+ },
+ "- 2L^-8 - 5L^-6 - 5L^-4 - 3L^-2 + M^2L^-10 + 6M^2L^-8 + 14M^2L^-6 + 11M^2L^-4 + 4M^2L^-2 - 5M^4L^-8 - 13M^4L^-6 - 9M^4L^-4 - M^4L^-2 + M^6L^-8 + 6M^6L^-6 + 2M^6L^-4 - M^8L^-6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_6950"
+  ]
+ },
+ "- 2L^-8 - L^-6 + 3L^-4 + L^-2 + M^2L^-8 + 3M^2L^-6 - 4M^2L^-4 - M^4L^-6 + M^4L^-4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_200m']"
+  ]
+ },
+ "- 2L^2 + 2L^6 + L^8 + 2M^2L^2 + M^2L^4 - 2M^2L^6 - M^2L^8 - M^4L^4 + M^4L^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_131m']"
+  ]
+ },
+ "- 2L^2 + 2L^6 + L^8 - 3M^2L^4 - 4M^2L^6 - M^2L^8 + M^4L^2 + 3M^4L^4 + 2M^4L^6 - M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_176']",
+   "KnotInfo['K11n_176r']"
+  ]
+ },
+ "- 2L^2 + 3L^6 + 3L^8 + L^10 + 3M^2L^2 + M^2L^4 - 5M^2L^6 - 4M^2L^8 - M^4L^2 - 3M^4L^4 + 4M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_69c']",
+   "KnotInfo['K11n_69m']"
+  ]
+ },
+ "- 2L^2 - 2L^4 - 2L^6 - L^8 + 2M^2L^2 + 2M^2L^4 + 2M^2L^6 - M^4L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_45']"
+  ]
+ },
+ "- 2L^2 - 2L^4 - 2L^6 - L^8 + 3M^2L^2 + 5M^2L^4 + 5M^2L^6 + M^2L^8 - M^4L^2 - 4M^4L^4 - 2M^4L^6 + M^6L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_20m']"
+  ]
+ },
+ "- 2L^2 - 3L^4 - 4L^6 - 2L^8 + 3M^2L^2 + 5M^2L^4 + 6M^2L^6 + M^2L^8 - M^4L^2 - 4M^4L^4 - 2M^4L^6 + M^6L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_36']"
+  ]
+ },
+ "- 2L^2 - L^4 + 2M^2 + 5M^2L^2 + 2M^2L^4 - M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_16']"
+  ]
+ },
+ "- 2L^2 - L^4 + 2M^2L^2 + M^2L^4 - M^2L^6 - M^2L^8 - M^4L^4 + M^4L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_84']"
+  ]
+ },
+ "- 2L^2 - L^4 + 3M^2L^2 + 4M^2L^4 + 2M^2L^6 - M^4L^2 - 4M^4L^4 - M^4L^6 + M^6L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_150c']",
+   "KnotInfo['K10_150m']"
+  ]
+ },
+ "- 2L^2 - L^4 + L^6 + 2L^8 + L^10 + 3M^2L^2 + 2M^2L^4 - 2M^2L^6 - 3M^2L^8 - M^4L^2 - 3M^4L^4 + 3M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_2m']"
+  ]
+ },
+ "- 2L^2 - L^4 + M^2L^2": {
+  "crossings": 3,
+  "names": [
+   "KnotInfo['K3_1m']"
+  ]
+ },
+ "- 2L^2 - L^4 - M^2L^-2 - M^2 + 2M^2L^2 + M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_13']"
+  ]
+ },
+ "- 2L^6 + 2L^8 + 4L^10 + L^12 + 6M^2L^6 - 6M^2L^8 - 5M^2L^10 - 5M^4L^6 + 5M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_128m']"
+  ]
+ },
+ "- 2L^6 + L^8 + 2L^10 + 7M^2L^6 - 4M^2L^8 - 3M^2L^10 - 5M^4L^6 + 4M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_9m']"
+  ]
+ },
+ "- 3 - 8L^2 - 4L^4 + 4M^2 + 12M^2L^2 + 4M^2L^4 - M^4 - 6M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K5_1m']"
+  ]
+ },
+ "- 3L^-2 - 4 - 2L^2 - L^4 - L^6 + 2M^2L^-2 + 8M^2 + 3M^2L^2 + 2M^2L^4 - 3M^4 - 3M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1901c']",
+   "KnotInfo['K13n_1901m']"
+  ]
+ },
+ "- 3L^-2 - 4 - L^2 + L^4 + 2M^2L^-2 + 6M^2 - M^2L^2 - M^2L^4 - 2M^4 + M^4L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2533c']",
+   "KnotInfo['K13n_2533m']"
+  ]
+ },
+ "- 3L^-4 - 5L^-2 + L^2 + 2M^2L^-4 + 6M^2L^-2 - M^2 - M^2L^2 - 2M^4L^-2 + M^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_443m']"
+  ]
+ },
+ "- 3L^-4 - 6L^-2 - 2 + 3M^2L^-4 + 9M^2L^-2 + 3M^2 - M^4L^-4 - 5M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K8_10m']"
+  ]
+ },
+ "- 3L^-4 - 6L^-2 - 2 + 5M^2L^-4 + 13M^2L^-2 + 5M^2 - 2M^4L^-4 - 9M^4L^-2 - 2M^4 + 2M^6L^-2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_3956']",
+   "KnotInfo['K13n_3956r']"
+  ]
+ },
+ "- 3L^-4 - 6L^-2 - 2 + M^2L^-6 + 8M^2L^-4 + 16M^2L^-2 + 6M^2 - 6M^4L^-4 - 16M^4L^-2 - 5M^4 + M^6L^-4 + 7M^6L^-2 + M^6 - M^8L^-2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_3393m']"
+  ]
+ },
+ "- 3L^-4 - 7L^-2 - 4 - L^2 + 4M^2L^-4 + 11M^2L^-2 + 5M^2 - M^4L^-4 - 6M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_475']"
+  ]
+ },
+ "- 3L^-6 - 7L^-4 - 5L^-2 + 6M^2L^-6 + 15M^2L^-4 + 7M^2L^-2 - 2M^4L^-6 - 10M^4L^-4 - 2M^4L^-2 + 2M^6L^-4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1762']",
+   "KnotInfo['K13n_1762r']"
+  ]
+ },
+ "- 3L^-8 - 4L^-6 + 2M^2L^-8 + 6M^2L^-6 - 2M^2L^-4 - 2M^4L^-6 + M^4L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_49']"
+  ]
+ },
+ "- 3L^-8 - 4L^-6 + 2M^2L^-8 + 8M^2L^-6 + 2M^2L^-4 + 2M^2L^-2 - 3M^4L^-6 - 3M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_137m']"
+  ]
+ },
+ "- 3L^-8 - 4L^-6 + 4M^2L^-8 + 10M^2L^-6 - M^4L^-8 - 6M^4L^-6 + M^6L^-6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_1']"
+  ]
+ },
+ "- 3L^-8 - 4L^-6 - 2M^2L^-10 + 8M^2L^-6 + M^4L^-10 + 3M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_16']"
+  ]
+ },
+ "- 3L^2 - 2L^4 + 2L^6 + 3L^8 + L^10 + 4M^2L^2 + 4M^2L^4 - 4M^2L^6 - 4M^2L^8 - M^4L^2 - 4M^4L^4 + 4M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_30m']"
+  ]
+ },
+ "- 3L^2 - 2L^4 + L^6 + L^8 + 2M^2L^2 + 2M^2L^4 - 2M^2L^6 - M^2L^8 - M^4L^4 + M^4L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_122']",
+   "KnotInfo['K11n_122r']"
+  ]
+ },
+ "- 3L^2 - 2L^4 + L^6 + L^8 + 4M^2L^2 + 6M^2L^4 - M^2L^8 - M^4L^2 - 5M^4L^4 + M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_135m']"
+  ]
+ },
+ "- 3L^2 - 3L^4 - L^6 + 2M^2L^2 + 3M^2L^4 + M^2L^6 - M^4L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_21m']"
+  ]
+ },
+ "- 3L^2 - 3L^4 - L^6 + 3M^2L^2 + 4M^2L^4 - M^2L^8 - 2M^4L^4 + M^4L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_134']",
+   "KnotInfo['K11n_134r']"
+  ]
+ },
+ "- 3L^2 - 3L^4 - L^6 + 4M^2L^2 + 7M^2L^4 + 3M^2L^6 - M^4L^2 - 5M^4L^4 - M^4L^6 + M^6L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_2m']"
+  ]
+ },
+ "- 3L^2 - 4L^4 - 3L^6 - L^8 + 4M^2L^2 + 10M^2L^4 + 11M^2L^6 + 5M^2L^8 + M^2L^10 - M^4L^2 - 9M^4L^4 - 12M^4L^6 - 5M^4L^8 + 2M^6L^4 + 6M^6L^6 + M^6L^8 - M^8L^6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_10833"
+  ]
+ },
+ "- 3L^2 - 4L^4 - 3L^6 - L^8 + 4M^2L^2 + 7M^2L^4 + 4M^2L^6 - M^4L^2 - 5M^4L^4 - M^4L^6 + M^6L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_43m']"
+  ]
+ },
+ "- 3L^2 - 4L^4 - 3L^6 - L^8 + 6M^2L^2 + 11M^2L^4 + 6M^2L^6 - 2M^4L^2 - 9M^4L^4 - 2M^4L^6 + 2M^6L^4": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_9608"
+  ]
+ },
+ "- 3L^2 - 5L^4 - 5L^6 - 2L^8 + 4M^2L^2 + 11M^2L^4 + 14M^2L^6 + 6M^2L^8 + M^2L^10 - M^4L^2 - 9M^4L^4 - 13M^4L^6 - 5M^4L^8 + 2M^6L^4 + 6M^6L^6 + M^6L^8 - M^8L^6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_6950"
+  ]
+ },
+ "- 3L^6 + 3L^10 + L^12 + 7M^2L^6 - 3M^2L^8 - 4M^2L^10 - 5M^4L^6 + 4M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K10_134m']"
+  ]
+ },
+ "- 3L^6 - L^8 + L^10 + 7M^2L^6 - 3M^2L^8 - 3M^2L^10 - 5M^4L^6 + 4M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_6m']"
+  ]
+ },
+ "- 3L^6 - L^8 + L^10 + 9M^2L^6 + M^2L^8 - M^2L^10 - 6M^4L^6 + M^6L^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_161m']"
+  ]
+ },
+ "- 4L^-4 - 8L^-2 - 3 + 4M^2L^-4 + 12M^2L^-2 + 4M^2 - M^4L^-4 - 6M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K10_132m']*KnotInfo['K3_1m']",
+   "KnotInfo['K13n_586m']",
+   "KnotInfo['K3_1m']*KnotInfo['K5_1']"
+  ],
+  "snappy": [
+   "13n_586",
+   "non-hyperbolic",
+   "13n_586",
+   "non-hyperbolic",
+   "non-hyperbolic"
+  ]
+ },
+ "- 4L^2 - 5L^4 - 2L^6 + 4M^2L^2 + 8M^2L^4 + 3M^2L^6 - M^4L^2 - 5M^4L^4 - M^4L^6 + M^6L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_5m']"
+  ]
+ },
+ "- 4L^2 - 5L^4 - 2L^6 + 6M^2L^2 + 12M^2L^4 + 5M^2L^6 - 2M^4L^2 - 9M^4L^4 - 2M^4L^6 + 2M^6L^4": {
+  "crossings": 14,
+  "names": [
+   "KnotInfo['K13n_4508c']",
+   "KnotInfo['K13n_4508m']"
+  ]
+ },
+ "- 4L^2 - 5L^4 - 3L^6 - 2L^8 - L^10 + 3M^2L^2 + 8M^2L^4 + 6M^2L^6 + 3M^2L^8 - 3M^4L^4 - 4M^4L^6 - M^4L^8 + M^6L^6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_21069"
+  ]
+ },
+ "- 4L^2 - 5L^4 - L^6 + 2L^8 + L^10 + 7M^2L^2 + 11M^2L^4 - 4M^2L^8 - 2M^4L^2 - 9M^4L^4 + 3M^4L^6 + M^4L^8 + 2M^6L^4 - M^6L^6": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2501m']"
+  ]
+ },
+ "- 4L^2 - 6L^4 - 3L^6 + L^8 + L^10 + 7M^2L^2 + 11M^2L^4 + M^2L^6 - 4M^2L^8 - 2M^4L^2 - 9M^4L^4 + 3M^4L^6 + M^4L^8 + 2M^6L^4 - M^6L^6": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2550m']"
+  ]
+ },
+ "- 4L^2 - 6L^4 - 4L^6 - L^8 + 4M^2L^2 + 9M^2L^4 + 6M^2L^6 + M^2L^8 - M^4L^2 - 5M^4L^4 - 2M^4L^6 + M^6L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K6_2m']"
+  ]
+ },
+ "- 4L^2 - 6L^4 - 4L^6 - L^8 + 6M^2L^2 + 13M^2L^4 + 8M^2L^6 + M^2L^8 - 2M^4L^2 - 9M^4L^4 - 3M^4L^6 + 2M^6L^4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1754c']",
+   "KnotInfo['K13n_1754m']"
+  ]
+ },
+ "- 4L^6 - 3L^8 + 10M^2L^6 + 4M^2L^8 - 6M^4L^6 - M^4L^8 + M^6L^6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_1m']"
+  ]
+ },
+ "- 4L^6 - 3L^8 + 2M^2L^2 + 2M^2L^4 + 8M^2L^6 + 2M^2L^8 - M^4L^2 - 3M^4L^4 - 3M^4L^6 + M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_137']"
+  ]
+ },
+ "- 4L^6 - 3L^8 + 8M^2L^6 - 2M^2L^10 - 5M^4L^6 + 3M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_16m']"
+  ]
+ },
+ "- 4L^6 - 3L^8 - 2M^2L^4 + 6M^2L^6 + 2M^2L^8 + M^4L^4 - 2M^4L^6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_49m']"
+  ]
+ },
+ "- 5L^2 - 7L^4 - 3L^6 + 7M^2L^2 + 15M^2L^4 + 6M^2L^6 - 2M^4L^2 - 10M^4L^4 - 2M^4L^6 + 2M^6L^4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1762c']",
+   "KnotInfo['K13n_1762m']"
+  ]
+ },
+ "- 5L^6 - 5L^8 - L^10 + 10M^2L^6 + 5M^2L^8 - 6M^4L^6 - M^4L^8 + M^6L^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_19m']"
+  ]
+ },
+ "- 5L^6 - 5L^8 - L^10 + 13M^2L^6 + 12M^2L^8 + 5M^2L^10 + M^2L^12 - 10M^4L^6 - 12M^4L^8 - 5M^4L^10 + 2M^6L^6 + 6M^6L^8 + M^6L^10 - M^8L^8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1907m']"
+  ]
+ },
+ "- 5L^6 - 6L^8 - 3L^10 - L^12 + 14M^2L^6 + 14M^2L^8 + 7M^2L^10 + M^2L^12 - 10M^4L^6 - 13M^4L^8 - 5M^4L^10 + 2M^6L^6 + 6M^6L^8 + M^6L^10 - M^8L^8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2306m']",
+   "KnotInfo['K13n_3034c']",
+   "KnotInfo['K13n_3034m']"
+  ],
+  "snappy": [
+   "13n_3034",
+   "13n_3034",
+   "13n_3034",
+   "13n_3034"
+  ]
+ },
+ "- 6L^6 - 7L^8 - 2L^10 + 11M^2L^6 + 8M^2L^8 + M^2L^10 - 6M^4L^6 - 2M^4L^8 + M^6L^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K5_1m']"
+  ]
+ },
+ "- 6L^6 - 7L^8 - 2L^10 + 14M^2L^6 + 15M^2L^8 + 6M^2L^10 + M^2L^12 - 10M^4L^6 - 13M^4L^8 - 5M^4L^10 + 2M^6L^6 + 6M^6L^8 + M^6L^10 - M^8L^8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2428c']",
+   "KnotInfo['K13n_2428m']"
+  ]
+ },
+ "- 6L^6 - 8L^8 - 4L^10 - L^12 + 16M^2L^6 + 19M^2L^8 + 9M^2L^10 + M^2L^12 - 11M^4L^6 - 17M^4L^8 - 6M^4L^10 + 2M^6L^6 + 7M^6L^8 + M^6L^10 - M^8L^8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2492c']",
+   "KnotInfo['K13n_2492m']"
+  ]
+ },
+ "- 8L^6 - 12L^8 - 6L^10 - L^12 + 12M^2L^6 + 12M^2L^8 + 3M^2L^10 - 6M^4L^6 - 3M^4L^8 + M^6L^6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1m']^3"
+  ]
+ },
+ "- 8L^6 - 12L^8 - 6L^10 - L^12 + 17M^2L^6 + 23M^2L^8 + 10M^2L^10 + M^2L^12 - 11M^4L^6 - 18M^4L^8 - 6M^4L^10 + 2M^6L^6 + 7M^6L^8 + M^6L^10 - M^8L^8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_588c']",
+   "KnotInfo['K13n_588m']"
+  ]
+ },
+ "- L^-10 - 2L^-8 - 3L^-6 - 5L^-4 - 4L^-2 + 3M^2L^-8 + 6M^2L^-6 + 8M^2L^-4 + 3M^2L^-2 - M^4L^-8 - 4M^4L^-6 - 3M^4L^-4 + M^6L^-6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_21069"
+  ]
+ },
+ "- L^-10 - 3L^-8 - L^-6 + 2L^-4 + 2M^2L^-8 + 2M^2L^-6 - 3M^2L^-4 - M^4L^-6 + M^4L^-4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K5_2']"
+  ]
+ },
+ "- L^-10 - 4L^-8 - 3L^-6 + L^-4 + 3M^2L^-8 + 5M^2L^-6 - 2M^2L^-4 - 2M^4L^-6 + M^4L^-4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_15']"
+  ]
+ },
+ "- L^-10 - 5L^-8 - 5L^-6 + 5M^2L^-8 + 10M^2L^-6 - M^4L^-8 - 6M^4L^-6 + M^6L^-6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_19']"
+  ]
+ },
+ "- L^-10 - 5L^-8 - 5L^-6 + M^2L^-12 + 5M^2L^-10 + 12M^2L^-8 + 13M^2L^-6 - 5M^4L^-10 - 12M^4L^-8 - 10M^4L^-6 + M^6L^-10 + 6M^6L^-8 + 2M^6L^-6 - M^8L^-8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1907']"
+  ]
+ },
+ "- L^-12 - 3L^-10 - 6L^-8 - 5L^-6 + M^2L^-12 + 7M^2L^-10 + 14M^2L^-8 + 14M^2L^-6 - 5M^4L^-10 - 13M^4L^-8 - 10M^4L^-6 + M^6L^-10 + 6M^6L^-8 + 2M^6L^-6 - M^8L^-8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2306']",
+   "KnotInfo['K13n_3034']",
+   "KnotInfo['K13n_3034r']"
+  ],
+  "snappy": [
+   "13n_3034",
+   "13n_3034"
+  ]
+ },
+ "- L^-12 - 4L^-10 - 8L^-8 - 6L^-6 + M^2L^-12 + 9M^2L^-10 + 19M^2L^-8 + 16M^2L^-6 - 6M^4L^-10 - 17M^4L^-8 - 11M^4L^-6 + M^6L^-10 + 7M^6L^-8 + 2M^6L^-6 - M^8L^-8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2492']",
+   "KnotInfo['K13n_2492r']"
+  ]
+ },
+ "- L^-12 - 6L^-10 - 12L^-8 - 8L^-6 + 3M^2L^-10 + 12M^2L^-8 + 12M^2L^-6 - 3M^4L^-8 - 6M^4L^-6 + M^6L^-6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1']^3"
+  ]
+ },
+ "- L^-12 - 6L^-10 - 12L^-8 - 8L^-6 + M^2L^-12 + 10M^2L^-10 + 23M^2L^-8 + 17M^2L^-6 - 6M^4L^-10 - 18M^4L^-8 - 11M^4L^-6 + M^6L^-10 + 7M^6L^-8 + 2M^6L^-6 - M^8L^-8": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_588']",
+   "KnotInfo['K13n_588r']"
+  ]
+ },
+ "- L^-14 - 3L^-12 + 2L^-8 - L^-6 + 5M^2L^-12 + 2M^2L^-10 - 9M^2L^-8 + 3M^2L^-6 - M^4L^-12 - 4M^4L^-10 + 9M^4L^-8 - 4M^4L^-6 + M^6L^-10 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_503']"
+  ]
+ },
+ "- L^-14 - 3L^-12 + L^-10 + 4L^-8 + 4M^2L^-12 - 3M^2L^-10 - 17M^2L^-8 - M^4L^-12 + M^4L^-10 + 20M^4L^-8 - 8M^6L^-8 + M^8L^-8": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_591']"
+  ]
+ },
+ "- L^-14 - 3L^-12 + L^-10 + 4L^-8 + 5M^2L^-12 + 2M^2L^-10 - 10M^2L^-8 + 3M^2L^-6 - M^4L^-12 - 4M^4L^-10 + 9M^4L^-8 - 4M^4L^-6 + M^6L^-10 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_245']"
+  ]
+ },
+ "- L^-14 - 4L^-12 - 2L^-10 + L^-8 - L^-6 + 5M^2L^-12 + 4M^2L^-10 - 7M^2L^-8 + 4M^2L^-6 - M^4L^-12 - 4M^4L^-10 + 8M^4L^-8 - 4M^4L^-6 + M^6L^-10 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_585']"
+  ]
+ },
+ "- L^-14 - 4L^-12 - L^-10 + 3L^-8 + 5M^2L^-12 + 3M^2L^-10 - 10M^2L^-8 + 3M^2L^-6 - M^4L^-12 - 4M^4L^-10 + 9M^4L^-8 - 4M^4L^-6 + M^6L^-10 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_477']"
+  ]
+ },
+ "- L^-14 - 5L^-12 - 3L^-10 + 2L^-8 + 5M^2L^-12 + 5M^2L^-10 - 8M^2L^-8 + 4M^2L^-6 - M^4L^-12 - 4M^4L^-10 + 8M^4L^-8 - 4M^4L^-6 + M^6L^-10 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_600']"
+  ]
+ },
+ "- L^-2 + 1 + 3L^2 + 2L^4 + M^2L^-2 + M^2 - 5M^2L^2 - 2M^2L^4 - M^4 + 2M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_117m']"
+  ]
+ },
+ "- L^-2 + 1 + 3L^2 + 2L^4 - 2M^2 - 8M^2L^2 - 3M^2L^4 + M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_48']"
+  ]
+ },
+ "- L^-2 + 1 + 3L^2 + 2L^4 - 4M^2L^2 - M^2L^4 + M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_38']"
+  ]
+ },
+ "- L^-2 + 1 + 4L^2 + 4L^4 + L^6 + M^2L^-2 + M^2 - 5M^2L^2 - 3M^2L^4 - M^4 + 2M^4L^2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_442m']"
+  ]
+ },
+ "- L^-2 + 2L^2 + 3L^4 + L^6 + M^2L^-2 + M^2 - 4M^2L^2 - 3M^2L^4 - M^4 + 2M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_3']"
+  ]
+ },
+ "- L^-2 + L^2 + L^4 + M^2 - M^2L^2": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K6_1m']"
+  ]
+ },
+ "- L^-2 + L^2 + L^4 + M^2L^-2 + 2M^2 - 2M^2L^2 - M^2L^4 - M^4 + M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_20']"
+  ]
+ },
+ "- L^-2 + L^2 + L^4 - M^2 - 5M^2L^2 - 2M^2L^4 + M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_110c']",
+   "KnotInfo['K11n_110m']"
+  ]
+ },
+ "- L^-2 - 1 - 2L^2 - 2L^4 - L^6 + 2M^2 + 2M^2L^2 + 2M^2L^4 - M^4L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_137m']"
+  ]
+ },
+ "- L^-2 - 1 - L^2 + 2M^2L^-2 + 5M^2 + 2M^2L^2 - M^4L^-2 - 4M^4 - M^4L^2 + M^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_17']",
+   "KnotInfo['K8_17r']"
+  ]
+ },
+ "- L^-2 - 1 - L^2 + M^2": {
+  "crossings": 4,
+  "names": [
+   "KnotInfo['K4_1']"
+  ]
+ },
+ "- L^-2 - 1 - L^2 + M^2L^-2 + 2M^2 - M^2L^2 - M^2L^4 - M^4 + M^4L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_147c']",
+   "KnotInfo['K10_147m']"
+  ]
+ },
+ "- L^-2 - 1 - L^2 - M^2L^-4 - M^2L^-2 + 2M^2 + M^2L^2 + M^4L^-2 - M^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_147']",
+   "KnotInfo['K10_147r']"
+  ]
+ },
+ "- L^-2 - 2 - 2L^2 + L^4 + L^6 + M^2L^-2 + 4M^2 + 4M^2L^2 - 2M^4 - 3M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_7c']",
+   "KnotInfo['K11n_7m']"
+  ]
+ },
+ "- L^-2 - 2 - 3L^2 - L^4 + 2M^2 + 3M^2L^2 + M^2L^4 - M^4L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_44m']"
+  ]
+ },
+ "- L^-2 - 2 - 3L^2 - L^4 + M^2L^-2 + 3M^2 + 2M^2L^2 - M^4": {
+  "crossings": 10,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "10_136",
+   "10_136",
+   "10_136",
+   "10_136",
+   "10_136"
+  ]
+ },
+ "- L^-2 - 3 - 5L^2 - 2L^4 + M^2L^-2 + 5M^2 + 7M^2L^2 + 2M^2L^4 - 2M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_29']"
+  ]
+ },
+ "- L^-2 - L^4 - L^6 + M^2 - M^2L^2 + M^2L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_1m']"
+  ]
+ },
+ "- L^-2 - L^4 - L^6 - M^2L^-2 + 2M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_100c']",
+   "KnotInfo['K11n_100m']"
+  ]
+ },
+ "- L^-4 + 4 + 2L^2 + M^2L^-4 + M^2L^-2 - 5M^2 - 2M^2L^2 - M^4L^-2 + 2M^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_135']"
+  ]
+ },
+ "- L^-4 - 2L^-2 + 2M^2L^-4 + 5M^2L^-2 + 2M^2 - M^4L^-4 - 4M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_16m']"
+  ]
+ },
+ "- L^-4 - 2L^-2 + 2M^2L^-6 + 4M^2L^-4 + 3M^2L^-2 - M^4L^-6 - 4M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_150']",
+   "KnotInfo['K10_150r']"
+  ]
+ },
+ "- L^-4 - 2L^-2 + M^2L^-2": {
+  "crossings": 3,
+  "names": [
+   "KnotInfo['K3_1']"
+  ]
+ },
+ "- L^-4 - 2L^-2 + M^2L^-4 + 2M^2L^-2 - M^2 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_13m']"
+  ]
+ },
+ "- L^-4 - 2L^-2 - M^2L^-8 - M^2L^-6 + M^2L^-4 + 2M^2L^-2 + M^4L^-6 - M^4L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_84m']"
+  ]
+ },
+ "- L^-4 - 3L^-2 - 2 - L^2 + 2M^2L^-2 + 3M^2 + M^2L^2 - M^4": {
+  "crossings": 10,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "10_136",
+   "10_136",
+   "10_136",
+   "10_136",
+   "10_136"
+  ]
+ },
+ "- L^-4 - 3L^-2 - 2 - L^2 + M^2L^-4 + 3M^2L^-2 + 2M^2 - M^4L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_44']"
+  ]
+ },
+ "- L^-4 - 4L^-2 - 4 - 2L^2 + 2M^2L^-4 + 6M^2L^-2 + 6M^2 + M^2L^2 - M^4L^-4 - 4M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K9_22']"
+  ]
+ },
+ "- L^-4 - L^-2 + 2 + L^2 + M^2L^-4 + 2M^2L^-2 - 2M^2 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_129']",
+   "KnotInfo['K8_8m']"
+  ],
+  "snappy": [
+   "10_129",
+   "10_129",
+   "8_8",
+   "8_8",
+   "8_8"
+  ]
+ },
+ "- L^-4 - L^-2 + 2 + L^2 - M^2L^-4 - 2M^2L^-2 - 4M^2 - M^2L^2 + M^4L^-4 + 3M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_94']"
+  ]
+ },
+ "- L^-6 + 3L^-2 + 3 + M^2L^-6 + M^2L^-4 - 5M^2L^-2 - 2M^2 - M^4L^-4 + 2M^4L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_162m']"
+  ]
+ },
+ "- L^-6 + 3L^-2 + 3 - M^2L^-4 - 7M^2L^-2 - 4M^2 - M^2L^2 + M^4L^-4 + 4M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2633c']",
+   "KnotInfo['K13n_2633m']"
+  ]
+ },
+ "- L^-6 + L^-2 - 1 - 2L^2 + M^2L^-4 - 2M^2L^-2 + 2M^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_141m']"
+  ]
+ },
+ "- L^-6 - 2L^-4 - 2L^-2 - 1 - L^2 + 2M^2L^-4 + 2M^2L^-2 + 2M^2 - M^4L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_137']"
+  ]
+ },
+ "- L^-6 - 2L^-4 - 3L^-2 - 3 - 2L^2 + 3M^2L^-4 + 5M^2L^-2 + 6M^2 + M^2L^2 - M^4L^-4 - 4M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_138']"
+  ]
+ },
+ "- L^-6 - 2L^-4 - L^-2 + 1 + 2M^2L^-4 + M^2L^-2 - M^2 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_14m']"
+  ]
+ },
+ "- L^-6 - 2L^-4 - L^-2 + 1 + 3M^2L^-4 + 4M^2L^-2 + 2M^2 - M^4L^-4 - 4M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_47']"
+  ]
+ },
+ "- L^-6 - 2L^-4 - L^-2 + 1 + M^2L^-6 + 2M^2L^-4 - M^2L^-2 - M^2 - M^4L^-4 + M^4L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_11']"
+  ]
+ },
+ "- L^-6 - 3L^-4 - 3L^-2 + 3M^2L^-6 + 7M^2L^-4 + 4M^2L^-2 - M^4L^-6 - 5M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_2']"
+  ]
+ },
+ "- L^-6 - 3L^-4 - 3L^-2 + M^2L^-6 + 3M^2L^-4 + 2M^2L^-2 - M^4L^-4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_21']"
+  ]
+ },
+ "- L^-6 - 3L^-4 - 3L^-2 - M^2L^-8 + 4M^2L^-4 + 3M^2L^-2 + M^4L^-6 - 2M^4L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_134c']",
+   "KnotInfo['K11n_134m']"
+  ]
+ },
+ "- L^-6 - 3L^-4 - 5L^-2 - 4 - 2L^2 + 4M^2L^-4 + 8M^2L^-2 + 7M^2 + M^2L^2 - M^4L^-4 - 5M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_12009"
+  ]
+ },
+ "- L^-6 - L^-4 + L^-2 + 2 + M^2L^-4 - M^2L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_46m']"
+  ]
+ },
+ "- L^-6 - L^-4 + L^-2 + 2 + M^2L^-6 + 2M^2L^-4 - 2M^2L^-2 - M^2 - M^4L^-4 + M^4L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_6']"
+  ]
+ },
+ "- L^-6 - L^-4 - 2L^-2 - 4 - 3L^2 + 2M^2L^-4 + 3M^2L^-2 + 8M^2 + 2M^2L^2 - M^4L^-4 - 3M^4L^-2 - 3M^4 + M^6L^-2": {
+  "crossings": 14,
+  "names": [
+   "KnotInfo['K13n_1901']",
+   "KnotInfo['K13n_1901r']"
+  ]
+ },
+ "- L^-6 - L^-4 - L^-2 - 2 - 2L^2 + 2M^2L^-4 + M^2L^-2 + 3M^2 - M^4L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_142m']"
+  ]
+ },
+ "- L^-6 - L^-4 - L^2 + 2M^2L^-4 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_100']",
+   "KnotInfo['K11n_100r']"
+  ]
+ },
+ "- L^-6 - L^-4 - L^2 + M^2L^-4 - M^2L^-2 + M^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_1']"
+  ]
+ },
+ "- L^-8 + 2L^-4 + M^2L^-6 - 2M^2L^-4 + M^2L^-2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_4']"
+  ]
+ },
+ "- L^-8 + 2L^-4 + M^2L^-8 + 2M^2L^-6 - 3M^2L^-4 - M^4L^-6 + M^4L^-4": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_5']"
+  ]
+ },
+ "- L^-8 + 2L^-4 - M^2L^-6 - 6M^2L^-4 - M^2L^-2 + M^4L^-6 + 4M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K12n_730']",
+   "KnotInfo['K12n_730r']"
+  ]
+ },
+ "- L^-8 + L^-6 + 4L^-4 + L^-2 - 2M^2L^-6 - 9M^2L^-4 - 2M^2L^-2 + M^4L^-6 + 5M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_451m']"
+  ]
+ },
+ "- L^-8 - 2L^-6 - 2L^-4 - 2L^-2 + 2M^2L^-6 + 2M^2L^-4 + 2M^2L^-2 - M^4L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_45m']"
+  ]
+ },
+ "- L^-8 - 2L^-6 - 2L^-4 - 2L^-2 + M^2L^-8 + 5M^2L^-6 + 5M^2L^-4 + 3M^2L^-2 - 2M^4L^-6 - 4M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_20']"
+  ]
+ },
+ "- L^-8 - 3L^-6 - 4L^-4 - 3L^-2 + 4M^2L^-6 + 7M^2L^-4 + 4M^2L^-2 - M^4L^-6 - 5M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_43']"
+  ]
+ },
+ "- L^-8 - 3L^-6 - 4L^-4 - 3L^-2 + 6M^2L^-6 + 11M^2L^-4 + 6M^2L^-2 - 2M^4L^-6 - 9M^4L^-4 - 2M^4L^-2 + 2M^6L^-4": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_9608"
+  ]
+ },
+ "- L^-8 - 3L^-6 - 4L^-4 - 3L^-2 + M^2L^-10 + 5M^2L^-8 + 11M^2L^-6 + 10M^2L^-4 + 4M^2L^-2 - 5M^4L^-8 - 12M^4L^-6 - 9M^4L^-4 - M^4L^-2 + M^6L^-8 + 6M^6L^-6 + 2M^6L^-4 - M^8L^-6": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "14n_10833"
+  ]
+ },
+ "- L^-8 - 4L^-6 - 6L^-4 - 4L^-2 + M^2L^-8 + 6M^2L^-6 + 9M^2L^-4 + 4M^2L^-2 - 2M^4L^-6 - 5M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K6_2']"
+  ]
+ },
+ "- L^-8 - 4L^-6 - 6L^-4 - 4L^-2 + M^2L^-8 + 8M^2L^-6 + 13M^2L^-4 + 6M^2L^-2 - 3M^4L^-6 - 9M^4L^-4 - 2M^4L^-2 + 2M^6L^-4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_1754']",
+   "KnotInfo['K13n_1754r']"
+  ]
+ },
+ "- L^-8 - L^-6 - L^-2 + 3M^2L^-6 + 3M^2L^-4 + 3M^2L^-2 - M^4L^-6 - 4M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_160']"
+  ]
+ },
+ "- L^-8 - L^-6 - L^-2 + M^2L^-6 - M^2L^-4 + M^2L^-2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_2']"
+  ]
+ },
+ "- L^-8 - L^-6 - L^-2 + M^2L^-8 + 4M^2L^-6 + 2M^2L^-4 + 2M^2L^-2 - 2M^4L^-6 - 3M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 11,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "11n_8"
+  ]
+ },
+ "- L^2 + 2L^4 + 3L^6 + L^8 + M^2L^2 - 2M^2L^4 - 3M^2L^6 - M^2L^8 + M^4L^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_133m']"
+  ]
+ },
+ "- L^2 + 2L^4 + 4L^6 + 3L^8 + L^10 + 3M^2L^2 - 5M^2L^6 - 4M^2L^8 - M^4L^2 - 3M^4L^4 + 4M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_90m']"
+  ]
+ },
+ "- L^2 + L^4 + 2L^6 + 2L^8 + L^10 + 3M^2L^2 - 4M^2L^6 - 4M^2L^8 - M^4L^2 - 3M^4L^4 + 4M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_16m']"
+  ]
+ },
+ "- L^2 + L^4 + L^6 + 2M^2L^2 - M^2L^6 - M^2L^8 - M^4L^4 + M^4L^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_165']"
+  ]
+ },
+ "- L^2 + L^4 + L^6 + M^2L^2 - M^2L^4": {
+  "crossings": 5,
+  "names": [
+   "KnotInfo['K5_2m']"
+  ]
+ },
+ "- L^2 + L^4 + L^6 - M^2L^2 - 5M^2L^4 - 2M^2L^6 + M^4L^2 + 4M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K10_159m']"
+  ]
+ },
+ "- L^2 - L^4 - 3L^6 - 2L^8 + 3M^2L^2 + 4M^2L^4 + 6M^2L^6 + M^2L^8 - M^4L^2 - 4M^4L^4 - 2M^4L^6 + M^6L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_11']"
+  ]
+ },
+ "- L^2 - L^4 - 3L^6 - 2L^8 + M^2L^2 + 4M^2L^6 + M^2L^8 - M^4L^6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_121']"
+  ]
+ },
+ "- L^2 - L^6 - L^8 + 2M^2L^2 + 2M^2L^4 + 4M^2L^6 + M^2L^8 - M^4L^2 - 3M^4L^4 - 2M^4L^6 + M^6L^4": {
+  "crossings": 11,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "11n_8"
+  ]
+ },
+ "- L^2 - L^6 - L^8 + 3M^2L^2 + 3M^2L^4 + 3M^2L^6 - M^4L^2 - 4M^4L^4 - M^4L^6 + M^6L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_160m']"
+  ]
+ },
+ "- L^2 - L^6 - L^8 + M^2L^2 - M^2L^4 + M^2L^6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_2m']"
+  ]
+ },
+ "- L^6 + 2L^8 - 3L^12 - L^14 + 3M^2L^6 - 9M^2L^8 + 2M^2L^10 + 5M^2L^12 - 4M^4L^6 + 9M^4L^8 - 4M^4L^10 - M^4L^12 + M^6L^6 - 2M^6L^8 + M^6L^10": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_503m']"
+  ]
+ },
+ "- L^6 + 3L^8 + 3L^10 + 6M^2L^6 - 7M^2L^8 - 4M^2L^10 - 5M^4L^6 + 5M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_3m']"
+  ]
+ },
+ "- L^6 + 4L^8 + 5L^10 + L^12 + 4M^2L^6 - 11M^2L^8 - 7M^2L^10 - 4M^4L^6 + 9M^4L^8 + 2M^4L^10 + M^6L^6 - 2M^6L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_93c']",
+   "KnotInfo['K11n_93m']"
+  ]
+ },
+ "- L^6 + 4L^8 + 5L^10 + L^12 + 6M^2L^6 - 7M^2L^8 - 5M^2L^10 - 5M^4L^6 + 5M^4L^8 + M^4L^10 + M^6L^6 - M^6L^8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_142m']"
+  ]
+ },
+ "- L^6 + 5L^8 + 7L^10 + 2L^12 + 3M^2L^6 - 13M^2L^8 - 9M^2L^10 - 4M^4L^6 + 10M^4L^8 + 2M^4L^10 + M^6L^6 - 2M^6L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_126m']"
+  ]
+ },
+ "- L^6 + L^8 - 2L^10 - 4L^12 - L^14 + 4M^2L^6 - 7M^2L^8 + 4M^2L^10 + 5M^2L^12 - 4M^4L^6 + 8M^4L^8 - 4M^4L^10 - M^4L^12 + M^6L^6 - 2M^6L^8 + M^6L^10": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_585m']"
+  ]
+ },
+ "1": {
+  "crossings": 0,
+  "names": [
+   "KnotInfo['K0_1']"
+  ]
+ },
+ "1 + 2L^2 + 4L^4 + 2L^6 - 3M^2 - 6M^2L^2 - 5M^2L^4 + M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 12,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "12n_403"
+  ]
+ },
+ "1 + 2L^2 + 4L^4 + 2L^6 - M^2L^2 - 4M^2L^4 - M^2L^6 + M^4L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_140m']"
+  ]
+ },
+ "1 + L^2 + 2L^4 + L^6 + M^2 + 2M^2L^2 - M^4 - 3M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_163m']"
+  ]
+ },
+ "1 + L^2 + 2L^4 + L^6 - M^2 - 2M^2L^2 - 2M^2L^4 + M^4L^2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_6m']"
+  ]
+ },
+ "1 + L^2 + 2L^4 + L^6 - M^2L^2 - 3M^2L^4 - M^2L^6 + M^4L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_12m']"
+  ]
+ },
+ "1 + M^2L^-4 + M^2L^-2 - M^2 - M^2L^2 - M^4L^-2 + M^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_146m']"
+  ]
+ },
+ "1 + M^2L^-6 + M^2L^-4 - M^2L^-2 - M^2 - M^4L^-4 + M^4L^-2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_14']"
+  ]
+ },
+ "1 - 2M^2 - 4M^2L^2 - 2M^2L^4 + M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_86m']"
+  ]
+ },
+ "1 - 2M^2L^-4 - 4M^2L^-2 - 2M^2 + M^4L^-4 + 4M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_86']"
+  ]
+ },
+ "1 - L^2 - 2L^4 - L^6 + 2M^2 + 4M^2L^2 + 3M^2L^4 - M^4 - 4M^4L^2 - M^4L^4 + M^6L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_47m']"
+  ]
+ },
+ "1 - L^2 - 2L^4 - L^6 - M^2 - M^2L^2 + 2M^2L^4 + M^2L^6 + M^4L^2 - M^4L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_11m']"
+  ]
+ },
+ "1 - L^2 - 2L^4 - L^6 - M^2L^-2 - M^2 + M^2L^2 + 2M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_14']"
+  ]
+ },
+ "1 - L^2 - L^4 + L^6 + L^8 + M^2L^4 - M^2L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_139c']",
+   "KnotInfo['K11n_139m']"
+  ]
+ },
+ "1 - M^2 - M^2L^2 + M^2L^4 + M^2L^6 + M^4L^2 - M^4L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_14m']"
+  ]
+ },
+ "1 - M^2L^-2 - M^2 + M^2L^2 + M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_146']"
+  ]
+ },
+ "10L^8 + 15L^10 + 7L^12 + L^14 - 25M^2L^8 - 25M^2L^10 - 6M^2L^12 + 22M^4L^8 + 13M^4L^10 + M^4L^12 - 8M^6L^8 - 2M^6L^10 + M^8L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K8_19m']"
+  ]
+ },
+ "12L^12 + 16L^14 + 5L^16 - 66M^2L^12 - 60M^2L^14 - 10M^2L^16 + 132M^4L^12 + 78M^4L^14 + 6M^4L^16 - 121M^6L^12 - 44M^6L^14 - M^6L^16 + 55M^8L^12 + 11M^8L^14 - 12M^10L^12 - M^10L^14 + M^12L^12": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "non-hyperbolic"
+  ]
+ },
+ "2 + 2L^2 + 2L^4 + 2L^6 + L^8 - M^2 - 5M^2L^2 - 5M^2L^4 - 3M^2L^6 + 2M^4L^2 + 4M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_285m']"
+  ]
+ },
+ "2 + 2L^2 + L^4 - 3M^2 - 7M^2L^2 - 3M^2L^4 + M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_141m']"
+  ]
+ },
+ "2 + 2L^2 + L^4 - M^2 - 3M^2L^2 - M^2L^4 + M^4L^2": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K6_2m']"
+  ]
+ },
+ "2 + 2L^2 + L^4 - M^2L^-2 - 2M^2 - 2M^2L^2 + M^4": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_7']"
+  ]
+ },
+ "2 + 2L^2 + L^4 - M^2L^-2 - 4M^2 - 6M^2L^2 - 2M^2L^4 + 2M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_130']",
+   "KnotInfo['K11n_130r']"
+  ]
+ },
+ "2 + 3L^2 + 3L^4 + L^6 - 4M^2 - 10M^2L^2 - 7M^2L^4 - M^2L^6 + 4M^4 + 12M^4L^2 + 5M^4L^4 - M^6 - 6M^6L^2 - M^6L^4 + M^8L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_120c']",
+   "KnotInfo['K11n_120m']"
+  ]
+ },
+ "2 + 3L^2 + 3L^4 + L^6 - M^2 - 3M^2L^2 - 2M^2L^4 + M^4L^2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K4_1']"
+  ]
+ },
+ "2 + L^2 - L^4 - L^6 - M^2 - 2M^2L^2 + 2M^2L^4 + M^2L^6 + M^4L^2 - M^4L^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_6m']"
+  ]
+ },
+ "2 + L^2 - L^4 - L^6 - M^2L^2 + M^2L^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_46']"
+  ]
+ },
+ "2L^-10 + L^-8 - 2L^-6 - 3M^2L^-10 - 4M^2L^-8 + 7M^2L^-6 + M^4L^-10 + 4M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_9']"
+  ]
+ },
+ "2L^-12 + 7L^-10 + 5L^-8 - L^-6 - 9M^2L^-10 - 13M^2L^-8 + 3M^2L^-6 + 2M^4L^-10 + 10M^4L^-8 - 4M^4L^-6 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_126']"
+  ]
+ },
+ "2L^-12 + 8L^-10 + 7L^-8 - M^2L^-12 - 14M^2L^-10 - 21M^2L^-8 + 7M^4L^-10 + 21M^4L^-8 - M^6L^-10 - 8M^6L^-8 + M^8L^-8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_124']"
+  ]
+ },
+ "2L^-2 + 4 - L^4 - 2M^2L^-2 - 5M^2 + M^2L^2 + M^2L^4 + 2M^4 - M^4L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_135m']"
+  ]
+ },
+ "2L^-2 + 5 + 2L^2 - M^2L^-2 - 4M^2 - M^2L^2 + M^4": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K3_1m']"
+  ]
+ },
+ "2L^-4 + 2L^-2 - 1 - 2L^2 - M^2L^-4 - 3M^2L^-2 + 3M^2 + M^2L^2 + M^4L^-2 - M^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_138m']",
+   "KnotInfo['K11n_79']"
+  ],
+  "snappy": [
+   "11n_79",
+   "11n_79",
+   "11n_79",
+   "11n_79",
+   "11n_79"
+  ]
+ },
+ "2L^-4 + 3L^-2 + 1 - L^2 - 2M^2L^-4 - 5M^2L^-2 + M^2 + M^2L^2 + 2M^4L^-2 - M^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_117']"
+  ]
+ },
+ "2L^-4 + 3L^-2 + 1 - L^2 - 3M^2L^-4 - 8M^2L^-2 - 2M^2 + M^4L^-4 + 5M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_48m']"
+  ]
+ },
+ "2L^-4 + 3L^-2 + 1 - L^2 - M^2L^-4 - 4M^2L^-2 + M^4L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_38m']"
+  ]
+ },
+ "2L^-4 + 4L^-2 + 3 + M^2L^-6 - 5M^2L^-2 - 2M^2 - M^4L^-4 + 2M^4L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_144']"
+  ]
+ },
+ "2L^-4 + 4L^-2 + 3 - 2M^2L^-4 - 7M^2L^-2 - 4M^2 - M^2L^2 + M^4L^-4 + 4M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 12,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "12n_284"
+  ]
+ },
+ "2L^-4 + 4L^-2 + 3 - 3M^2L^-4 - 8M^2L^-2 - 3M^2 + M^4L^-4 + 5M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K10_155m']",
+   "KnotInfo['K11n_37c']",
+   "KnotInfo['K11n_37m']"
+  ],
+  "snappy": [
+   "11n_37",
+   "11n_37",
+   "11n_37",
+   "11n_37",
+   "11n_37"
+  ]
+ },
+ "2L^-4 + 5L^-2 + 5 + L^2 - 3M^2L^-4 - 9M^2L^-2 - 6M^2 - M^2L^2 + M^4L^-4 + 5M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_53m']"
+  ]
+ },
+ "2L^-4 + 7L^-2 + 9 + 3L^2 - 3M^2L^-4 - 10M^2L^-2 - 10M^2 - 2M^2L^2 + M^4L^-4 + 5M^4L^-2 + 3M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K8_21']"
+  ]
+ },
+ "2L^-6 + 2L^-4 - 2L^-2 - 1 - M^2L^-6 - 3M^2L^-4 + 3M^2L^-2 + M^2 + M^4L^-4 - M^4L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_130m']"
+  ]
+ },
+ "2L^-6 + 3L^-4 - 3M^2L^-4 - M^2L^-2 - M^2 + M^4L^-2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_48m']"
+  ]
+ },
+ "2L^-6 + 3L^-4 - 3M^2L^-6 - 8M^2L^-4 - 2M^2L^-2 + M^4L^-6 + 5M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_143m']"
+  ]
+ },
+ "2L^-6 + 3L^-4 - M^2L^-6 - 4M^2L^-4 + M^4L^-4": {
+  "crossings": 5,
+  "names": [
+   "KnotInfo['K5_1']"
+  ]
+ },
+ "2L^-6 + 4L^-4 + 2L^-2 + 1 - 5M^2L^-4 - 6M^2L^-2 - 3M^2 + M^4L^-4 + 5M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 12,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "12n_403"
+  ]
+ },
+ "2L^-6 + 4L^-4 + 2L^-2 + 1 - M^2L^-6 - 4M^2L^-4 - M^2L^-2 + M^4L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_140']"
+  ]
+ },
+ "2L^-6 + 6L^-4 + 6L^-2 + 3 - M^2L^-6 - 11M^2L^-4 - 17M^2L^-2 - 7M^2 + 6M^4L^-4 + 17M^4L^-2 + 5M^4 - M^6L^-4 - 7M^6L^-2 - M^6 + M^8L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_60']"
+  ]
+ },
+ "2L^-6 + 6L^-4 + 6L^-2 + 3 - M^2L^-6 - 9M^2L^-4 - 13M^2L^-2 - 5M^2 + 5M^4L^-4 + 13M^4L^-2 + 4M^4 - M^6L^-4 - 6M^6L^-2 - M^6 + M^8L^-2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_533']"
+  ]
+ },
+ "2L^2 + 7L^4 + 4L^6 - 3M^2L^2 - 12M^2L^4 - 4M^2L^6 + M^4L^2 + 6M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_126']"
+  ]
+ },
+ "2L^4 - L^6 - 3L^8 - L^10 - 3M^2L^4 + 2M^2L^6 + 2M^2L^8 + M^4L^4 - M^4L^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1m']*KnotInfo['K5_2m']"
+  ]
+ },
+ "2L^4 - L^8 + M^2L^2 - 2M^2L^4 + M^2L^6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_4m']"
+  ]
+ },
+ "2L^4 - L^8 - 3M^2L^4 + 2M^2L^6 + M^2L^8 + M^4L^4 - M^4L^6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_5m']"
+  ]
+ },
+ "2L^4 - L^8 - M^2L^2 - 6M^2L^4 - M^2L^6 + M^4L^2 + 4M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K12n_730c']",
+   "KnotInfo['K12n_730m']"
+  ]
+ },
+ "2L^8 - 4L^10 - 7L^12 - 2L^14 - 11M^2L^8 + 12M^2L^10 + 13M^2L^12 + M^2L^14 + 15M^4L^8 - 15M^4L^10 - 7M^4L^12 - 7M^6L^8 + 7M^6L^10 + M^6L^12 + M^8L^8 - M^8L^10": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_243m']"
+  ]
+ },
+ "3 + 3L^2 - L^6 - 2M^2 - 5M^2L^2 + M^2L^4 + M^2L^6 + 2M^4L^2 - M^4L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_162']"
+  ]
+ },
+ "3 + 3L^2 - L^6 - M^2L^-2 - 4M^2 - 7M^2L^2 - M^2L^4 + 2M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2633']",
+   "KnotInfo['K13n_2633r']"
+  ]
+ },
+ "3 + 4L^2 + 2L^4 - 2M^2 - 5M^2L^2 + M^2L^6 + 2M^4L^2 - M^4L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_144m']"
+  ]
+ },
+ "3 + 4L^2 + 2L^4 - 3M^2 - 8M^2L^2 - 3M^2L^4 + M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K10_155']",
+   "KnotInfo['K11n_37']",
+   "KnotInfo['K11n_37r']"
+  ],
+  "snappy": [
+   "11n_37",
+   "11n_37",
+   "11n_37",
+   "11n_37",
+   "10_155"
+  ]
+ },
+ "3 + 4L^2 + 2L^4 - M^2L^-2 - 4M^2 - 7M^2L^2 - 2M^2L^4 + 2M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 13,
+  "error": "unsupported operand parent(s) for >: 'Integer Ring' and '<class 'list'>'",
+  "names": [],
+  "snappy": [
+   "12n_284"
+  ]
+ },
+ "3 + 5L^2 + 4L^4 + L^6 - 4M^2 - 10M^2L^2 - 5M^2L^4 + M^4 + 6M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_19']"
+  ]
+ },
+ "3 + 5L^2 + 4L^4 + L^6 - 5M^2 - 13M^2L^2 - 8M^2L^4 - M^2L^6 + 4M^4 + 13M^4L^2 + 5M^4L^4 - M^6 - 6M^6L^2 - M^6L^4 + M^8L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_166c']",
+   "KnotInfo['K11n_166m']"
+  ]
+ },
+ "3 + 6L^2 + 6L^4 + 2L^6 - 5M^2 - 13M^2L^2 - 9M^2L^4 - M^2L^6 + 4M^4 + 13M^4L^2 + 5M^4L^4 - M^6 - 6M^6L^2 - M^6L^4 + M^8L^2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_533m']"
+  ]
+ },
+ "3 + 6L^2 + 6L^4 + 2L^6 - 7M^2 - 17M^2L^2 - 11M^2L^4 - M^2L^6 + 5M^4 + 17M^4L^2 + 6M^4L^4 - M^6 - 7M^6L^2 - M^6L^4 + M^8L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_60m']"
+  ]
+ },
+ "3L^-10 + 3L^-8 - L^-6 - 4M^2L^-10 - 7M^2L^-8 + 6M^2L^-6 + M^4L^-10 + 5M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_3']"
+  ]
+ },
+ "3L^-2 + 9 + 7L^2 + 2L^4 - 2M^2L^-2 - 10M^2 - 10M^2L^2 - 3M^2L^4 + 3M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K8_21m']"
+  ]
+ },
+ "3L^-4 + 6L^-2 + 4 - 4M^2L^-4 - 11M^2L^-2 - 4M^2 + M^4L^-4 + 6M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_70']"
+  ]
+ },
+ "3L^-6 + 5L^-4 + L^-2 - 3M^2L^-6 - 9M^2L^-4 - 2M^2L^-2 + M^4L^-6 + 5M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_148c']",
+   "KnotInfo['K10_148m']"
+  ]
+ },
+ "3L^-6 + 5L^-4 + L^-2 - M^2L^-8 - 4M^2L^-6 - 8M^2L^-4 - M^2L^-2 + 2M^4L^-6 + 4M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_146']"
+  ]
+ },
+ "3L^4 + 2L^6 - 2M^2L^2 - 8M^2L^4 - 3M^2L^6 + M^4L^2 + 5M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_143']"
+  ]
+ },
+ "3L^4 + 2L^6 - 4M^2L^4 - M^2L^6 + M^4L^4": {
+  "crossings": 5,
+  "names": [
+   "KnotInfo['K5_1m']"
+  ]
+ },
+ "3L^4 + 2L^6 - M^2 - M^2L^2 - 3M^2L^4 + M^4L^2": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_48']"
+  ]
+ },
+ "3L^4 + 3L^6 + 2L^8 + L^10 + 2M^2L^2 - 2M^2L^4 - 3M^2L^6 - 3M^2L^8 - M^4L^2 - 2M^4L^4 + 3M^4L^6 + M^4L^8 + M^6L^4 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_175m']"
+  ]
+ },
+ "3L^4 + 3L^6 + 2L^8 + L^10 - 6M^2L^4 - 5M^2L^6 - 3M^2L^8 + 2M^4L^4 + 4M^4L^6 + M^4L^8 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_95m']"
+  ]
+ },
+ "3L^8 - 2L^10 - 6L^12 - 2L^14 - 11M^2L^8 + 11M^2L^10 + 13M^2L^12 + M^2L^14 + 15M^4L^8 - 15M^4L^10 - 7M^4L^12 - 7M^6L^8 + 7M^6L^10 + M^6L^12 + M^8L^8 - M^8L^10": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_502m']"
+  ]
+ },
+ "4 + 6L^2 + 3L^4 - 4M^2 - 11M^2L^2 - 4M^2L^4 + M^4 + 6M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_70m']"
+  ]
+ },
+ "4L^-6 + 7L^-4 + 2L^-2 - 4M^2L^-6 - 12M^2L^-4 - 3M^2L^-2 + M^4L^-6 + 6M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_126m']"
+  ]
+ },
+ "4L^4 + 4L^6 + L^8 - 4M^2L^4 - 2M^2L^6 + M^4L^4": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K3_1m']^2"
+  ]
+ },
+ "4L^4 + 4L^6 + L^8 - 6M^2L^4 - 6M^2L^6 - 2M^2L^8 + 2M^4L^4 + 4M^4L^6 + M^4L^8 - M^6L^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_149c']",
+   "KnotInfo['K10_149m']"
+  ]
+ },
+ "4L^4 + 5L^6 + 3L^8 + L^10 - 10M^2L^4 - 15M^2L^6 - 9M^2L^8 - M^2L^10 + 6M^4L^4 + 16M^4L^6 + 6M^4L^8 - M^6L^4 - 7M^6L^6 - M^6L^8 + M^8L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_88m']"
+  ]
+ },
+ "4L^4 + 5L^6 + 3L^8 + L^10 - 7M^2L^4 - 8M^2L^6 - 4M^2L^8 + 2M^4L^4 + 5M^4L^6 + M^4L^8 - M^6L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_118m']"
+  ]
+ },
+ "4L^8 + L^10 - 3L^12 - L^14 + 3M^2L^6 - 10M^2L^8 + 2M^2L^10 + 5M^2L^12 - 4M^4L^6 + 9M^4L^8 - 4M^4L^10 - M^4L^12 + M^6L^6 - 2M^6L^8 + M^6L^10": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_245m']"
+  ]
+ },
+ "4L^8 + L^10 - 3L^12 - L^14 - 17M^2L^8 - 3M^2L^10 + 4M^2L^12 + 20M^4L^8 + M^4L^10 - M^4L^12 - 8M^6L^8 + M^8L^8": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_591m']"
+  ]
+ },
+ "5L^-16 + 16L^-14 + 12L^-12 - 10M^2L^-16 - 60M^2L^-14 - 66M^2L^-12 + 6M^4L^-16 + 78M^4L^-14 + 132M^4L^-12 - M^6L^-16 - 44M^6L^-14 - 121M^6L^-12 + 11M^8L^-14 + 55M^8L^-12 - M^10L^-14 - 12M^10L^-12 + M^12L^-12": {
+  "crossings": 14,
+  "error": "this knot having more than 13 crossings cannot be determined",
+  "names": [],
+  "snappy": [
+   "non-hyperbolic"
+  ]
+ },
+ "5L^4 + 7L^6 + 4L^8 + L^10 - 10M^2L^4 - 16M^2L^6 - 9M^2L^8 - M^2L^10 + 6M^4L^4 + 16M^4L^6 + 6M^4L^8 - M^6L^4 - 7M^6L^6 - M^6L^8 + M^8L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_57m']"
+  ]
+ },
+ "5L^8 + 4L^10 + 4M^2L^6 - 12M^2L^8 - 6M^2L^10 - 4M^4L^6 + 9M^4L^8 + 2M^4L^10 + M^6L^6 - 2M^6L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_180m']"
+  ]
+ },
+ "6L^4 + 9L^6 + 5L^8 + L^10 - 11M^2L^4 - 19M^2L^6 - 10M^2L^8 - M^2L^10 + 6M^4L^4 + 17M^4L^6 + 6M^4L^8 - M^6L^4 - 7M^6L^6 - M^6L^8 + M^8L^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_27c']",
+   "KnotInfo['K11n_27m']"
+  ]
+ },
+ "6L^8 + 6L^10 + L^12 + 3M^2L^6 - 14M^2L^8 - 8M^2L^10 - 4M^4L^6 + 10M^4L^8 + 2M^4L^10 + M^6L^6 - 2M^6L^8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_169m']"
+  ]
+ },
+ "6L^8 + 6L^10 + L^12 - 21M^2L^8 - 13M^2L^10 - M^2L^12 + 21M^4L^8 + 7M^4L^10 - 8M^6L^8 - M^6L^10 + M^8L^8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_139m']"
+  ]
+ },
+ "7L^8 + 8L^10 + 2L^12 - 21M^2L^8 - 14M^2L^10 - M^2L^12 + 21M^4L^8 + 7M^4L^10 - 8M^6L^8 - M^6L^10 + M^8L^8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_124m']"
+  ]
+ },
+ "L^-10 + 2L^-8 + 2L^-6 + L^-4 - L^-2 - 4M^2L^-8 - 4M^2L^-6 + 3M^2L^-2 + M^4L^-8 + 4M^4L^-6 - 3M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_16']"
+  ]
+ },
+ "L^-10 + 2L^-8 + 3L^-6 + 3L^-4 - 3M^2L^-8 - 3M^2L^-6 - 2M^2L^-4 + 2M^2L^-2 + M^4L^-8 + 3M^4L^-6 - 2M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_175']"
+  ]
+ },
+ "L^-10 + 2L^-8 + 3L^-6 + 3L^-4 - 3M^2L^-8 - 5M^2L^-6 - 6M^2L^-4 + M^4L^-8 + 4M^4L^-6 + 2M^4L^-4 - M^6L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_95']"
+  ]
+ },
+ "L^-10 + 2L^-8 + L^-6 - L^-4 - 2L^-2 - 3M^2L^-8 - 2M^2L^-6 + 2M^2L^-4 + 3M^2L^-2 + M^4L^-8 + 3M^4L^-6 - 3M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_2']"
+  ]
+ },
+ "L^-10 + 2L^-8 - L^-6 - 5L^-4 - 4L^-2 - 4M^2L^-8 + 11M^2L^-4 + 7M^2L^-2 + M^4L^-8 + 3M^4L^-6 - 9M^4L^-4 - 2M^4L^-2 - M^6L^-6 + 2M^6L^-4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2501']"
+  ]
+ },
+ "L^-10 + 3L^-8 + 2L^-6 - 2L^-4 - 3L^-2 - 4M^2L^-8 - 4M^2L^-6 + 4M^2L^-4 + 4M^2L^-2 + M^4L^-8 + 4M^4L^-6 - 4M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_30']"
+  ]
+ },
+ "L^-10 + 3L^-8 + 3L^-6 - 2L^-2 - 4M^2L^-8 - 5M^2L^-6 + M^2L^-4 + 3M^2L^-2 + M^4L^-8 + 4M^4L^-6 - 3M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_69']",
+   "KnotInfo['K11n_69r']"
+  ]
+ },
+ "L^-10 + 3L^-8 + 4L^-6 + 2L^-4 - L^-2 - 4M^2L^-8 - 5M^2L^-6 + 3M^2L^-2 + M^4L^-8 + 4M^4L^-6 - 3M^4L^-4 - M^4L^-2 - M^6L^-6 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_90']"
+  ]
+ },
+ "L^-10 + 3L^-8 + 5L^-6 + 4L^-4 - 4M^2L^-8 - 8M^2L^-6 - 7M^2L^-4 + M^4L^-8 + 5M^4L^-6 + 2M^4L^-4 - M^6L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_118']"
+  ]
+ },
+ "L^-10 + 3L^-8 + 5L^-6 + 4L^-4 - M^2L^-10 - 9M^2L^-8 - 15M^2L^-6 - 10M^2L^-4 + 6M^4L^-8 + 16M^4L^-6 + 6M^4L^-4 - M^6L^-8 - 7M^6L^-6 - M^6L^-4 + M^8L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_88']"
+  ]
+ },
+ "L^-10 + 4L^-8 + 7L^-6 + 5L^-4 - M^2L^-10 - 9M^2L^-8 - 16M^2L^-6 - 10M^2L^-4 + 6M^4L^-8 + 16M^4L^-6 + 6M^4L^-4 - M^6L^-8 - 7M^6L^-6 - M^6L^-4 + M^8L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_57']"
+  ]
+ },
+ "L^-10 + 5L^-8 + 9L^-6 + 6L^-4 - M^2L^-10 - 10M^2L^-8 - 19M^2L^-6 - 11M^2L^-4 + 6M^4L^-8 + 17M^4L^-6 + 6M^4L^-4 - M^6L^-8 - 7M^6L^-6 - M^6L^-4 + M^8L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_27']",
+   "KnotInfo['K11n_27r']"
+  ]
+ },
+ "L^-10 + L^-8 - 3L^-6 - 6L^-4 - 4L^-2 - 4M^2L^-8 + M^2L^-6 + 11M^2L^-4 + 7M^2L^-2 + M^4L^-8 + 3M^4L^-6 - 9M^4L^-4 - 2M^4L^-2 - M^6L^-6 + 2M^6L^-4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2550']"
+  ]
+ },
+ "L^-10 - L^-8 - 3L^-6 - 3M^2L^-10 - 3M^2L^-8 + 7M^2L^-6 + M^4L^-10 + 4M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K9_6']"
+  ]
+ },
+ "L^-10 - L^-8 - 3L^-6 - M^2L^-10 + M^2L^-8 + 9M^2L^-6 - 6M^4L^-6 + M^6L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_161']"
+  ]
+ },
+ "L^-12 + 3L^-10 - 3L^-6 - 4M^2L^-10 - 3M^2L^-8 + 7M^2L^-6 + M^4L^-10 + 4M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_134']"
+  ]
+ },
+ "L^-12 + 4L^-10 + 2L^-8 - 2L^-6 - 5M^2L^-10 - 6M^2L^-8 + 6M^2L^-6 + M^4L^-10 + 5M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_128']"
+  ]
+ },
+ "L^-12 + 5L^-10 + 4L^-8 - L^-6 - 5M^2L^-10 - 7M^2L^-8 + 6M^2L^-6 + M^4L^-10 + 5M^4L^-8 - 5M^4L^-6 - M^6L^-8 + M^6L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_142']"
+  ]
+ },
+ "L^-12 + 5L^-10 + 4L^-8 - L^-6 - 7M^2L^-10 - 11M^2L^-8 + 4M^2L^-6 + 2M^4L^-10 + 9M^4L^-8 - 4M^4L^-6 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_93']",
+   "KnotInfo['K11n_93r']"
+  ]
+ },
+ "L^-12 + 6L^-10 + 6L^-8 - 8M^2L^-10 - 14M^2L^-8 + 3M^2L^-6 + 2M^4L^-10 + 10M^4L^-8 - 4M^4L^-6 - 2M^6L^-8 + M^6L^-6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_169']"
+  ]
+ },
+ "L^-12 + 6L^-10 + 6L^-8 - M^2L^-12 - 13M^2L^-10 - 21M^2L^-8 + 7M^4L^-10 + 21M^4L^-8 - M^6L^-10 - 8M^6L^-8 + M^8L^-8": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_139']"
+  ]
+ },
+ "L^-14 + 7L^-12 + 15L^-10 + 10L^-8 - 6M^2L^-12 - 25M^2L^-10 - 25M^2L^-8 + M^4L^-12 + 13M^4L^-10 + 22M^4L^-8 - 2M^6L^-10 - 8M^6L^-8 + M^8L^-8": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K8_19']"
+  ]
+ },
+ "L^-2 + 1 - 3L^2 - 2L^4 - 2M^2L^-2 - 3M^2 + 4M^2L^2 + 2M^2L^4 + 2M^4 - 2M^4L^2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_323']",
+   "KnotInfo['K12n_323r']"
+  ]
+ },
+ "L^-2 + 1 - 3L^2 - 2L^4 - M^2L^-2 - 2M^2 + 3M^2L^2 + M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K5_2m']"
+  ]
+ },
+ "L^-2 + 2 - L^2 - L^4 - M^2L^-2 - 2M^2 + 2M^2L^2 + M^2L^4 + M^4 - M^4L^2": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_8']"
+  ]
+ },
+ "L^-2 + 2 - L^2 - L^4 - M^2L^-2 - 4M^2 - 2M^2L^2 - M^2L^4 + 2M^4 + 3M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_94m']"
+  ]
+ },
+ "L^-2 + 3 + L^2 + M^2L^-4 - 4M^2 - 2M^2L^2 - M^4L^-2 + 2M^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_164m']"
+  ]
+ },
+ "L^-2 + 3 + L^2 - 2M^2L^-2 - 4M^2 + M^2L^4 + 2M^4 - M^4L^2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_164']"
+  ]
+ },
+ "L^-2 + 3 + L^2 - M^2L^-2 - 3M^2 - M^2L^2 + M^4": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K6_3']"
+  ]
+ },
+ "L^-2 + 4 + 3L^2 + L^4 - 3M^2L^-2 - 7M^2 - 4M^2L^2 + M^4L^-2 + 5M^4 + M^4L^2 - M^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_92']"
+  ]
+ },
+ "L^-2 + 4 + 3L^2 + L^4 - M^2L^-2 - 5M^2 - 6M^2L^2 - 2M^2L^4 + 2M^4 + 4M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_21c']",
+   "KnotInfo['K11n_21m']",
+   "KnotInfo['K11n_4c']",
+   "KnotInfo['K11n_4m']"
+  ],
+  "snappy": [
+   "11n_21",
+   "11n_21",
+   "11n_21"
+  ]
+ },
+ "L^-2 + 5 + 5L^2 + 2L^4 - M^2L^-2 - 6M^2 - 9M^2L^2 - 3M^2L^4 + 2M^4 + 5M^4L^2 + M^4L^4 - M^6L^2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_53']"
+  ]
+ },
+ "L^-2 - 5L^2 - 3L^4 - M^2L^-2 - M^2 + 6M^2L^2 + 2M^2L^4 + M^4 - 2M^4L^2": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_443']"
+  ]
+ },
+ "L^-4 + 2L^-2 + 2 - 2M^2L^-2 - 2M^2 - M^2L^2 + M^4": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_7m']"
+  ]
+ },
+ "L^-4 + 2L^-2 + 2 - 2M^2L^-4 - 6M^2L^-2 - 4M^2 - M^2L^2 + M^4L^-4 + 4M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_130c']",
+   "KnotInfo['K11n_130m']"
+  ]
+ },
+ "L^-4 + 2L^-2 + 2 - 3M^2L^-4 - 7M^2L^-2 - 3M^2 + M^4L^-4 + 5M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_141']"
+  ]
+ },
+ "L^-4 + 2L^-2 + 2 - M^2L^-4 - 3M^2L^-2 - M^2 + M^4L^-2": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K6_2']"
+  ]
+ },
+ "L^-4 + 2L^-2 + 3 + 2L^2 + L^4 - 2M^2L^-2 - 2M^2 - 2M^2L^2 + M^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_462']",
+   "KnotInfo['K12n_462r']",
+   "KnotInfo['K4_1']^2"
+  ],
+  "snappy": [
+   "12n_462",
+   "12n_462"
+  ]
+ },
+ "L^-4 + 3L^-2 + 4 + L^2 - 2M^2L^-4 - 6M^2L^-2 - 5M^2 - M^2L^2 + M^4L^-4 + 4M^4L^-2 + 2M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_21']",
+   "KnotInfo['K11n_21r']",
+   "KnotInfo['K11n_4']",
+   "KnotInfo['K11n_4r']"
+  ],
+  "snappy": [
+   "11n_21",
+   "11n_21",
+   "11n_21"
+  ]
+ },
+ "L^-4 + 3L^-2 + 4 + L^2 - 4M^2L^-2 - 7M^2 - 3M^2L^2 + M^4L^-2 + 5M^4 + M^4L^2 - M^6": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_92m']"
+  ]
+ },
+ "L^-4 + L^-2 + 1 + L^2 + L^4 - 2M^2L^-2 - M^2 - 2M^2L^2 + M^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_12']"
+  ]
+ },
+ "L^-4 + L^-2 - L^2 - 2M^2L^-4 - 5M^2L^-2 - M^2 + M^4L^-4 + 4M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_110']",
+   "KnotInfo['K11n_110r']"
+  ]
+ },
+ "L^-4 + L^-2 - L^2 - M^2L^-2 + M^2": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K6_1']"
+  ]
+ },
+ "L^-4 + L^-2 - L^2 - M^2L^-4 - 2M^2L^-2 + 2M^2 + M^2L^2 + M^4L^-2 - M^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_20m']"
+  ]
+ },
+ "L^-4 - 2 - 2L^2 + M^2L^-2 + 6M^2 + 2M^2L^2 - M^4L^-2 - 4M^4 - M^4L^2 + M^6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_158']"
+  ]
+ },
+ "L^-4 - 2 - 2L^2 - M^2L^-4 - 2M^2L^-2 + 3M^2 + M^2L^2 + M^4L^-2 - M^4": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_4m']"
+  ]
+ },
+ "L^-4 - L^-2 - 4 - 3L^2 - M^2L^-4 - M^2L^-2 + 6M^2 + 2M^2L^2 + M^4L^-2 - 2M^4": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2533']",
+   "KnotInfo['K13n_2533r']"
+  ]
+ },
+ "L^-6 + 2L^-4 + L^-2 + 1 + 2M^2L^-2 + M^2 - M^4L^-4 - 3M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_163']"
+  ]
+ },
+ "L^-6 + 2L^-4 + L^-2 + 1 - 2M^2L^-4 - 2M^2L^-2 - M^2 + M^4L^-2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_6']"
+  ]
+ },
+ "L^-6 + 2L^-4 + L^-2 + 1 - M^2L^-6 - 3M^2L^-4 - M^2L^-2 + M^4L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_12']"
+  ]
+ },
+ "L^-6 + 2L^-4 - L^-2 - 3 - 2L^2 - 2M^2L^-4 - M^2L^-2 + 3M^2 + M^2L^2 + M^4L^-2 - M^4": {
+  "crossings": 9,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K6_1m']"
+  ]
+ },
+ "L^-6 + 3L^-4 + 2L^-2 - L^2 - 3M^2L^-4 - 4M^2L^-2 + M^2 + M^2L^2 + 2M^4L^-2 - M^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_3m']"
+  ]
+ },
+ "L^-6 + 3L^-4 + 3L^-2 + 2 - 2M^2L^-4 - 3M^2L^-2 - M^2 + M^4L^-2": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K3_1']*KnotInfo['K4_1']"
+  ]
+ },
+ "L^-6 + 3L^-4 + 3L^-2 + 2 - M^2L^-6 - 7M^2L^-4 - 10M^2L^-2 - 4M^2 + 5M^4L^-4 + 12M^4L^-2 + 4M^4 - M^6L^-4 - 6M^6L^-2 - M^6 + M^8L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_120']",
+   "KnotInfo['K11n_120r']"
+  ]
+ },
+ "L^-6 + 4L^-4 + 4L^-2 + 1 - L^2 - 3M^2L^-4 - 5M^2L^-2 + M^2 + M^2L^2 + 2M^4L^-2 - M^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_442']"
+  ]
+ },
+ "L^-6 + 4L^-4 + 5L^-2 + 3 - 5M^2L^-4 - 10M^2L^-2 - 4M^2 + M^4L^-4 + 6M^4L^-2 + M^4 - M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_19m']"
+  ]
+ },
+ "L^-6 + 4L^-4 + 5L^-2 + 3 - M^2L^-6 - 8M^2L^-4 - 13M^2L^-2 - 5M^2 + 5M^4L^-4 + 13M^4L^-2 + 4M^4 - M^6L^-4 - 6M^6L^-2 - M^6 + M^8L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_166']",
+   "KnotInfo['K11n_166r']"
+  ]
+ },
+ "L^-6 + L^-4 - 2L^-2 - 2 - L^2 + 4M^2L^-2 + 4M^2 + M^2L^2 - M^4L^-4 - 3M^4L^-2 - 2M^4 + M^6L^-2": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_7']",
+   "KnotInfo['K11n_7r']"
+  ]
+ },
+ "L^-6 + L^-4 - L^-2 - 2M^2L^-6 - 5M^2L^-4 - M^2L^-2 + M^4L^-6 + 4M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_159']"
+  ]
+ },
+ "L^-6 + L^-4 - L^-2 - M^2L^-4 + M^2L^-2": {
+  "crossings": 5,
+  "names": [
+   "KnotInfo['K5_2']"
+  ]
+ },
+ "L^-6 + L^-4 - L^-2 - M^2L^-8 - M^2L^-6 + 2M^2L^-2 + M^4L^-6 - M^4L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_165m']"
+  ]
+ },
+ "L^-6 - 3L^-2 - 1 + M^2L^-4 + 6M^2L^-2 + 2M^2 - M^4L^-4 - 4M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_151c']",
+   "KnotInfo['K10_151m']"
+  ]
+ },
+ "L^-6 - L^-4 - 5L^-2 - 2 + 2M^2L^-4 + 9M^2L^-2 + 3M^2 - M^4L^-4 - 5M^4L^-2 - M^4 + M^6L^-2": {
+  "crossings": 13,
+  "names": [
+   "KnotInfo['K13n_2436c']",
+   "KnotInfo['K13n_2436m']"
+  ]
+ },
+ "L^-8 + 2L^-6 + 2L^-4 + 2L^-2 + 2 - 3M^2L^-6 - 5M^2L^-4 - 5M^2L^-2 - M^2 + M^4L^-6 + 4M^4L^-4 + 2M^4L^-2 - M^6L^-4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_285']"
+  ]
+ },
+ "L^-8 + 2L^-6 - 2L^-2 - M^2L^-8 - 2M^2L^-6 + M^2L^-4 + 2M^2L^-2 + M^4L^-6 - M^4L^-4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_131']"
+  ]
+ },
+ "L^-8 + 2L^-6 - 2L^-2 - M^2L^-8 - 4M^2L^-6 - 3M^2L^-4 + 2M^4L^-6 + 3M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_176c']",
+   "KnotInfo['K11n_176m']"
+  ]
+ },
+ "L^-8 + 3L^-6 + 2L^-4 - L^-2 - M^2L^-8 - 3M^2L^-6 - 2M^2L^-4 + M^2L^-2 + M^4L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_133']"
+  ]
+ },
+ "L^-8 + 4L^-6 + 4L^-4 - 2M^2L^-6 - 4M^2L^-4 + M^4L^-4": {
+  "crossings": 6,
+  "names": [
+   "KnotInfo['K3_1']^2"
+  ]
+ },
+ "L^-8 + 4L^-6 + 4L^-4 - 2M^2L^-8 - 6M^2L^-6 - 6M^2L^-4 + M^4L^-8 + 4M^4L^-6 + 2M^4L^-4 - M^6L^-6": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_149']",
+   "KnotInfo['K10_149r']"
+  ]
+ },
+ "L^-8 + 5L^-6 + 6L^-4 + L^-2 - M^2L^-8 - 6M^2L^-6 - 10M^2L^-4 - 2M^2L^-2 + 2M^4L^-6 + 5M^4L^-4 + M^4L^-2 - M^6L^-4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K11n_54']"
+  ]
+ },
+ "L^-8 + L^-6 - 2L^-4 - 3L^-2 - M^2L^-8 + 6M^2L^-4 + 4M^2L^-2 - 5M^4L^-4 - M^4L^-2 + M^6L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_135']"
+  ]
+ },
+ "L^-8 + L^-6 - 2L^-4 - 3L^-2 - M^2L^-8 - 2M^2L^-6 + 2M^2L^-4 + 2M^2L^-2 + M^4L^-6 - M^4L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_122c']",
+   "KnotInfo['K11n_122m']"
+  ]
+ },
+ "L^-8 + L^-6 - L^-4 - L^-2 + 1 - M^2L^-6 + M^2L^-4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_139']",
+   "KnotInfo['K11n_139r']"
+  ]
+ },
+ "L^2 + 3L^4 - L^6 - 2L^8 - 4M^2L^4 + 3M^2L^6 + M^2L^8 + M^4L^4 - M^4L^6": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_200']"
+  ]
+ },
+ "L^2 + 4L^4 + L^6 - L^8 - 2M^2L^2 - 9M^2L^4 - 2M^2L^6 + M^4L^2 + 5M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 12,
+  "names": [
+   "KnotInfo['K12n_451']"
+  ]
+ },
+ "L^2 + 5L^4 + 3L^6 - 2M^2L^2 - 9M^2L^4 - 3M^2L^6 + M^4L^2 + 5M^4L^4 + M^4L^6 - M^6L^4": {
+  "crossings": 10,
+  "names": [
+   "KnotInfo['K10_148']",
+   "KnotInfo['K10_148r']"
+  ]
+ },
+ "L^2 + 5L^4 + 3L^6 - M^2L^2 - 8M^2L^4 - 4M^2L^6 - M^2L^8 + M^4L^2 + 4M^4L^4 + 2M^4L^6 - M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_146m']"
+  ]
+ },
+ "L^2 + 6L^4 + 5L^6 + L^8 - 2M^2L^2 - 10M^2L^4 - 6M^2L^6 - M^2L^8 + M^4L^2 + 5M^4L^4 + 2M^4L^6 - M^6L^4": {
+  "crossings": 11,
+  "names": [
+   "KnotInfo['K11n_54m']"
+  ]
+ },
+ "L^4 - 2L^6 - 2L^8 - 3M^2L^4 + 3M^2L^6 + M^2L^8 + M^4L^4 - M^4L^6": {
+  "crossings": 7,
+  "names": [
+   "KnotInfo['K7_3m']"
+  ]
+ },
+ "L^4 - 3L^6 - 4L^8 - L^10 - 2M^2L^4 + 5M^2L^6 + 3M^2L^8 + M^4L^4 - 2M^4L^6": {
+  "crossings": 8,
+  "names": [
+   "KnotInfo['K8_15m']"
+  ]
+ }
+}
