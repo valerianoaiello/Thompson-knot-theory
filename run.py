@@ -1,11 +1,13 @@
 """
 Run bin/fknots for n = nmin..nmax leaves in parallel and merge the shards into results/raw/n<n>.tsv.
 
-usage: python3 run.py NMAX [--group F|F3] [--nmin 2] [--jobs 8] [--reps 50] [--force]
+usage: python3 run.py NMAX [--group F|F3|Fvec] [--nmin 2] [--jobs 8] [--reps 50] [--force]
 
 Each n already present in results/raw/ is skipped (unless --force), so the computation can be
 resumed and extended to larger n later.
 
+--group Fvec keeps only the elements of Jones' oriented subgroup vec{F} (bin/fknots ... vec) and
+writes to results/raw_Fvec/.
 --group F3 enumerates the ternary tree diagrams of F_3 with bin/iota_knots instead (n = number of
 internal vertices + 1, as in the definition of the F_3-index) and writes to results/raw_F3/.
 """
@@ -19,8 +21,11 @@ from math import comb
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 BINS = {'F': [os.path.join(HERE, 'bin', 'fknots')],
+        'Fvec': [os.path.join(HERE, 'bin', 'fknots')],
         'F3': [os.path.join(HERE, 'bin', 'iota_knots'), 'F3']}
+EXTRA_ARGS = {'Fvec': ['vec']}
 RAWS = {'F': os.path.join(HERE, 'results', 'raw'),
+        'Fvec': os.path.join(HERE, 'results', 'raw_Fvec'),
         'F3': os.path.join(HERE, 'results', 'raw_F3')}
 
 
@@ -31,13 +36,13 @@ def catalan(m):
 def n_trees(group, n):
     """Number of trees with n - 1 internal vertices (binary for F, ternary for F_3)."""
     c = n - 1
-    return catalan(c) if group == 'F' else comb(3 * c, c) // (2 * c + 1)
+    return catalan(c) if group in ('F', 'Fvec') else comb(3 * c, c) // (2 * c + 1)
 
 
 def run_n(group, n, jobs, reps):
     tmp = tempfile.mkdtemp(prefix='fknots_%s_n%d_' % (group, n))
     outs = [os.path.join(tmp, 'shard%d.tsv' % s) for s in range(jobs)]
-    procs = [subprocess.Popen(BINS[group] + [str(n), str(s), str(jobs), outs[s], str(reps)])
+    procs = [subprocess.Popen(BINS[group] + [str(n), str(s), str(jobs), outs[s], str(reps)] + EXTRA_ARGS.get(group, []))
              for s in range(jobs)]
     for p in procs:
         if p.wait() != 0:
@@ -80,7 +85,7 @@ def run_n(group, n, jobs, reps):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('nmax', type=int)
-    ap.add_argument('--group', choices=['F', 'F3'], default='F')
+    ap.add_argument('--group', choices=['F', 'F3', 'Fvec'], default='F')
     ap.add_argument('--nmin', type=int, default=2)
     ap.add_argument('--jobs', type=int, default=os.cpu_count())
     ap.add_argument('--reps', type=int, default=50, help='representatives kept per HOMFLY class')

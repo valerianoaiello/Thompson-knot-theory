@@ -1,7 +1,7 @@
 """
 Identification of the knots found by run.py (used by identify.sage, which only calls main()).
 
-usage (from F_index/):   sage identify.sage [max_crossing_number_in_output] [F|F3] [processes]
+usage (from F_index/):   sage identify.sage [max_crossing_number_in_output] [F|F3|Fvec] [processes]
 
 For every prime knot K of the table (up to mirror image):
   * lower bound for the F-index: the first n at which a diagram with the HOMFLY polynomial of K appears
@@ -16,6 +16,10 @@ Results: results/F_index.csv, results/F_index_summary.txt, results/unidentified_
 when possible, the composite knots and the knots with 14-15 crossings), results/knots_beyond_table.csv.
 With F3 the input is results/raw_F3/ (python3 run.py N --group F3) and the files are called
 F3_index.csv, F3_index_summary.txt, unidentified_classes_F3.csv, knots_beyond_table_F3.csv.
+With Fvec (Jones' oriented subgroup vec{F}): results/raw_Fvec/ and Fvec_index.csv, ... The knots are the
+same objects (for a knot the HOMFLY does not depend on the orientation); knots are still listed up to
+mirror image (the inverse g^-1 is in vec{F} and gives the mirror) and up to reversal of the orientation,
+which HOMFLY and the KnotInfo names used here do not distinguish.
 
 Parallelism: n is processed in increasing order (a knot is new at n only if it was not identified
 before), but within each n the HOMFLY classes are independent and are distributed over a pool of
@@ -324,9 +328,9 @@ def main(argv):
     max_c_out = int(argv[0]) if len(argv) > 0 else 13
     group = argv[1] if len(argv) > 1 else 'F'
     processes = int(argv[2]) if len(argv) > 2 else os.cpu_count()
-    assert group in ('F', 'F3')
-    raw = os.path.join(here, 'results', 'raw' if group == 'F' else 'raw_F3')
-    suffix = '' if group == 'F' else '_F3'
+    assert group in ('F', 'F3', 'Fvec')
+    raw = os.path.join(here, 'results', {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec'}[group])
+    suffix = {'F': '', 'F3': '_F3', 'Fvec': '_Fvec'}[group]
 
     with RobustPool(processes) as pool:
         print('reading the KnotInfo table on %d processes ...' % processes, flush=True)

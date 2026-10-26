@@ -10,7 +10,10 @@
 //   3. skip it if L(T+, T-) has more than one component;
 //   4. compute the HOMFLY polynomial with libhomfly and group the diagrams by HOMFLY up to mirror.
 //
-// usage: fknots n shard nshards out.tsv [max_reps]
+// usage: fknots n shard nshards out.tsv [max_reps] [vec]
+// With "vec" only the elements of Jones' oriented subgroup vec{F} are kept (see Tree::parity). The
+// vertical reflection (flip) does not preserve vec{F}, so it is not used: the orbits are {g, g^-1}
+// ((T-, T+) is in vec{F} iff (T+, T-) is, and gives the mirror image).
 // The output has one line per HOMFLY class: key \t count \t min_crossings \t reps, where
 // min_crossings is the smallest number of crossings left after Reidemeister I/II simplification
 // and reps is a ';'-separated list of "top_words|bottom_words|gauss_seq|gauss_signs": leaf addresses
@@ -38,6 +41,9 @@ struct Tree {
     uint8_t parent[MAXN];          // Tait edge (parent[j], j) for j = 1..n-1
     std::array<uint64_t, 4> bits;  // leaf intervals [l, r] of the non-root internal vertices
     int flip;                      // index of the reflected tree
+    uint32_t parity;               // bit j = parity of the number of right edges from the root to leaf j;
+                                   // (T+, T-) is in vec{F} iff the Tait graph is 2-colourable iff
+                                   // T+ and T- have the same parity (checked in tests/check_vecF.sage)
 };
 
 struct Level {                     // all trees with a given number of leaves
@@ -73,6 +79,9 @@ static void build_levels(int n) {
                     for (int j = 1; j < k; j++) t.parent[j] = A.trees[a].parent[j];
                     for (int j = 1; j < m - k; j++) t.parent[k + j] = k + B.trees[b].parent[j];
                     for (int w = 0; w < 4; w++) t.bits[w] = A.trees[a].bits[w];
+                    // leaves of the left subtree get a 0 (parity unchanged), of the right one a 1
+                    t.parity = A.trees[a].parity |
+                               ((~B.trees[b].parity & ((uint32_t(1) << (m - k)) - 1)) << k);
                     if (k >= 2) set_bit(t.bits, 0, k - 1);
                     if (m - k >= 2) set_bit(t.bits, k, m - 1);
                     for (int l = 0; l < m - k; l++)
@@ -331,6 +340,7 @@ int main(int argc, char **argv) {
     int n = atoi(argv[1]), shard = atoi(argv[2]), nshards = atoi(argv[3]);
     const char *outpath = argv[4];
     int max_reps = argc > 5 ? atoi(argv[5]) : 20;
+    bool vec = argc > 6 && strcmp(argv[6], "vec") == 0;
     if (n < 2 || n > MAXN) {
         fprintf(stderr, "n must be in [2, %d]\n", MAXN);
         return 1;
@@ -348,12 +358,16 @@ int main(int argc, char **argv) {
     int walk[8 * MAXN];
     for (int i = shard; i < C; i += nshards) {
         int fi = T[i].flip;
-        if (fi < i) continue;  // (flip T+, flip T-) would come first
+        if (!vec && fi < i) continue;  // (flip T+, flip T-) would come first (not with vec)
         for (int j = i; j < C; j++) {  // (T-, T+) would come first if j < i
             examined++;
             int fj = T[j].flip;
             std::pair<int, int> me(i, j);
-            if (std::make_pair(j, i) < me || std::make_pair(fi, fj) < me || std::make_pair(fj, fi) < me) continue;
+            if (vec) {
+                if (T[i].parity != T[j].parity) continue;  // not in vec{F} (j >= i: the inverse comes later)
+            } else if (std::make_pair(j, i) < me || std::make_pair(fi, fj) < me || std::make_pair(fj, fi) < me) {
+                continue;
+            }
             canonical++;
             if ((T[i].bits[0] & T[j].bits[0]) | (T[i].bits[1] & T[j].bits[1]) |
                 (T[i].bits[2] & T[j].bits[2]) | (T[i].bits[3] & T[j].bits[3]))

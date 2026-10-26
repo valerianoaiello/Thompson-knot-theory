@@ -42,8 +42,9 @@ for n in range(3, 8):
     stats = dict(kv.split('=') for kv in lines[0][2:].split())
     cpp_classes = {}
     for line in lines[1:]:
-        key, count, reps = line.split('\t')
-        cpp_classes[key] = [tuple(F.from_leaf_words(w.split(',')) for w in r.split('|')) for r in reps.split(';')]
+        key, count, mincr, reps = line.split('\t')
+        cpp_classes[key] = [tuple(F.from_leaf_words(w.split(',')) for w in r.split('|')[:2])
+                            for r in reps.split(';')]
 
     # 2) same number of knot diagrams as the reference implementation
     T = F.all_trees(n)
