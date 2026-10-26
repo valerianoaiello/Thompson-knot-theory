@@ -1,0 +1,224 @@
+knot,crossing_number,symmetry,first_n_homfly,Fvec_index_K,Fvec_index_Kr,verdict,elements_K,elements_Kr,diagrams_other_knot,diagrams_snappy_error
+8_17,8,negative amphicheiral,13,13,13,equal,40,38,0,0
+9_32,9,chiral,15,15,15,equal,286,264,0,0
+9_33,9,chiral,13,13,13,equal,19,20,0,0
+10_67,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_79,10,negative amphicheiral,> 15,> 15,> 15,unknown,,,,
+10_80,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_81,10,negative amphicheiral,> 15,> 15,> 15,unknown,,,,
+10_82,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_83,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_84,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_85,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_86,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_87,10,chiral,15,15,15,equal,2,2,0,0
+10_88,10,negative amphicheiral,13,15,13,DIFFERENT,172,264,43,0
+10_90,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_91,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_92,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_93,10,chiral,15,15,> 15,DIFFERENT,2,0,0,0
+10_94,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_95,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_98,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_102,10,chiral,15,15,> 15,DIFFERENT,4,0,0,0
+10_106,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_107,10,chiral,15,15,15,equal,8,5,0,0
+10_109,10,negative amphicheiral,> 15,> 15,> 15,unknown,,,,
+10_110,10,chiral,15,15,15,equal,21,27,0,0
+10_115,10,negative amphicheiral,> 15,> 15,> 15,unknown,,,,
+10_117,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_118,10,negative amphicheiral,15,15,15,equal,38,30,0,0
+10_119,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_147,10,chiral,15,15,15,equal,197,136,0,0
+10_148,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_149,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_150,10,chiral,> 15,> 15,> 15,unknown,,,,
+10_151,10,chiral,13,13,13,equal,7,11,0,0
+10_153,10,chiral,> 15,> 15,> 15,unknown,,,,
+11a_2,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_3,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_4,11,chiral,15,15,15,equal,27,24,79,0
+11n_5,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_6,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_7,11,chiral,15,15,15,equal,43,5,0,0
+11n_8,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_9,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_10,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_11,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_15,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_17,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_18,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_19,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_20,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_21,11,chiral,15,15,15,equal,10,2,118,0
+11a_22,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_22,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_23,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_24,11,chiral,15,> 15,> 15,unknown (class first at n = 15),,,,
+11n_24,11,chiral,15,15,15,equal,6,17,0,0
+11a_25,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_25,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_26,11,chiral,15,> 15,15,DIFFERENT,0,2,4,0
+11n_26,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_27,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_27,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_28,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_29,11,chiral,15,15,15,equal,4,5,0,0
+11a_30,11,chiral,15,> 15,15,DIFFERENT,0,2,6,0
+11n_31,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_32,11,chiral,13,13,13,equal,22,7,0,0
+11n_33,11,chiral,13,13,13,equal,6,2,0,0
+11n_34,11,chiral,15,> 15,> 15,unknown (class first at n = 15),,,,
+11n_35,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_36,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_37,11,chiral,15,15,15,equal,8,15,12,0
+11a_38,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_39,11,chiral,15,15,15,equal,26,22,0,0
+11n_40,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_41,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_42,11,chiral,15,15,15,equal,21,18,0,0
+11n_43,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_44,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_46,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_47,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_49,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_50,11,chiral,15,> 15,> 15,unknown (class first at n = 15),,,,
+11a_52,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_53,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_54,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_66,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_67,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_67,11,chiral,15,15,> 15,DIFFERENT,2,0,0,0
+11a_68,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_68,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_69,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_69,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_70,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_71,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_72,11,chiral,15,15,15,equal,8,13,0,0
+11a_76,11,chiral,15,15,> 15,DIFFERENT,7,0,15,0
+11a_79,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_80,11,chiral,15,15,15,equal,24,26,0,0
+11n_80,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_81,11,chiral,15,15,15,equal,30,24,9,0
+11n_93,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_97,11,chiral,15,15,15,equal,19,12,0,0
+11n_100,11,chiral,13,13,13,equal,4,4,0,0
+11a_101,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_102,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_103,11,chiral,15,> 15,15,DIFFERENT,0,2,0,0
+11a_104,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_108,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_109,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_110,11,chiral,15,15,15,equal,40,10,0,0
+11a_112,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_113,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_114,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_114,11,chiral,15,15,15,equal,23,17,0,0
+11a_115,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_116,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_116,11,chiral,15,15,15,equal,5,18,0,0
+11n_120,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_122,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_122,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_124,11,chiral,13,13,13,equal,4,6,0,0
+11a_125,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_127,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_128,11,chiral,15,15,15,equal,22,16,16,0
+11a_129,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_129,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_130,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_130,11,chiral,15,15,15,equal,27,46,0,0
+11a_131,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_131,11,chiral,15,15,15,equal,40,35,0,0
+11a_132,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_132,11,chiral,15,15,> 15,DIFFERENT,2,0,0,0
+11n_134,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_136,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_137,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_138,11,chiral,15,> 15,> 15,unknown (class first at n = 15),,,,
+11n_139,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_141,11,chiral,15,15,15,equal,28,27,0,0
+11a_146,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_147,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_147,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_149,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_150,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_151,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_151,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_152,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_154,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_156,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_157,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_159,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_160,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_162,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_163,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_164,11,chiral,15,15,15,equal,18,20,8,0
+11n_166,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_167,11,chiral,15,15,15,equal,26,14,0,0
+11a_168,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_169,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_172,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_172,11,chiral,15,15,15,equal,2,2,7,0
+11n_174,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_176,11,chiral,> 15,> 15,> 15,unknown,,,,
+11n_177,11,chiral,15,15,> 15,DIFFERENT,2,0,0,0
+11n_184,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_187,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_189,11,chiral,15,15,15,equal,2,2,0,0
+11a_199,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_201,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_209,11,chiral,15,15,15,equal,10,17,0,0
+11a_213,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_216,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_217,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_218,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_232,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_233,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_244,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_251,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_252,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_253,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_254,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_255,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_256,11,chiral,15,15,> 15,DIFFERENT,1,0,0,0
+11a_261,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_262,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_264,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_265,11,chiral,15,> 15,> 15,unknown (class first at n = 15),,,,
+11a_267,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_268,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_269,11,chiral,15,15,15,equal,6,7,0,0
+11a_270,11,chiral,15,15,> 15,DIFFERENT,2,0,0,0
+11a_272,11,chiral,15,15,15,equal,3,3,2,0
+11a_273,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_274,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_275,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_276,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_282,11,chiral,15,15,15,equal,1,8,54,0
+11a_283,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_284,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_286,11,chiral,15,15,15,equal,4,2,0,0
+11a_287,11,chiral,15,> 15,15,DIFFERENT,0,3,0,0
+11a_289,11,chiral,15,15,15,equal,7,8,7,0
+11a_290,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_295,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_296,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_298,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_299,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_300,11,chiral,15,15,15,equal,1,10,0,0
+11a_301,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_303,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_315,11,chiral,15,15,15,equal,2,2,2,0
+11a_316,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_319,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_320,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_322,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_323,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_326,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_328,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_330,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_331,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_344,11,chiral,> 15,> 15,> 15,unknown,,,,
+11a_345,11,chiral,> 15,> 15,> 15,unknown,,,,

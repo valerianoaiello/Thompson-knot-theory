@@ -13,6 +13,7 @@
 // usage: fknots n shard nshards out.tsv [max_reps] [vec|all] [only_key]
 // With only_key, representatives are stored only for the HOMFLY class with that key (the other classes
 // are still counted): this is used by oriented_index.py to get all the diagrams of one knot.
+// only_key = @file reads several keys, one per line (used by reverse_scan.py).
 // With "vec" only the elements of Jones' oriented subgroup vec{F} are kept (see Tree::parity). The
 // vertical reflection (flip) does not preserve vec{F}, so it is not used: the orbits are {g, g^-1}
 // ((T-, T+) is in vec{F} iff (T+, T-) is, and gives the mirror image).
@@ -30,7 +31,9 @@
 #include <cstring>
 #include <map>
 #include <string>
+#include <fstream>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 extern "C" {
@@ -343,7 +346,18 @@ int main(int argc, char **argv) {
     const char *outpath = argv[4];
     int max_reps = argc > 5 ? atoi(argv[5]) : 20;
     bool vec = argc > 6 && strcmp(argv[6], "vec") == 0;
-    std::string only_key = argc > 7 ? argv[7] : "";
+    std::unordered_set<std::string> only_keys;  // empty = store representatives of every class
+    if (argc > 7) {
+        std::string a = argv[7];
+        if (!a.empty() && a[0] == '@') {
+            std::ifstream in(a.substr(1));
+            std::string line;
+            while (std::getline(in, line))
+                if (!line.empty()) only_keys.insert(line);
+        } else {
+            only_keys.insert(a);
+        }
+    }
     if (n < 2 || n > MAXN) {
         fprintf(stderr, "n must be in [2, %d]\n", MAXN);
         return 1;
@@ -405,7 +419,7 @@ int main(int argc, char **argv) {
             ClassInfo &ci = classes[key];
             ci.count++;
             ci.min_crossings = std::min(ci.min_crossings, (int)G.seq.size() / 2);
-            if ((int)ci.reps.size() < max_reps && (only_key.empty() || key == only_key))
+            if ((int)ci.reps.size() < max_reps && (only_keys.empty() || only_keys.count(key)))
                 ci.reps.push_back({i, j, gauss_string(G)});
         }
     }

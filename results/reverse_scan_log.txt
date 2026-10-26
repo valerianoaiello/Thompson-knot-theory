@@ -1,0 +1,11 @@
+223 non-invertible knots with <= 11 crossings, 205 HOMFLY classes
+n =  5: 1 knot diagrams in vec{F}, 0 in the classes of 0 targets (6 s)
+n =  7: 14 knot diagrams in vec{F}, 0 in the classes of 0 targets (6 s)
+n =  9: 264 knot diagrams in vec{F}, 0 in the classes of 0 targets (6 s)
+n = 11: 5699 knot diagrams in vec{F}, 0 in the classes of 0 targets (6 s)
+n = 13: 138127 knot diagrams in vec{F}, 152 in the classes of 8 targets (7 s)
+n = 15: 3632680 knot diagrams in vec{F}, 10517 in the classes of 62 targets (31 s)
+n = 13: 152 diagrams classified; 7 targets with both K and Kr found so far (40 s)
+n = 15: 2620 diagrams classified; 45 targets with both K and Kr found so far (43 s)
+done in 44 s: 223 targets, 57 with both indices <= 15, 13 DIFFERENT: 10_88, 10_93, 10_102, 11a_26, 11a_30, 11n_67, 11a_76, 11a_103, 11n_132, 11n_177, 11a_256, 11a_270, 11a_287
+ -python reverse_scan.py --max-crossings 11 --nmax 15  216.50s user 16.92s system 480% cpu 48.581 total

@@ -1,0 +1,30 @@
+9_33 at n = 13: 78 elements in its HOMFLY class; 78 are 9_33/K9a11, others: -
+   relations with the first one: {('same',): 20, ('mirror reverse',): 20, ('mirror',): 19, ('reverse',): 19} -> BOTH K and Kr occur
+10_88 at n = 13: 2 elements in its HOMFLY class; 2 are 10_88/K10a11, others: -
+   relations with the first one: {('mirror reverse', 'same'): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+10_88 at n = 15: 522 elements in its HOMFLY class; 436 are 10_88/K10a11, others: {'K12n586': 86}
+   relations with the first one: {('mirror reverse', 'same'): 264, ('mirror', 'reverse'): 172} -> BOTH K and Kr occur
+10_93 at n = 15: 4 elements in its HOMFLY class; 4 are 10_93/K10a101, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+10_102 at n = 15: 8 elements in its HOMFLY class; 8 are 10_102/K10a97, others: -
+   relations with the first one: {('same',): 4, ('mirror reverse',): 4} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_26 at n = 15: 12 elements in its HOMFLY class; 4 are 11_53/K11a26, others: {'11_422 / K11a315': 8}
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_30 at n = 15: 16 elements in its HOMFLY class; 4 are 11_76/K11a30, others: {'11_426 / K11a272': 12}
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11n_67 at n = 15: 4 elements in its HOMFLY class; 4 are 11_38/K11n67, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_76 at n = 15: 44 elements in its HOMFLY class; 14 are 11_82/K11a76, others: {'11_396 / K11a289': 30}
+   relations with the first one: {('same',): 7, ('mirror reverse',): 7} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_103 at n = 15: 4 elements in its HOMFLY class; 4 are 11_181/K11a103, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11n_132 at n = 15: 4 elements in its HOMFLY class; 4 are 11_283/K11n132, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11n_177 at n = 15: 4 elements in its HOMFLY class; 4 are 11_452/K11n177, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_256 at n = 15: 2 elements in its HOMFLY class; 2 are 11_434/K11a256, others: -
+   relations with the first one: {('same',): 1, ('mirror reverse',): 1} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_270 at n = 15: 4 elements in its HOMFLY class; 4 are 11_435/K11a270, others: -
+   relations with the first one: {('same',): 2, ('mirror reverse',): 2} -> only ONE of K, Kr occurs (up to mirror reverse)
+11a_287 at n = 15: 6 elements in its HOMFLY class; 6 are 11_453/K11a287, others: -
+   relations with the first one: {('same',): 3, ('mirror reverse',): 3} -> only ONE of K, Kr occurs (up to mirror reverse)
