@@ -1,0 +1,2 @@
+n = 16: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 149.7 s
+python3 run.py 16 --group Fvec --nmin 16  1031.77s user 12.89s system 696% cpu 2:29.98 total
