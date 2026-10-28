@@ -47,9 +47,10 @@ def classify(task):
 def enumerate_n(n, keys_file, processes):
     """{key: [(top, bottom), ...]} for the target classes at n, and the number of knot diagrams."""
     tmp = tempfile.mkdtemp(prefix='reverse_scan_n%d_' % n)
-    outs = [os.path.join(tmp, 's%d.tsv' % s) for s in range(processes)]
-    procs = [subprocess.Popen([os.path.join(HERE, 'bin', 'fknots'), str(n), str(s), str(processes),
-                               outs[s], '1000000000', 'vec', '@' + keys_file]) for s in range(processes)]
+    outs = [os.path.join(tmp, 's.tsv.%d' % s) for s in range(processes)]
+    # one fknots process: it builds the trees once and forks the workers, which share them
+    procs = [subprocess.Popen([os.path.join(HERE, 'bin', 'fknots'), str(n), '-1', str(processes),
+                               os.path.join(tmp, 's.tsv'), '1000000000', 'vec', '@' + keys_file])]
     for p in procs:
         assert p.wait() == 0
     found, knots = {}, 0

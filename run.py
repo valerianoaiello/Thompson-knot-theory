@@ -41,9 +41,14 @@ def n_trees(group, n):
 
 def run_n(group, n, jobs, reps):
     tmp = tempfile.mkdtemp(prefix='fknots_%s_n%d_' % (group, n))
-    outs = [os.path.join(tmp, 'shard%d.tsv' % s) for s in range(jobs)]
-    procs = [subprocess.Popen(BINS[group] + [str(n), str(s), str(jobs), outs[s], str(reps)] + EXTRA_ARGS.get(group, []))
-             for s in range(jobs)]
+    outs = [os.path.join(tmp, 'shard.tsv.%d' % s) for s in range(jobs)]
+    if group in ('F', 'Fvec'):
+        # fknots builds the trees once and forks the workers, which share them (n = 17: 35M trees)
+        procs = [subprocess.Popen(BINS[group] + [str(n), '-1', str(jobs), os.path.join(tmp, 'shard.tsv'), str(reps)]
+                                  + EXTRA_ARGS.get(group, []))]
+    else:
+        procs = [subprocess.Popen(BINS[group] + [str(n), str(s), str(jobs), outs[s], str(reps)] + EXTRA_ARGS.get(group, []))
+                 for s in range(jobs)]
     for p in procs:
         if p.wait() != 0:
             sys.exit('fknots failed for n = %d' % n)

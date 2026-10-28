@@ -52,9 +52,10 @@ def diagrams(n, key, processes):
     """All (top words, bottom words) of the prime knot diagrams in vec{F} with HOMFLY key `key`
     (one of g, g^-1 for each pair)."""
     tmp = tempfile.mkdtemp(prefix='oriented_n%d_' % n)
-    outs = [os.path.join(tmp, 's%d.tsv' % s) for s in range(processes)]
-    procs = [subprocess.Popen([os.path.join(HERE, 'bin', 'fknots'), str(n), str(s), str(processes),
-                               outs[s], '1000000000', 'vec', key]) for s in range(processes)]
+    outs = [os.path.join(tmp, 's.tsv.%d' % s) for s in range(processes)]
+    # one fknots process: it builds the trees once and forks the workers, which share them
+    procs = [subprocess.Popen([os.path.join(HERE, 'bin', 'fknots'), str(n), '-1', str(processes),
+                               os.path.join(tmp, 's.tsv'), '1000000000', 'vec', key])]
     for p in procs:
         assert p.wait() == 0
     found = []

@@ -1,0 +1,19 @@
+n = 17: 101683414 prime knot diagrams (up to symmetry), 9153 HOMFLY classes, 1411.3 s
+     1411.87 real      9284.53 user       106.57 sys
+          5332484096  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+            10487880  page reclaims
+                 775  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1162  voluntary context switches
+             5203730  involuntary context switches
+          6106709192  instructions retired
+          3373166798  cycles elapsed
+           167903232  peak memory footprint

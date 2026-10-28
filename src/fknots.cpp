@@ -11,6 +11,8 @@
 //   4. compute the HOMFLY polynomial with libhomfly and group the diagrams by HOMFLY up to mirror.
 //
 // usage: fknots n shard nshards out.tsv [max_reps] [vec|all] [only_key]
+// With shard = -1 the trees are built once and nshards worker processes are forked (they share the trees,
+// copy-on-write); worker s writes out.tsv.<s>. This is what run.py uses (memory: n = 17 has 35M trees).
 // With only_key, representatives are stored only for the HOMFLY class with that key (the other classes
 // are still counted): this is used by oriented_index.py to get all the diagrams of one knot.
 // only_key = @file reads several keys, one per line (used by reverse_scan.py).
@@ -32,6 +34,8 @@
 #include <map>
 #include <string>
 #include <fstream>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -40,11 +44,12 @@ extern "C" {
 #include "homfly.h"
 }
 
-static const int MAXN = 16;
+static const int MAXN = 18;
+static const int NW = (MAXN * MAXN + 63) / 64;  // 64-bit words for the set of leaf intervals
 
 struct Tree {
     uint8_t parent[MAXN];          // Tait edge (parent[j], j) for j = 1..n-1
-    std::array<uint64_t, 4> bits;  // leaf intervals [l, r] of the non-root internal vertices
+    std::array<uint64_t, NW> bits;  // leaf intervals [l, r] of the non-root internal vertices
     int flip;                      // index of the reflected tree
     uint32_t parity;               // bit j = parity of the number of right edges from the root to leaf j;
                                    // (T+, T-) is in vec{F} iff the Tait graph is 2-colourable iff
@@ -58,7 +63,7 @@ struct Level {                     // all trees with a given number of leaves
 
 static std::vector<Level> levels;
 
-static inline void set_bit(std::array<uint64_t, 4> &b, int l, int r) {
+static inline void set_bit(std::array<uint64_t, NW> &b, int l, int r) {
     int id = l * MAXN + r;
     b[id >> 6] |= uint64_t(1) << (id & 63);
 }
@@ -83,7 +88,7 @@ static void build_levels(int n) {
                     t.parent[k] = 0;
                     for (int j = 1; j < k; j++) t.parent[j] = A.trees[a].parent[j];
                     for (int j = 1; j < m - k; j++) t.parent[k + j] = k + B.trees[b].parent[j];
-                    for (int w = 0; w < 4; w++) t.bits[w] = A.trees[a].bits[w];
+                    for (int w = 0; w < NW; w++) t.bits[w] = A.trees[a].bits[w];
                     // leaves of the left subtree get a 0 (parity unchanged), of the right one a 1
                     t.parity = A.trees[a].parity |
                                ((~B.trees[b].parity & ((uint32_t(1) << (m - k)) - 1)) << k);
@@ -337,35 +342,9 @@ struct ClassInfo {
     std::vector<Rep> reps;
 };
 
-int main(int argc, char **argv) {
-    if (argc < 5) {
-        fprintf(stderr, "usage: %s n shard nshards out.tsv [max_reps]\n", argv[0]);
-        return 1;
-    }
-    int n = atoi(argv[1]), shard = atoi(argv[2]), nshards = atoi(argv[3]);
-    const char *outpath = argv[4];
-    int max_reps = argc > 5 ? atoi(argv[5]) : 20;
-    bool vec = argc > 6 && strcmp(argv[6], "vec") == 0;
-    std::unordered_set<std::string> only_keys;  // empty = store representatives of every class
-    if (argc > 7) {
-        std::string a = argv[7];
-        if (!a.empty() && a[0] == '@') {
-            std::ifstream in(a.substr(1));
-            std::string line;
-            while (std::getline(in, line))
-                if (!line.empty()) only_keys.insert(line);
-        } else {
-            only_keys.insert(a);
-        }
-    }
-    if (n < 2 || n > MAXN) {
-        fprintf(stderr, "n must be in [2, %d]\n", MAXN);
-        return 1;
-    }
-    build_levels(n);
-    const std::vector<Tree> &T = levels[n].trees;
-    int C = (int)T.size();
-
+static int run_shard(int n, int shard, int nshards, const char *outpath, int max_reps, bool vec,
+                     const std::unordered_set<std::string> &only_keys, const std::vector<Tree> &T,
+                     const std::unordered_map<uint32_t, std::vector<int>> &same_parity) {
     std::map<std::string, ClassInfo> classes;
     const std::string unknot_key = "1*L^0*M^0 ";
     long long examined = 0, canonical = 0, prime = 0, knots = 0, cache_hits = 0;
@@ -373,15 +352,11 @@ int main(int argc, char **argv) {
     const size_t max_cache = 1000000;
     Diagram D;
     int walk[8 * MAXN];
-    // vec mode: (T+, T-) is in vec{F} iff T+ and T- have the same parity, so the candidates for T- are
-    // only the trees of the same parity class (the cost is proportional to the size of vec{F})
-    std::unordered_map<uint32_t, std::vector<int>> same_parity;
-    if (vec)
-        for (int t = 0; t < C; t++) same_parity[T[t].parity].push_back(t);  // increasing indices
+    const int C = (int)T.size();
     for (int i = shard; i < C; i += nshards) {
         int fi = T[i].flip;
         if (!vec && fi < i) continue;  // (flip T+, flip T-) would come first (not with vec)
-        const std::vector<int> *cand = vec ? &same_parity[T[i].parity] : nullptr;
+        const std::vector<int> *cand = vec ? &same_parity.at(T[i].parity) : nullptr;
         size_t start = vec ? std::lower_bound(cand->begin(), cand->end(), i) - cand->begin() : 0;
         size_t ncand = vec ? cand->size() - start : (size_t)(C - i);
         for (size_t q = 0; q < ncand; q++) {  // j >= i: (T-, T+) would come first if j < i
@@ -395,9 +370,9 @@ int main(int argc, char **argv) {
                 continue;
             }
             canonical++;
-            if ((T[i].bits[0] & T[j].bits[0]) | (T[i].bits[1] & T[j].bits[1]) |
-                (T[i].bits[2] & T[j].bits[2]) | (T[i].bits[3] & T[j].bits[3]))
-                continue;
+            uint64_t common = 0;
+            for (int w = 0; w < NW; w++) common |= T[i].bits[w] & T[j].bits[w];
+            if (common) continue;
             prime++;
             build_diagram(n, T[i], T[j], D);
             if (components(D, walk) != 1) continue;
@@ -441,3 +416,66 @@ int main(int argc, char **argv) {
     fclose(f);
     return 0;
 }
+
+int main(int argc, char **argv) {
+    if (argc < 5) {
+        fprintf(stderr, "usage: %s n shard nshards out.tsv [max_reps]\n", argv[0]);
+        return 1;
+    }
+    int n = atoi(argv[1]), shard = atoi(argv[2]), nshards = atoi(argv[3]);
+    const char *outpath = argv[4];
+    int max_reps = argc > 5 ? atoi(argv[5]) : 20;
+    bool vec = argc > 6 && strcmp(argv[6], "vec") == 0;
+    std::unordered_set<std::string> only_keys;  // empty = store representatives of every class
+    if (argc > 7) {
+        std::string a = argv[7];
+        if (!a.empty() && a[0] == '@') {
+            std::ifstream in(a.substr(1));
+            std::string line;
+            while (std::getline(in, line))
+                if (!line.empty()) only_keys.insert(line);
+        } else {
+            only_keys.insert(a);
+        }
+    }
+    if (n < 2 || n > MAXN) {
+        fprintf(stderr, "n must be in [2, %d]\n", MAXN);
+        return 1;
+    }
+    build_levels(n);
+    // the Tree structs of the smaller levels are not needed any more (split/left/right are, for the
+    // leaf words): free them, which matters for n = 17
+    for (int m = 1; m < n; m++) std::vector<Tree>().swap(levels[m].trees);
+    const std::vector<Tree> &T = levels[n].trees;
+    int C = (int)T.size();
+    // vec mode: (T+, T-) is in vec{F} iff T+ and T- have the same parity, so the candidates for T- are
+    // only the trees of the same parity class (the cost is proportional to the size of vec{F})
+    std::unordered_map<uint32_t, std::vector<int>> same_parity;
+    if (vec)
+        for (int t = 0; t < C; t++) same_parity[T[t].parity].push_back(t);  // increasing indices
+
+    if (shard >= 0) return run_shard(n, shard, nshards, outpath, max_reps, vec, only_keys, T, same_parity);
+    // shard = -1: fork nshards workers sharing the trees (copy-on-write); worker s writes <outpath>.<s>
+    std::vector<pid_t> pids;
+    for (int s = 0; s < nshards; s++) {
+        pid_t pid = fork();
+        if (pid == 0) {
+            std::string out = std::string(outpath) + "." + std::to_string(s);
+            _exit(run_shard(n, s, nshards, out.c_str(), max_reps, vec, only_keys, T, same_parity));
+        }
+        if (pid < 0) {
+            perror("fork");
+            return 1;
+        }
+        pids.push_back(pid);
+    }
+    int failed = 0;
+    for (pid_t pid : pids) {
+        int status = 0;
+        waitpid(pid, &status, 0);
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) failed++;
+    }
+    if (failed) fprintf(stderr, "%d workers failed\n", failed);
+    return failed ? 1 : 0;
+}
+
