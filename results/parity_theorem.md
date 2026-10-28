@@ -20,7 +20,7 @@ vec{F}-index of a knot is odd.
 
 **Numerical check.** `python3 tests/check_parity.py 9`: for all 2,248,355 tree diagrams of F with n <= 9 it
 checks the edge and face counts, c = dim ker L(Gamma) = dim ker L(Gamma*) mod 2, vec{F} iff bipartite, and,
-for the 34,409 elements of vec{F}, that Gamma* is Eulerian and c = n mod 2. All pass. The enumeration of
+for the 35,409 elements of vec{F}, that Gamma* is Eulerian and c = n mod 2. All pass. The enumeration of
 vec{F} (`fknots ... vec`) also found no knot for any even n <= 16.
 
 **Consequence.** Since vec{F} is enumerated up to n = 17, a knot not found has vec{F}-index >= 19.
