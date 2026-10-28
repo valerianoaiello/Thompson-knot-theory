@@ -1,10 +1,15 @@
 # Parity theorem for vec{F}
 
-**Theorem.** If g = (T+, T-) is in vec{F} and has n leaves, the number of components of L(g) is congruent
+**Theorem** (V. Aiello, R. Conti, *The Jones polynomial and functions of positive type on the oriented
+Jones–Thompson groups vec{F} and vec{T}*, Complex Anal. Oper. Theory 13 (2019) 3127–3149, Proposition 3.11:
+c(L(g)) − n ∈ −2N₀ for g ∈ vec{F}). If g = (T+, T-) is in vec{F} and has n leaves, the number of components of L(g) is congruent
 to n mod 2. In particular every knot L(g), g in vec{F}, comes from an odd number of leaves, and the
 vec{F}-index of a knot is odd.
 
-**Proof.**
+**Proof.** The proof in Aiello–Conti uses the rotation number of the oriented diagram: changing crossings to
+get a trivial diagram, (−1)^c = (−1)^rotation number = (−1)^(black regions) = (−1)^n. Below, an independent
+proof via GF(2) linear algebra (it also gives c = dim ker of a Laplacian mod 2):
+
 1. The Tait graph Gamma = Gamma(T+, T-) is a plane graph with n vertices. Each tree gives n - 1 edges forming
    a spanning tree, so Gamma is connected with 2(n - 1) edges, and it has n faces by Euler's formula.
 2. L(g) is the medial link of Gamma, so its components are the left-right (straight-ahead) cycles of Gamma.
