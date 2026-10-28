@@ -3,7 +3,7 @@
  * cross-check of bin/fknots, of F through Jones' map iota), with their HOMFLY polynomials.
  * Output format: the same as bin/fknots, so that run.py and identify.sage can be used for both.
  *
- * usage: iota_knots F|F3 n shard nshards out.tsv [max_reps]
+ * usage: iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps]
  *        iota_knots eval   (reads lines 'F|F3 top_words bottom_words' from stdin; used by the tests)
  *
  * Model.  Every element of F is turned into an element of F_3 by Jones' map iota
@@ -33,6 +33,14 @@
  * Each kept knot diagram is simplified with Reidemeister I and (generalised)
  * Reidemeister II moves on its Gauss code, and then its HOMFLY polynomial is
  * computed with libhomfly (the same library used by Sage).
+ *
+ * F3vec: only the elements of the oriented subgroup vec{F}_3 (Gamma 2-colourable), i.e. by Prop. 1 of
+ * Aiello-Nagnibeda (J. Algebra Appl. 21 (2022) 2250139) c+(2i) = c-(2i) mod 2 for every leaf 2i, where c is
+ * the weight of a leaf (see leaf_weight_mask). Pairs are taken in buckets with the same mask. The vertical
+ * reflection does not preserve vec{F}_3 (it swaps the black and white regions), so the only symmetry is
+ * (T+,T-) <-> (T-,T+) (the mirror image). A non-prime diagram is skipped only if the common interval starts at
+ * an even leaf: then both the grafted diagram and the outer one are in vec{F}_3 (checked in
+ * tests/check_F3vec.py); a graft at an odd leaf (below a middle edge) is kept.
  */
 
 #include <algorithm>
@@ -220,12 +228,38 @@ static Tree build_tree(const std::string &ternary_shape) {
   return t;
 }
 
+/* Weight parity (Aiello-Nagnibeda, Definition 3) of the leaves 0, 2, 4, ... of a ternary shape: bit i is
+ * c(2i) mod 2. Along the path from the root, a middle edge adds 1 and switches between odd and even words;
+ * in an odd word a right edge adds 1, in an even word a left edge adds 1. */
+static void leaf_weight_mask(const std::string &s, size_t &pos, int weight, int middles, int &leaf,
+                             uint32_t &mask) {
+  if (s[pos] == 'L') {
+    ++pos;
+    if (leaf % 2 == 0 && (weight & 1)) mask |= 1u << (leaf / 2);
+    ++leaf;
+    return;
+  }
+  ++pos;
+  bool odd_word = (middles & 1) == 0;
+  leaf_weight_mask(s, pos, weight + (odd_word ? 0 : 1), middles, leaf, mask);  // left
+  leaf_weight_mask(s, pos, weight + 1, middles + 1, leaf, mask);               // middle
+  leaf_weight_mask(s, pos, weight + (odd_word ? 1 : 0), middles, leaf, mask);  // right
+}
+
+static uint32_t leaf_weight_mask(const std::string &s) {
+  size_t pos = 0;
+  int leaf = 0;
+  uint32_t mask = 0;
+  leaf_weight_mask(s, pos, 0, 0, leaf, mask);
+  return mask;
+}
+
 /* Non-prime test: a non-root internal vertex of one tree covering the same
  * interval as an internal vertex of the other (the roots cover the whole set). */
-static bool is_prime_pair(const Tree &a, const Tree &b) {
+static bool is_prime_pair(const Tree &a, const Tree &b, bool even_start_only = false) {
   size_t i = 0, j = 0;
   while (i < a.intervals.size() && j < b.intervals.size()) {
-    if (a.intervals[i] == b.intervals[j]) return false;
+    if (a.intervals[i] == b.intervals[j] && !(even_start_only && (a.intervals[i] >> 6) % 2)) return false;
     if (a.intervals[i] < b.intervals[j])
       ++i;
     else
@@ -536,7 +570,7 @@ static std::string gauss_string(const std::vector<Visit> &g, const std::vector<i
 
 static void usage() {
   std::cerr << "usage:\n"
-               "  iota_knots F|F3 n shard nshards out.tsv [max_reps]\n"
+               "  iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps]\n"
                "  iota_knots eval   (reads lines 'F|F3 top_words bottom_words' from stdin)\n";
   std::exit(1);
 }
@@ -594,6 +628,7 @@ struct ClassInfo {
 static int mode_enum(const std::string &group, int n, int shard, int nshards, const std::string &out,
                      int max_reps) {
   const int arity = group == "F" ? 2 : 3;
+  const bool vec = group == "F3vec";
   const int c = n - 1;
   std::vector<std::string> shapes;  // in the group's own arity
   gen_shapes(c, arity, shapes);
@@ -607,6 +642,9 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
     sig[i] = index.at(mirror_shape(shapes[i], arity));
     trees[i] = build_tree(arity == 2 ? iota_shape(shapes[i]) : shapes[i]);
   }
+  std::vector<uint32_t> wmask(vec ? N : 0);
+  std::unordered_map<uint32_t, std::vector<int>> bucket;  // weight mask -> trees (increasing)
+  for (int i = 0; i < (int)wmask.size(); ++i) bucket[wmask[i] = leaf_weight_mask(shapes[i])].push_back(i);
 
   long long examined = 0, canonical = 0, prime = 0, knots = 0, cache_hits = 0;
   std::unordered_map<std::string, std::string> cache;  // canonical gauss -> homfly key
@@ -616,14 +654,22 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   Diagram d;
 
   for (int a = shard; a < N; a += nshards) {
-    for (int b = a; b < N; ++b) {
+    const std::vector<int> *bs = vec ? &bucket[wmask[a]] : nullptr;
+    size_t k0 = vec ? std::lower_bound(bs->begin(), bs->end(), a) - bs->begin() : 0;
+    for (size_t k = k0; vec ? k < bs->size() : (int)k < N; ++k) {
+      const int b = vec ? (*bs)[k] : (int)k;
+      if (b < a) continue;
       ++examined;
-      // canonical representative of the symmetry orbit
-      int sa = sig[a], sb = sig[b];
-      if (std::make_pair(sa, sb) < std::make_pair(a, b)) continue;
-      if (std::make_pair(sb, sa) < std::make_pair(a, b)) continue;
+      // canonical representative of the symmetry orbit (in vec{F}_3 only (a,b) <-> (b,a))
+      if (vec) {
+        // every pair (a, b) with a <= b in the same bucket
+      } else {
+        int sa = sig[a], sb = sig[b];
+        if (std::make_pair(sa, sb) < std::make_pair(a, b)) continue;
+        if (std::make_pair(sb, sa) < std::make_pair(a, b)) continue;
+      }
       ++canonical;
-      if (!is_prime_pair(trees[a], trees[b])) continue;
+      if (!is_prime_pair(trees[a], trees[b], vec)) continue;
       ++prime;
       if (!build_diagram(trees[a], trees[b], partner, d, true)) continue;
       ++knots;
@@ -677,7 +723,7 @@ int main(int argc, char **argv) {
   if (argc < 2) usage();
   std::string mode = argv[1];
   if (mode == "eval") return mode_eval();
-  if ((mode != "F" && mode != "F3") || argc < 6) usage();
+  if ((mode != "F" && mode != "F3" && mode != "F3vec") || argc < 6) usage();
   int n = std::atoi(argv[2]), shard = std::atoi(argv[3]), nshards = std::atoi(argv[4]);
   int max_reps = argc > 6 ? std::atoi(argv[6]) : 20;
   if (n < 2) usage();

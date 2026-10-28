@@ -1,7 +1,7 @@
 """
 Identification of the knots found by run.py (used by identify.sage, which only calls main()).
 
-usage (from F_index/):   sage identify.sage [max_crossing_number_in_output] [F|F3|Fvec] [processes]
+usage (from F_index/):   sage identify.sage [max_crossing_number_in_output] [F|F3|Fvec|F3vec] [processes]
 
 For every prime knot K of the table (up to mirror image):
   * lower bound for the F-index: the first n at which a diagram with the HOMFLY polynomial of K appears
@@ -20,6 +20,7 @@ With Fvec (Jones' oriented subgroup vec{F}): results/raw_Fvec/ and Fvec_index.cs
 same objects (for a knot the HOMFLY does not depend on the orientation); knots are still listed up to
 mirror image (the inverse g^-1 is in vec{F} and gives the mirror) and up to reversal of the orientation,
 which HOMFLY and the KnotInfo names used here do not distinguish.
+With F3vec (the oriented subgroup vec{F}_3 of F_3): results/raw_F3vec/ and F3vec_index.csv, ...
 
 Parallelism: n is processed in increasing order (a knot is new at n only if it was not identified
 before), but within each n the HOMFLY classes are independent and are distributed over a pool of
@@ -47,7 +48,8 @@ LONG_TIMEOUT = 600  # ... and for the second try of get_knotinfo after a timeout
                     # get_knotinfo can take more than 30 s on a 13-crossing diagram: a timeout must
                     # not make the result depend on the load of the machine)
 NAME_REPS = int(os.environ.get('NAME_REPS', 1))  # representatives used to name the classes of
-                    # unidentified_classes.csv (there are tens of thousands of them at n = 13)
+                    # unidentified_classes.csv (there are tens of thousands of them at n = 13);
+                    # NAME_REPS=0 skips the naming (vec{F}_3 at n = 11 has 700k such classes)
 TIMEOUTS = []       # representatives on which get_knotinfo timed out twice (per process)
 
 RV = LaurentPolynomialRing(ZZ, 'v,z')
@@ -328,9 +330,9 @@ def main(argv):
     max_c_out = int(argv[0]) if len(argv) > 0 else 13
     group = argv[1] if len(argv) > 1 else 'F'
     processes = int(argv[2]) if len(argv) > 2 else os.cpu_count()
-    assert group in ('F', 'F3', 'Fvec')
-    raw = os.path.join(here, 'results', {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec'}[group])
-    suffix = {'F': '', 'F3': '_F3', 'Fvec': '_Fvec'}[group]
+    assert group in ('F', 'F3', 'Fvec', 'F3vec')
+    raw = os.path.join(here, 'results', {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}[group])
+    suffix = {'F': '', 'F3': '_F3', 'Fvec': '_Fvec', 'F3vec': '_F3vec'}[group]
 
     with RobustPool(processes) as pool:
         print('reading the KnotInfo table on %d processes ...' % processes, flush=True)
@@ -375,7 +377,7 @@ def main(argv):
                     h = lm_key_to_vz(key)
                     names = by_homfly.get(canonical_vz(h), [])
                     if not names:
-                        unknown_classes.append((n, int(count), int(mincr), h, reps))
+                        unknown_classes.append((n, int(count), int(mincr), h, reps[:max(NAME_REPS, 1)]))
                         continue
                     for nm in names:
                         lower.setdefault(nm, n)
@@ -405,8 +407,8 @@ def main(argv):
             first.setdefault(canonical_vz(cl[3]), cl)
         unknown = sorted(first.values(), key=lambda cl: cl[0])
         parts = {}  # index of the class -> (names, beyond) of its pieces
-        for i, (knots, bey) in pool.map(name_class_task, list(enumerate(cl[4] for cl in unknown)),
-                                        split=split_name_task):
+        for i, (knots, bey) in (pool.map(name_class_task, list(enumerate(cl[4] for cl in unknown)),
+                                         split=split_name_task) if NAME_REPS else []):
             parts.setdefault(i, []).append((knots, bey))
         named = []
         for i, cl in enumerate(unknown):
@@ -416,7 +418,7 @@ def main(argv):
                 names.update(x for x in knots.split(' / ') if x)
             if any('#' in x for x in names):  # 'non-hyperbolic' only says the same (timeouts)
                 names.discard('non-hyperbolic')
-            named.append((' / '.join(sorted(names)) or '? (crash)', None))
+            named.append((' / '.join(sorted(names)) or ('? (crash)' if NAME_REPS else 'not named'), None))
         dropped, crashes = list(pool.dropped), pool.crashes
     # representatives that crash SnapPy/spherogram by themselves: they were not examined
     with open(os.path.join(here, 'results', 'dropped_representatives%s.txt' % suffix), 'w') as f:

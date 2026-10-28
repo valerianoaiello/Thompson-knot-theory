@@ -29,3 +29,8 @@ for the 35,409 elements of vec{F}, that Gamma* is Eulerian and c = n mod 2. All 
 vec{F} (`fknots ... vec`) also found no knot for any even n <= 16.
 
 **Consequence.** Since vec{F} is enumerated up to n = 17, a knot not found has vec{F}-index >= 19.
+
+**vec{F}₃.** The same proof works for the oriented subgroup vec{F}₃ of F₃ with n = number of internal vertices
+of each tree + 1: Γ has n vertices (the black regions) and each tree gives n − 1 edges forming a spanning tree,
+so Γ has n faces, and it is bipartite. Checked by `tests/check_F3vec.py` for n <= 6 (all pairs of F₃); the
+enumeration finds no knot for even n <= 10.

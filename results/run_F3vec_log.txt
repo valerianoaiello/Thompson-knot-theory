@@ -1,0 +1,10 @@
+n =  2: already done (results/raw_F3vec/n2.tsv)
+n =  3: already done (results/raw_F3vec/n3.tsv)
+n =  4: already done (results/raw_F3vec/n4.tsv)
+n =  5: already done (results/raw_F3vec/n5.tsv)
+n =  6: already done (results/raw_F3vec/n6.tsv)
+n =  7: already done (results/raw_F3vec/n7.tsv)
+n =  8: already done (results/raw_F3vec/n8.tsv)
+n =  9: already done (results/raw_F3vec/n9.tsv)
+n = 10: 0 prime knot diagrams (up to symmetry), 0 HOMFLY classes, 12.3 s
+n = 11: 136928884 prime knot diagrams (up to symmetry), 710516 HOMFLY classes, 2833.0 s

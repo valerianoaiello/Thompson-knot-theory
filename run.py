@@ -1,7 +1,7 @@
 """
 Run bin/fknots for n = nmin..nmax leaves in parallel and merge the shards into results/raw/n<n>.tsv.
 
-usage: python3 run.py NMAX [--group F|F3|Fvec] [--nmin 2] [--jobs 8] [--reps 50] [--force]
+usage: python3 run.py NMAX [--group F|F3|Fvec|F3vec] [--nmin 2] [--jobs 8] [--reps 50] [--force]
 
 Each n already present in results/raw/ is skipped (unless --force), so the computation can be
 resumed and extended to larger n later.
@@ -10,6 +10,8 @@ resumed and extended to larger n later.
 writes to results/raw_Fvec/.
 --group F3 enumerates the ternary tree diagrams of F_3 with bin/iota_knots instead (n = number of
 internal vertices + 1, as in the definition of the F_3-index) and writes to results/raw_F3/.
+--group F3vec keeps only the elements of the oriented subgroup vec{F}_3 (bin/iota_knots F3vec) and writes to
+results/raw_F3vec/.
 """
 import argparse
 import os
@@ -22,11 +24,13 @@ from math import comb
 HERE = os.path.dirname(os.path.abspath(__file__))
 BINS = {'F': [os.path.join(HERE, 'bin', 'fknots')],
         'Fvec': [os.path.join(HERE, 'bin', 'fknots')],
-        'F3': [os.path.join(HERE, 'bin', 'iota_knots'), 'F3']}
+        'F3': [os.path.join(HERE, 'bin', 'iota_knots'), 'F3'],
+        'F3vec': [os.path.join(HERE, 'bin', 'iota_knots'), 'F3vec']}
 EXTRA_ARGS = {'Fvec': ['vec']}
 RAWS = {'F': os.path.join(HERE, 'results', 'raw'),
         'Fvec': os.path.join(HERE, 'results', 'raw_Fvec'),
-        'F3': os.path.join(HERE, 'results', 'raw_F3')}
+        'F3': os.path.join(HERE, 'results', 'raw_F3'),
+        'F3vec': os.path.join(HERE, 'results', 'raw_F3vec')}
 
 
 def catalan(m):
@@ -90,7 +94,7 @@ def run_n(group, n, jobs, reps):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('nmax', type=int)
-    ap.add_argument('--group', choices=['F', 'F3', 'Fvec'], default='F')
+    ap.add_argument('--group', choices=['F', 'F3', 'Fvec', 'F3vec'], default='F')
     ap.add_argument('--nmin', type=int, default=2)
     ap.add_argument('--jobs', type=int, default=os.cpu_count())
     ap.add_argument('--reps', type=int, default=50, help='representatives kept per HOMFLY class')

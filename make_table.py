@@ -3,7 +3,7 @@ Final table of the F-index: one row per knot with its F-index, its KnotInfo name
 representative, i.e. an element of F realizing the knot with that number of leaves, given both as
 a tree diagram (leaf addresses, 0 = left, 1 = right) and in normal form.
 
-usage (from F_index/, after identify.sage):   python3 make_table.py [F|F3|Fvec] [results_dir]
+usage (from F_index/, after identify.sage):   python3 make_table.py [F|F3|Fvec|F3vec] [results_dir]
 reads  <results_dir>/F_index.csv and <results_dir>/knots_beyond_table.csv
 writes <results_dir>/F_index_table.csv and <results_dir>/F_index_table.md
 With F3: F3_index.csv, knots_beyond_table_F3.csv -> F3_index_table.csv / .md; the representative is
@@ -57,9 +57,10 @@ def crossing_key(name):
 
 def main():
     group = sys.argv[1] if len(sys.argv) > 1 else 'F'
-    assert group in ('F', 'F3', 'Fvec')
+    assert group in ('F', 'F3', 'Fvec', 'F3vec')
+    ternary = group in ('F3', 'F3vec')
     d = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, 'results')
-    suffix = {'F': '', 'F3': '_F3', 'Fvec': '_Fvec'}[group]
+    suffix = {'F': '', 'F3': '_F3', 'Fvec': '_Fvec', 'F3vec': '_F3vec'}[group]
     col = group + '_index'
     rows = []
     for r in csv.DictReader(open(os.path.join(d, col + '.csv'))):
@@ -73,11 +74,11 @@ def main():
                          'note': 'not in KnotInfo (SnapPy name); upper bound',
                          'top_tree': r['top_tree'], 'bottom_tree': r['bottom_tree']})
     for r in rows:
-        r['normal_form'] = normal_form(r['top_tree'], r['bottom_tree']) if group != 'F3' else ''
+        r['normal_form'] = normal_form(r['top_tree'], r['bottom_tree']) if not ternary else ''
     rows.sort(key=lambda r: (r[col], crossing_key(r['knot'])))
 
     fields = [col, 'knot', 'normal_form', 'top_tree', 'bottom_tree', 'note']
-    if group == 'F3':
+    if ternary:
         fields.remove('normal_form')
         for r in rows:
             del r['normal_form']
@@ -87,16 +88,16 @@ def main():
         w.writeheader()
         w.writerows(rows)
 
-    rawdir = os.path.join(d, {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec'}[group])
+    rawdir = os.path.join(d, {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}[group])
     nmax = max(int(m) for m in re.findall(r'n(\d+)\.tsv', ' '.join(os.listdir(rawdir)))) \
         if os.path.isdir(rawdir) else None
-    G = {'F': 'F', 'F3': 'F₃', 'Fvec': 'F⃗'}[group]
+    G = {'F': 'F', 'F3': 'F₃', 'Fvec': 'F⃗', 'F3vec': 'F⃗₃'}[group]
     with open(os.path.join(d, name + '.md'), 'w') as f:
         f.write('# %s-index of knots\n\n' % G)
         if nmax:
             f.write('Computed with all tree diagrams with n <= %d: a knot that is not listed has '
                     '%s-index > %d (or is the unknot, index 1).\n' % (nmax, G, nmax))
-        if group != 'F3':
+        if not ternary:
             f.write('Knots up to mirror image, KnotInfo names. The representative is an element of %s '
                     'realizing the knot with %s-index leaves: normal form and tree diagram (leaf addresses, '
                     '0 = left, 1 = right).\n' % (G, G))
@@ -109,12 +110,16 @@ def main():
         else:
             f.write('Knots up to mirror image, KnotInfo names. n = number of internal vertices of each '
                     'ternary tree + 1. The representative is a ternary tree diagram of F₃ realizing the '
-                    'knot (leaf addresses, 0 = left, 1 = middle, 2 = right).\n\n')
-            f.write('| F₃-index | knot | top tree | bottom tree |\n')
+                    'knot (leaf addresses, 0 = left, 1 = middle, 2 = right).\n')
+            if group == 'F3vec':
+                f.write('F⃗₃ is the oriented subgroup of F₃ (Tait graph 2-colourable; Aiello-Nagnibeda, J. Algebra '
+                        'Appl. 21 (2022) 2250139). Knots only occur for odd n. Knots are also listed up to reversal '
+                        'of the orientation, which HOMFLY does not see.\n')
+            f.write('\n| %s-index | knot | top tree | bottom tree |\n' % G)
             f.write('|---|---|---|---|\n')
         for r in rows:
             knot = r['knot'] + (' *' if r['note'] else '')
-            nf = ' %s |' % r['normal_form'] if group != 'F3' else ''
+            nf = ' %s |' % r['normal_form'] if not ternary else ''
             f.write('| %d | %s |%s `%s` | `%s` |\n' % (r[col], knot, nf, r['top_tree'], r['bottom_tree']))
         if any(r['note'] for r in rows):
             f.write('\n\\* knot with 14 or 15 crossings, not in KnotInfo (name from the SnapPy census); '
