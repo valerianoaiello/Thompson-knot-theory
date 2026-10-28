@@ -1,6 +1,6 @@
 # vec{F}-index of the knots with at most 9 crossings
 
-All tree diagrams of vec{F} with n <= 17 leaves (knots only occur for odd n): 61 of the 85 knots have a known vec{F}-index; for the others "≥" is a lower bound (no diagram with fewer leaves has their HOMFLY polynomial). Knots up to mirror image (and, for invertible knots, the orientation does not matter: L(g^-1) is the mirror image of the reverse of L(g)). For the non-invertible knots the index of K (orientation of KnotInfo) and of its reverse Kr is given. F-index and F₃-index for comparison. The representative is an element of vec{F} realizing the index.
+All tree diagrams of vec{F} with n <= 17 leaves (knots only occur for odd n: results/parity_theorem.md): 61 of the 85 knots have a known vec{F}-index; for the others "≥" is a lower bound (no diagram with fewer leaves has their HOMFLY polynomial). Knots up to mirror image (and, for invertible knots, the orientation does not matter: L(g^-1) is the mirror image of the reverse of L(g)). For the non-invertible knots the index of K (orientation of KnotInfo) and of its reverse Kr is given. F-index and F₃-index for comparison. The representative is an element of vec{F} realizing the index.
 
 | knot | vec{F}-index | orientations | F-index | F₃-index | representative (normal form) | top tree | bottom tree |
 |---|---|---|---|---|---|---|---|
