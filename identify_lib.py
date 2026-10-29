@@ -246,15 +246,20 @@ class RobustPool:
     def _new(processes):
         return ProcessPoolExecutor(processes, mp_context=mp.get_context('spawn'))
 
-    def map(self, func, tasks, split=None):
+    def map(self, func, tasks, split=None, skip=None):
         """Yields func(task) for every task (in completion order); for a task that had to be split,
-        the results of its pieces are yielded instead."""
+        the results of its pieces are yielded instead. A task with skip(task) true when its turn comes
+        is not run (skip may depend on the results already yielded)."""
         pending = list(tasks)[::-1]
         running = {}  # future -> task
         while pending or running:
             while pending and len(running) < self.processes:
                 t = pending.pop()
+                if skip and skip(t):
+                    continue
                 running[self.ex.submit(func, t)] = t
+            if not running:
+                break
             done, _ = wait(running, return_when=FIRST_COMPLETED)
             suspects = []
             for fut in done:

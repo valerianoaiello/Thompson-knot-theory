@@ -3,7 +3,9 @@
  * cross-check of bin/fknots, of F through Jones' map iota), with their HOMFLY polynomials.
  * Output format: the same as bin/fknots, so that run.py and identify.sage can be used for both.
  *
- * usage: iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps]
+ * usage: iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps] [only_key|@file]
+ *        (with max_reps < 0 and only_key, every diagram of the selected HOMFLY classes is written at once
+ *        to out.tsv.all as "key \t top_words \t bottom_words \t PD code"; used by complete_check.py)
  *        iota_knots eval   (reads lines 'F|F3 top_words bottom_words' from stdin; used by the tests)
  *
  * Model.  Every element of F is turned into an element of F_3 by Jones' map iota
@@ -53,7 +55,9 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 extern "C" {
@@ -570,7 +574,7 @@ static std::string gauss_string(const std::vector<Visit> &g, const std::vector<i
 
 static void usage() {
   std::cerr << "usage:\n"
-               "  iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps]\n"
+               "  iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps] [only_key|@file]\n"
                "  iota_knots eval   (reads lines 'F|F3 top_words bottom_words' from stdin)\n";
   std::exit(1);
 }
@@ -626,7 +630,15 @@ struct ClassInfo {
 };
 
 static int mode_enum(const std::string &group, int n, int shard, int nshards, const std::string &out,
-                     int max_reps) {
+                     int max_reps, const std::unordered_set<std::string> &only_keys) {
+  FILE *all = nullptr;
+  if (max_reps < 0) {
+    all = std::fopen((out + ".all").c_str(), "w");
+    if (!all) {
+      std::perror(out.c_str());
+      return 1;
+    }
+  }
   const int arity = group == "F" ? 2 : 3;
   const bool vec = group == "F3vec";
   const int c = n - 1;
@@ -690,12 +702,16 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
       ClassInfo &ci = classes[key];
       ++ci.count;
       ci.min_crossings = std::min(ci.min_crossings, (int)g.size() / 2);
-      if ((int)ci.reps.size() < max_reps)
+      if (all && only_keys.count(key))
+        std::fprintf(all, "%s\t%s\t%s\t%s\n", key.c_str(), shape_words(shapes[a], arity).c_str(),
+                     shape_words(shapes[b], arity).c_str(), pd_code(d, trees[a].c).c_str());
+      else if ((int)ci.reps.size() < max_reps && (only_keys.empty() || only_keys.count(key)))
         ci.reps.push_back(shape_words(shapes[a], arity) + "|" + shape_words(shapes[b], arity) + "|" +
                           (g.empty() ? std::string("|") : gauss_string(g, d.sign)));
     }
   }
 
+  if (all) std::fclose(all);
   FILE *f = std::fopen(out.c_str(), "w");
   if (!f) {
     std::perror(out.c_str());
@@ -726,6 +742,19 @@ int main(int argc, char **argv) {
   if ((mode != "F" && mode != "F3" && mode != "F3vec") || argc < 6) usage();
   int n = std::atoi(argv[2]), shard = std::atoi(argv[3]), nshards = std::atoi(argv[4]);
   int max_reps = argc > 6 ? std::atoi(argv[6]) : 20;
+  std::unordered_set<std::string> only_keys;  // empty = store representatives of every class
+  if (argc > 7) {
+    std::string a = argv[7];
+    if (a[0] == '@') {
+      std::ifstream in(a.substr(1));
+      std::string line;
+      while (std::getline(in, line))
+        if (!line.empty()) only_keys.insert(line);
+    } else {
+      only_keys.insert(a);
+    }
+  }
+  if (max_reps < 0 && only_keys.empty()) usage();
   if (n < 2) usage();
-  return mode_enum(mode, n, shard, nshards, argv[5], max_reps);
+  return mode_enum(mode, n, shard, nshards, argv[5], max_reps, only_keys);
 }

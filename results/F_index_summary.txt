@@ -1,5 +1,6 @@
 F-index computed with tree diagrams up to n = 13
 1 worker crashes, 0 representatives skipped because they crash SnapPy/spherogram, 0 representatives with a get_knotinfo timeout (600 s)
+complete check applied (results/complete_check_F.md): every diagram of the HOMFLY classes of the knots found late or not found was compared
 
 crossing number  3:    1 /    1 knots with known F-index
 crossing number  4:    1 /    1 knots with known F-index
@@ -8,10 +9,10 @@ crossing number  6:    3 /    3 knots with known F-index
 crossing number  7:    7 /    7 knots with known F-index
 crossing number  8:   21 /   21 knots with known F-index
 crossing number  9:   49 /   49 knots with known F-index
-crossing number 10:  164 /  165 knots with known F-index
+crossing number 10:  165 /  165 knots with known F-index
 crossing number 11:  550 /  552 knots with known F-index
-crossing number 12: 1333 / 2176 knots with known F-index
-crossing number 13: 3794 / 9988 knots with known F-index
+crossing number 12: 1348 / 2176 knots with known F-index
+crossing number 13: 3902 / 9988 knots with known F-index
 
 0_1      F-index  1   T+ =    T- = 
 3_1      F-index  5   T+ = 0,100,101,110,111   T- = 000,001,010,011,1
@@ -229,6 +230,7 @@ crossing number 13: 3794 / 9988 knots with known F-index
 10_129   F-index 10   T+ = 0,1000,10010,10011,101,1100,11010,110110,110111,111   T- = 0000,00010,00011,00100,001010,001011,0011,01,10,11
 10_130   F-index  9   T+ = 0,10000,10001,100100,100101,10011,101,110,111   T- = 000,001,010,011,100,1010,10110,10111,11
 10_131   F-index 10   T+ = 0,10,11000,11001,110100,1101010,1101011,11011,1110,1111   T- = 000,001000,001001,001010,001011,0011,010,0110,0111,1
+10_132   F-index  9   T+ = 0,100,101,1100,11010,110110,1101110,1101111,111   T- = 00,01,100000,100001,10001,1001,101,110,111
 10_133   F-index 10   T+ = 0,100,101,1100,11010,110110,11011100,11011101,1101111,111   T- = 00000,00001,000100,000101,00011,001,01,100,101,11
 10_134   F-index 10   T+ = 0,10000,10001,1001,101,11000,11001,11010,11011,111   T- = 000,001,0100,01010,0101100,0101101,010111,011,10,11
 10_135   F-index 10   T+ = 0,1000,100100,100101,10011,101,1100,11010,11011,111   T- = 00,01,10,1100,110100,1101010,1101011,11011,1110,1111

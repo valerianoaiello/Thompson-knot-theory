@@ -16,6 +16,8 @@
 // With only_key, representatives are stored only for the HOMFLY class with that key (the other classes
 // are still counted): this is used by oriented_index.py to get all the diagrams of one knot.
 // only_key = @file reads several keys, one per line (used by reverse_scan.py).
+// With max_reps < 0 (only together with only_key) every diagram of the selected classes is written at once to
+// out.tsv.all as "key \t top_words \t bottom_words" instead of being kept in memory (used by complete_check.py).
 // With "vec" only the elements of Jones' oriented subgroup vec{F} are kept (see Tree::parity). The
 // vertical reflection (flip) does not preserve vec{F}, so it is not used: the orbits are {g, g^-1}
 // ((T-, T+) is in vec{F} iff (T+, T-) is, and gives the mirror image).
@@ -353,6 +355,14 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
     Diagram D;
     int walk[8 * MAXN];
     const int C = (int)T.size();
+    FILE *all = nullptr;
+    if (max_reps < 0) {
+        all = fopen((std::string(outpath) + ".all").c_str(), "w");
+        if (!all) {
+            perror(outpath);
+            return 1;
+        }
+    }
     for (int i = shard; i < C; i += nshards) {
         int fi = T[i].flip;
         if (!vec && fi < i) continue;  // (flip T+, flip T-) would come first (not with vec)
@@ -394,11 +404,14 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
             ClassInfo &ci = classes[key];
             ci.count++;
             ci.min_crossings = std::min(ci.min_crossings, (int)G.seq.size() / 2);
-            if ((int)ci.reps.size() < max_reps && (only_keys.empty() || only_keys.count(key)))
+            if (all && only_keys.count(key))
+                fprintf(all, "%s\t%s\t%s\n", key.c_str(), words_string(n, i).c_str(), words_string(n, j).c_str());
+            else if ((int)ci.reps.size() < max_reps && (only_keys.empty() || only_keys.count(key)))
                 ci.reps.push_back({i, j, gauss_string(G)});
         }
     }
 
+    if (all) fclose(all);
     FILE *f = fopen(outpath, "w");
     if (!f) {
         perror(outpath);
