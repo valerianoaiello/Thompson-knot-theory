@@ -15,3 +15,5 @@ results/raw_Fvec/
 
 # results of a run with a known bug (dropped tasks), kept locally only for reference
 results/invalid_run_dropped_tasks/
+results/raw_F3vec/
+results/unidentified_classes_F3vec.csv

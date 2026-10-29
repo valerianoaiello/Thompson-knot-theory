@@ -388,7 +388,9 @@ def main(argv):
             # big classes first, for a better load balance
             tasks.sort(key=lambda t: -len(t[1]))
             found_now = []
-            for found, bey, nto in pool.map(identify_class, tasks, split=split_class):
+            for done, (found, bey, nto) in enumerate(pool.map(identify_class, tasks, split=split_class), 1):
+                if done % 500 == 0:
+                    print('  n = %d: %d / %d results' % (n, done, len(tasks)), flush=True)
                 timeouts += nto
                 note_beyond(bey, n)
                 for nm, top, bottom, cr in found:

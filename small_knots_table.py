@@ -1,8 +1,9 @@
 """
-Table of the vec{F}-index (with F- and F_3-index for comparison) of all the knots with few crossings.
+Table of the vec{F}-index (with F-, F_3- and vec{F}_3-index for comparison) of all the knots with few crossings.
 
 usage (from F_index/, after identify.sage for F, F3 and Fvec):   python3 small_knots_table.py [max_crossings]
-reads  results/Fvec_index.csv, results/F_index.csv, results/F3_index.csv, results/reverse_scan.csv
+reads  results/Fvec_index.csv, results/F_index.csv, results/F3_index.csv, results/F3vec_index.csv,
+       results/reverse_scan.csv
 writes results/Fvec_index_upto<C>.md and .csv
 
 One row per knot of KnotInfo up to mirror image, including the knots not found yet (lower bound). For the
@@ -35,6 +36,7 @@ def value(r, col):
 def main():
     cmax = int(sys.argv[1]) if len(sys.argv) > 1 else 9
     vec, f, f3 = load('Fvec_index.csv', 'Fvec_index'), load('F_index.csv', 'F_index'), load('F3_index.csv', 'F3_index')
+    vec3 = load('F3vec_index.csv', 'F3vec_index')
     rev = load('reverse_scan.csv', None)
     # lower bounds are odd in vec{F} (parity theorem: knots only occur for odd n, results/parity_theorem.md)
     rows = []
@@ -49,6 +51,7 @@ def main():
         if knot in rev:
             orient = 'K: %s, Kr: %s' % (rev[knot]['Fvec_index_K'], rev[knot]['Fvec_index_Kr'])
         rows.append({'knot': knot, 'crossing_number': c, 'Fvec_index': vec_value,
+                     'F3vec_index': value(vec3.get(knot), 'F3vec_index'),
                      'F_index': value(f.get(knot), 'F_index'), 'F3_index': value(f3.get(knot), 'F3_index'),
                      'orientations': orient,
                      'normal_form': normal_form(r['top_tree'], r['bottom_tree']) if idx and r['top_tree'] else '',
@@ -73,13 +76,13 @@ def main():
                  'their HOMFLY polynomial). Knots up to mirror image (and, for invertible knots, the orientation '
                  'does not matter: L(g^-1) is the mirror image of the reverse of L(g)). For the non-invertible '
                  'knots the index of K (orientation of KnotInfo) and of its reverse Kr is given. F-index and '
-                 'F₃-index for comparison. The representative is an element of vec{F} realizing the index.\n\n'
+                 'F₃-index and F⃗₃-index (oriented subgroup of F₃) for comparison. The representative is an element of vec{F} realizing the index.\n\n'
                  % (nmax, known, len(rows)))
-        fo.write('| knot | vec{F}-index | orientations | F-index | F₃-index | representative (normal form) | '
-                 'top tree | bottom tree |\n|---|---|---|---|---|---|---|---|\n')
+        fo.write('| knot | vec{F}-index | orientations | F⃗₃-index | F-index | F₃-index | representative (normal form) | '
+                 'top tree | bottom tree |\n|---|---|---|---|---|---|---|---|---|\n')
         for r in rows:
-            fo.write('| %s | %s | %s | %s | %s | %s | %s | %s |\n' % (
-                r['knot'], r['Fvec_index'], r['orientations'], r['F_index'], r['F3_index'], r['normal_form'],
+            fo.write('| %s | %s | %s | %s | %s | %s | %s | %s | %s |\n' % (
+                r['knot'], r['Fvec_index'], r['orientations'], r['F3vec_index'], r['F_index'], r['F3_index'], r['normal_form'],
                 '`%s`' % r['top_tree'] if r['top_tree'] else '', '`%s`' % r['bottom_tree'] if r['bottom_tree'] else ''))
     print('%s.md: %d knots, %d with known vec{F}-index' % (name, len(rows), known))
 

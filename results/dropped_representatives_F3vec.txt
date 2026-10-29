@@ -1,0 +1,1 @@
+# 2 worker crashes; 0 representatives crash SnapPy/spherogram by themselves and were skipped (top|bottom|gauss)
