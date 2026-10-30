@@ -152,7 +152,7 @@ The reductions are not the same in the four groups:
 | reduction | F | F₃ | $\vec{F}$ | $\vec{F}_3$ |
 |---|---|---|---|---|
 | (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
-| (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $\vec{F}$) | **no** (swaps black and white regions) |
+| (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $\vec{F}$) | **no** (does not preserve $\vec{F}_3$: it swaps black and white regions) |
 | skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | only if the common interval starts at an even leaf |
 | keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
 
