@@ -100,6 +100,25 @@ def main():
     w('- It is never attained for F or for $\\vec{F}$.\n')
     w('F₃, c = 2(F₃-index − 1): ' + ', '.join(eq3) + '.\n')
     w('$\\vec{F}_3$, c = 2($\\vec{F}_3$-index − 1): ' + ', '.join(eqv) + '.')
+    gen = {}
+    for K in KnotInfo:
+        if K.is_knot() and K.crossing_number() >= 3:
+            try:
+                gen[K.value] = int(K.three_genus())
+            except Exception:
+                pass
+    w('\n## Seifert genus (Luo–Wan, Theorem 1.13)\n')
+    w('For g in $\\vec{F}$ with n leaves the checkerboard surface of L(g) is a Seifert surface with n disks and '
+      '2(n − 1) bands, so χ ≥ 2 − n and g(K) ≤ (n − 1)/2 (Luo–Wan, Theorem 1.13). The same argument applies to '
+      '$\\vec{F}_3$ (n vertices, 2(n − 1) edges).\n')
+    for g in ('Fvec', 'F3vec'):
+        d = [(k, i) for k, c, i in data[g] if k in gen]
+        m = min((i - 1) // 2 - gen[k] for k, i in d)
+        eq = [k for k, i in d if (i - 1) // 2 - gen[k] == m]
+        w('- %s: %d knots with known index and genus, min((index − 1)/2 − g) = %d, attained by %d knots%s.' % (
+            G[g], len(d), m, len(eq), (' (e.g. ' + ', '.join(eq[:12]) + ')') if eq else ''))
+    w('\nSo the genus bound is never sharp for $\\vec{F}$ on the data, but it is an equality for many knots in '
+      '$\\vec{F}_3$: for them the checkerboard surface of a minimal ternary diagram is a minimal genus Seifert surface.')
     open(os.path.join(HERE, 'results', 'index_bounds.md'), 'w').write('\n'.join(L) + '\n')
     print('results/index_bounds.md: %d + %d knots attain c = 2(index - 1) for F3 / vec{F}3' % (len(eq3), len(eqv)))
 

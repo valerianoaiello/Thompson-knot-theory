@@ -18,3 +18,6 @@ results/invalid_run_dropped_tasks/
 results/raw_F3vec/
 results/unidentified_classes_F3vec.csv
 tmp_check/
+
+# the paper is kept locally only
+paper/

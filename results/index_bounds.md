@@ -63,3 +63,12 @@ In the other direction, a tree diagram with n leaves has 2(n − 1) crossings, a
 F₃, c = 2(F₃-index − 1): 8_19, 8_20, 10_124, 10_128, 10_132, 10_133, 10_134, 10_136, 10_137, 10_138, 10_140, 10_141, 10_147, 10_150, 10_165, 12n_1, 12n_2, 12n_3, 12n_6, 12n_10, 12n_20, 12n_38, 12n_39, 12n_40, 12n_45, 12n_68, 12n_71, 12n_73, 12n_80, 12n_84, 12n_97, 12n_119, 12n_120, 12n_121, 12n_130, 12n_142, 12n_146, 12n_150, 12n_152, 12n_153, 12n_154, 12n_156, 12n_157, 12n_159, 12n_160, 12n_162, 12n_172, 12n_176, 12n_182, 12n_188, 12n_196, 12n_198, 12n_218, 12n_271, 12n_275, 12n_286, 12n_288, 12n_293, 12n_300, 12n_301, 12n_310, 12n_312, 12n_323, 12n_326, 12n_327, 12n_333, 12n_338, 12n_342, 12n_358, 12n_362, 12n_368, 12n_370, 12n_379, 12n_381, 12n_388, 12n_399, 12n_407, 12n_408, 12n_420, 12n_427, 12n_428, 12n_438, 12n_443, 12n_444, 12n_449, 12n_451, 12n_452, 12n_459, 12n_462, 12n_485, 12n_491, 12n_502, 12n_512, 12n_568, 12n_590, 12n_591, 12n_592, 12n_597, 12n_603, 12n_625, 12n_634, 12n_705, 12n_706, 12n_742, 12n_838.
 
 $\vec{F}_3$, c = 2($\vec{F}_3$-index − 1): 12n_3, 12n_20, 12n_119.
+
+## Seifert genus (Luo–Wan, Theorem 1.13)
+
+For g in $\vec{F}$ with n leaves the checkerboard surface of L(g) is a Seifert surface with n disks and 2(n − 1) bands, so χ ≥ 2 − n and g(K) ≤ (n − 1)/2 (Luo–Wan, Theorem 1.13). The same argument applies to $\vec{F}_3$ (n vertices, 2(n − 1) edges).
+
+- $\vec{F}$: 2155 knots with known index and genus, min((index − 1)/2 − g) = 2, attained by 3 knots (e.g. 4_1, 8_18, 10_123).
+- $\vec{F}_3$: 12708 knots with known index and genus, min((index − 1)/2 − g) = 0, attained by 2571 knots (e.g. 5_1, 7_1, 8_2, 8_5, 8_7, 8_9, 8_10, 8_17, 8_19, 9_1, 9_6, 9_9).
+
+So the genus bound is never sharp for $\vec{F}$ on the data, but it is an equality for many knots in $\vec{F}_3$: for them the checkerboard surface of a minimal ternary diagram is a minimal genus Seifert surface.
