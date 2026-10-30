@@ -43,8 +43,25 @@ def hfk(L):
     return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
 
 
+def verified(E, f, tries=20):
+    """f(E) for a verified computation; on failure (e.g. a triangulation with a flat or negative shape) retry on
+    randomized triangulations of the same manifold. Raises the last error."""
+    err = None
+    for _ in range(tries):
+        try:
+            return f(E)
+        except Exception as e:  # noqa: PERF203
+            err = e
+            E.randomize()
+    raise err
+
+
 def canonical(E):
-    return E.canonical_retriangulation(verified=True)
+    return verified(E, lambda X: X.canonical_retriangulation(verified=True))
+
+
+def volume(E):
+    return verified(E, lambda X: X.volume(verified=True, bits_prec=100))
 
 
 def ref(knot):
@@ -56,7 +73,7 @@ def ref(knot):
         pd = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + knot).link().pd_code()]
         L = spherogram.Link([[x - 1 for x in c] for c in pd])
         E = L.exterior()
-        _REF[knot] = (hfk(L)[0], E.volume(verified=True, bits_prec=100), canonical(E))
+        _REF[knot] = (hfk(L)[0], volume(E), canonical(E))
     return _REF[knot]
 
 
@@ -76,7 +93,7 @@ def relation(pd, knot, need_volume=True):
             pass
     E = L.exterior()
     try:
-        v = E.volume(verified=True, bits_prec=100)
+        v = volume(E)
         if v.upper() < vol.lower() or v.lower() > vol.upper():
             return ('not K', 'volume')
     except Exception as e:
@@ -124,7 +141,10 @@ def check_chunk(task):
 
 def check_witness(task):
     group, knot, name, top, bottom = task
-    kind, info = relation(oriented_pd(group, top, bottom), knot, need_volume=False)
+    try:
+        kind, info = relation(oriented_pd(group, top, bottom), knot, need_volume=False)
+    except Exception as e:
+        kind, info = 'uncertified', str(e)[:60]
     return knot, name, kind == 'rel' and name in info, (kind, sorted(info) if kind == 'rel' else info)
 
 
