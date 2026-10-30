@@ -17,7 +17,7 @@ The index of K is the smallest n such that K = L(g) for a tree diagram g with th
 ## The groups
 
 **Thompson's group F** is the group of piecewise linear homeomorphisms of [0, 1] whose breakpoints are
-dyadic rationals and whose slopes are powers of 2 [1, 2]. It has the presentation
+dyadic rationals and whose slopes are powers of 2 [4, 6]. It has the presentation
 
 $$F = \langle x_0, x_1, x_2, \dots \mid x_n x_k = x_k x_{n+1} \text{ for } k < n \rangle .$$
 
@@ -25,11 +25,11 @@ Its elements are described by *tree diagrams* $`(T_+, T_-)`$: pairs of rooted bi
 of leaves, up to adding or cancelling pairs of opposite carets.
 
 **The Brown–Thompson group $`F_3`$** is defined in the same way with triadic breakpoints and slopes powers of
-3 [3]; it has the presentation $`\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle`$,
+3 [5]; it has the presentation $`\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle`$,
 and its elements are pairs of rooted ternary trees. Jones' map $`\iota\colon F \to F_3`$, $`x_n \mapsto y_{2n}`$,
 replaces every binary caret by a ternary caret whose middle edge ends in a leaf.
 
-**Jones' construction** [4, 5, 6]. Given $`(T_+, T_-)`$, draw $`T_+`$ above and $`T_-`$ below a horizontal line,
+**Jones' construction** [2, 8, 9]. Given $`(T_+, T_-)`$, draw $`T_+`$ above and $`T_-`$ below a horizontal line,
 with the leaves on the line, and join the two roots by an edge around the left side. For ternary trees every
 internal vertex becomes a crossing, the strand joining the left and right children passing over the strand
 joining the parent and the middle child; for $F$ the trees are first sent to $`F_3`$ by $`\iota`$. The result is a
@@ -39,19 +39,19 @@ the link whose *Tait graph* $`\Gamma(g)`$ has the black regions as vertices and 
 of the two trees.
 
 **The oriented subgroups.** Jones' *oriented subgroup* $`\vec{F}`$ (resp. $`\vec{F}_3`$) consists of the elements
-of $F$ (resp. $`F_3`$) whose Tait graph is 2-colourable [4, 5, 7]. The colouring, with the leftmost vertex
+of $F$ (resp. $`F_3`$) whose Tait graph is 2-colourable [2, 3, 8]. The colouring, with the leftmost vertex
 coloured +, orients $L(g)$: the boundary of a + region runs counterclockwise, that of a − region clockwise.
-Every oriented link arises from $`\vec{F}`$ [8]. $`\vec{F}`$ is isomorphic to $`F_3`$ [9]. Concretely:
+Every oriented link arises from $`\vec{F}`$ [1]. $`\vec{F}`$ is isomorphic to $`F_3`$ [7]. Concretely:
 - $`g \in \vec{F}`$ iff every leaf has the same parity of right edges on its path from the root in $`T_+`$ and
   in $`T_-`$;
 - $`g \in \vec{F}_3`$ iff $`c_+(i) \equiv c_-(i) \pmod 2`$ for every leaf $i$, where the weight $c$ of a leaf
   counts the middle edges of its path, plus the right edges in the odd words and the left edges in the
-  even words, the words being the pieces of the path between middle edges [7, Prop. 1]. The colour of the
+  even words, the words being the pieces of the path between middle edges [3, Prop. 1]. The colour of the
   Tait vertex to the left of leaf $2v$ is the parity of $`c_\pm(2v)`$, even = +.
 
 **The indices.** The F-index (resp. F₃-, $`\vec{F}`$-, $`\vec{F}_3`$-index) of a knot K is the smallest n such that
 K = L(g) for a tree diagram g of size n in the corresponding group (table above). The F- and F₃-indices are
-indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of oriented knots. A survey is [5].
+indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of oriented knots. A survey is [2].
 
 ## Main results
 
@@ -312,19 +312,19 @@ its files are no longer in the working tree.
 
 ## References
 
-1. J. W. Cannon, W. J. Floyd, W. R. Parry, *Introductory notes on Richard Thompson's groups*, Enseign. Math.
-   (2) 42 (1996), 215–256.
-2. J. Belk, *Thompson's group F*, Ph.D. thesis, Cornell University (2004),
-   [arXiv:0708.3609](https://arxiv.org/abs/0708.3609).
-3. K. S. Brown, *Finiteness properties of groups*, J. Pure Appl. Algebra 44 (1987), 45–75.
-4. V. F. R. Jones, *Some unitary representations of Thompson's groups F and T*, J. Comb. Algebra 1 (2017),
-   1–44.
-5. V. Aiello, *An introduction to Thompson knot theory and to Jones subgroups*, J. Knot Theory Ramifications
-   34 (2025), 2340002.
-6. V. F. R. Jones, *On the construction of knots and links from Thompson's groups*, in: Knots,
-   low-dimensional topology and applications, Springer Proc. Math. Stat. 284 (2019), 43–66.
-7. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup* $`\vec{F}_3`$ *and its relatives in higher
-   Brown–Thompson groups*, J. Algebra Appl. 21 (2022), 2250139.
-8. V. Aiello, *On the Alexander theorem for the oriented Thompson group* $`\vec{F}`$, Algebr. Geom. Topol. 20
+1. V. Aiello, *On the Alexander theorem for the oriented Thompson group* $`\vec{F}`$, Algebr. Geom. Topol. 20
    (2020), 429–438.
-9. G. Golan, M. Sapir, *On Jones' subgroup of R. Thompson group F*, J. Algebra 470 (2017), 122–159.
+2. V. Aiello, *An introduction to Thompson knot theory and to Jones subgroups*, J. Knot Theory Ramifications
+   34 (2025), 2340002.
+3. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup* $`\vec{F}_3`$ *and its relatives in higher
+   Brown–Thompson groups*, J. Algebra Appl. 21 (2022), 2250139.
+4. J. Belk, *Thompson's group F*, Ph.D. thesis, Cornell University (2004),
+   [arXiv:0708.3609](https://arxiv.org/abs/0708.3609).
+5. K. S. Brown, *Finiteness properties of groups*, J. Pure Appl. Algebra 44 (1987), 45–75.
+6. J. W. Cannon, W. J. Floyd, W. R. Parry, *Introductory notes on Richard Thompson's groups*, Enseign. Math.
+   (2) 42 (1996), 215–256.
+7. G. Golan, M. Sapir, *On Jones' subgroup of R. Thompson group F*, J. Algebra 470 (2017), 122–159.
+8. V. F. R. Jones, *Some unitary representations of Thompson's groups F and T*, J. Comb. Algebra 1 (2017),
+   1–44.
+9. V. F. R. Jones, *On the construction of knots and links from Thompson's groups*, in: Knots,
+   low-dimensional topology and applications, Springer Proc. Math. Stat. 284 (2019), 43–66.
