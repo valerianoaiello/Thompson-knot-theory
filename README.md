@@ -323,8 +323,8 @@ its files are no longer in the working tree.
    34 (2025), 2340002.
 6. V. F. R. Jones, *On the construction of knots and links from Thompson's groups*, in: Knots,
    low-dimensional topology and applications, Springer Proc. Math. Stat. 284 (2019), 43–66.
-7. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup $`\vec{F}_3`$ and its relatives in higher
+7. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup* $`\vec{F}_3`$ *and its relatives in higher
    Brown–Thompson groups*, J. Algebra Appl. 21 (2022), 2250139.
-8. V. Aiello, *On the Alexander theorem for the oriented Thompson group $`\vec{F}`$*, Algebr. Geom. Topol. 20
+8. V. Aiello, *On the Alexander theorem for the oriented Thompson group* $`\vec{F}`$, Algebr. Geom. Topol. 20
    (2020), 429–438.
 9. G. Golan, M. Sapir, *On Jones' subgroup of R. Thompson group F*, J. Algebra 470 (2017), 122–159.
