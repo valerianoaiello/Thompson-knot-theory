@@ -2,7 +2,8 @@
 For the non-invertible knots with one orientation realized in vec{F} at n = 17 and the other not: search a
 minimal diagram (n = 17) of the realized orientation whose first and last Tait vertices have different colours.
 By the second move of Aiello, Rev. Un. Mat. Argentina 69 (2026), Theorem 4.2 (two vertices and four edges added,
-removable by Reidemeister moves I and II), such a diagram gives the reverse knot with 19 leaves.
+removable by Reidemeister moves I and II), such a diagram gives the reverse knot with 19 leaves. When all the
+minimal diagrams have ends of the same colour, the corrected first move (4 vertices, 8 edges) gives 21 leaves.
 usage (from F_index/): sage -python reverse_bound.py  -> tmp_check/case2_search.json (then results/reverse_bound_Fvec.csv)
 """
 import csv, sys, json, os
