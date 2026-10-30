@@ -3,16 +3,17 @@
 Jones' construction associates a knot or link L(g) with every element g of Thompson's group F, given as a
 pair of binary trees (T₊, T₋), and also with every element of the Brown–Thompson group F₃ (pairs of
 ternary trees). Every knot arises in this way. This repository computes, for the knots of the KnotInfo
-table (prime knots with ≤ 13 crossings), four indices:
+table (prime knots with ≤ 13 crossings), four indices, one for each of the following groups:
 
-| index | group | n = | knot type |
+| group | name | n = | knot type |
 |---|---|---|---|
-| $`F\text{-index}`$ | $`F`$ | leaves of each tree | unoriented, up to mirror image |
-| $`F_3\text{-index}`$ | $`F_3`$ | internal vertices of each tree + 1 | unoriented, up to mirror image |
-| $`\vec{F}\text{-index}`$ | binary oriented subgroup $`{\vec{F}\le F}`$ | leaves of each tree | **oriented** |
-| $`\vec{F}_3\text{-index}`$ | ternary oriented subgroup $`{\vec{F}_3\le F_3}`$ | internal vertices of each tree + 1 | **oriented** |
+| $`F`$ | Thompson's group | leaves of each tree | unoriented, up to mirror image |
+| $`F_3`$ | Brown–Thompson group | internal vertices of each tree + 1 | unoriented, up to mirror image |
+| $`\vec{F}`$ | Jones' oriented subgroup of $`F`$ | leaves of each tree | **oriented** |
+| $`\vec{F}_3`$ | oriented subgroup of $`F_3`$ | internal vertices of each tree + 1 | **oriented** |
 
-The index of K is the smallest n such that K = L(g) for a tree diagram g with that n.
+For each of these groups G, the *G-index* of a knot K is the smallest n such that K = L(g) for a tree
+diagram g of G of size n.
 
 ## The groups
 
