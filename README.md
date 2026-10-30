@@ -25,8 +25,8 @@ Its elements are described by *tree diagrams* $`(T_+, T_-)`$: pairs of rooted bi
 of leaves, up to adding or cancelling pairs of opposite carets.
 
 **The Brown–Thompson group $`F_3`$** is defined in the same way with triadic breakpoints and slopes powers of
-3 [5]; it has the presentation $`\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle`$,
-and its elements are pairs of rooted ternary trees. Jones' map $`\iota\colon F \to F_3`$, $`x_n \mapsto y_{2n}`$,
+3 [5]; it has the presentation $`{\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle}`$,
+and its elements are pairs of rooted ternary trees. Jones' map $`{\iota\colon F \to F_3}`$, $`{x_n \mapsto y_{2n}}`$,
 replaces every binary caret by a ternary caret whose middle edge ends in a leaf.
 
 **Jones' construction** [2, 8, 9]. Given $`(T_+, T_-)`$, draw $`T_+`$ above and $`T_-`$ below a horizontal line,
@@ -41,13 +41,9 @@ of the two trees.
 **The oriented subgroups.** Jones' *oriented subgroup* $`\vec{F}`$ (resp. $`\vec{F}_3`$) consists of the elements
 of $F$ (resp. $`F_3`$) whose Tait graph is 2-colourable [2, 3, 8]. The colouring, with the leftmost vertex
 coloured +, orients $L(g)$: the boundary of a + region runs counterclockwise, that of a − region clockwise.
-Every oriented link arises from $`\vec{F}`$ [1]. $`\vec{F}`$ is isomorphic to $`F_3`$ [7]. Concretely:
-- $`g \in \vec{F}`$ iff every leaf has the same parity of right edges on its path from the root in $`T_+`$ and
-  in $`T_-`$;
-- $`g \in \vec{F}_3`$ iff $`c_+(i) \equiv c_-(i) \pmod 2`$ for every leaf $i$, where the weight $c$ of a leaf
-  counts the middle edges of its path, plus the right edges in the odd words and the left edges in the
-  even words, the words being the pieces of the path between middle edges [3, Prop. 1]. The colour of the
-  Tait vertex to the left of leaf $2v$ is the parity of $`c_\pm(2v)`$, even = +.
+Every oriented link arises from $`\vec{F}`$ [1], and $`\vec{F}`$ is isomorphic to $`F_3`$ [7]. Concretely:
+- an element $`g`$ is in $`\vec{F}`$ iff every leaf has the same parity of right edges on its path from the root in $`T_+`$ and in $`T_-`$;
+- an element $`g`$ is in $`\vec{F}_3`$ iff, for every leaf $`i`$, $`{c_+(i) \equiv c_-(i) \pmod 2}`$, where the weight $`c`$ of a leaf counts the middle edges of its path, plus the right edges in the odd words and the left edges in the even words, the words being the pieces of the path between middle edges [3, Prop. 1]. The colour of the Tait vertex to the left of leaf $`2v`$ is the parity of $`c_\pm(2v)`$, even = +.
 
 **The indices.** The F-index (resp. F₃-, $`\vec{F}`$-, $`\vec{F}_3`$-index) of a knot K is the smallest n such that
 K = L(g) for a tree diagram g of size n in the corresponding group (table above). The F- and F₃-indices are
@@ -77,26 +73,23 @@ Checked on the final tables (`tests/check_index_inequalities.py`), for every kno
 ### Oriented indices
 
 For an oriented knot K write $`K^r`$ for its reverse, $`K^m`$ for its mirror image and $`K^{mr}`$ for both.
-- **The inverse rule.** L(g⁻¹) is the mirror image of the reverse of L(g), in $`\vec{F}`$ and in
-  $`\vec{F}_3`$ (`results/inverse_rule.md`; for $`\vec{F}`$ this is Aiello–Conti, CAOT 13 (2019), Remark 3.8).
+- **The inverse rule.** L(g⁻¹) is the mirror image of the reverse of L(g), in $`\vec{F}`$ and in $`\vec{F}_3`$ (`results/inverse_rule.md`; for $`\vec{F}`$ this is Aiello–Conti, CAOT 13 (2019), Remark 3.8).
   Hence index(K) = index($`K^{mr}`$) and index($`K^r`$) = index($`K^m`$).
 - **Invertible knots** (K = $`K^r`$): the four values coincide.
 - **Non-invertible knots**: `oriented_scan.py` computes index(K) and index($`K^r`$) from all the diagrams.
 
 **K and $`K^r`$ can have different indices:**
-- $`\vec{F}`$, non-invertible knots with ≤ 13 crossings, n ≤ 17 (`results/oriented_index_Fvec.md`), 1308 knots:
+- In $`\vec{F}`$, non-invertible knots with ≤ 13 crossings, n ≤ 17 (`results/oriented_index_Fvec.md`), 1308 knots:
   - 85 have both orientations realized with different indices: 13/15 for 10_88, 12n_18, 12n_49, …;
     15/17 for 10_93, 10_102, 11a_26, …;
   - 226 have one orientation with index 17 and the other not realized with n ≤ 17 (e.g. 10_95); by the
-    moves in the proof of Theorem 4.2 of Aiello, Rev. Un. Mat. Argentina 69 (2026) (which gives
-    $`|\mathrm{ind}(K)-\mathrm{ind}(K^r)|\le 4`$), the other orientation has index exactly 19 for 170 of
+    moves in the proof of Theorem 4.2 of Aiello, Rev. Un. Mat. Argentina 69 (2026) (which gives $`{|\mathrm{ind}(K)-\mathrm{ind}(K^r)|\le 4}`$), the other orientation has index exactly 19 for 170 of
     them and 19 or 21 for the other 56 (`results/reverse_bound_Fvec.csv`);
   - 8_17, 9_32 and 9_33 have equal indices.
-- $`\vec{F}_3`$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
+- In $`\vec{F}_3`$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
   - 710 have both orientations realized with different indices;
   - 236 have one orientation > 11;
-  - the smallest example is **8_17**: $`\vec{F}_3`$-index 7 for K = $`K^{mr}`$ and 9 for $`K^r`$ = $`K^m`$. Its
-    $`\vec{F}`$-index is 13 for both.
+  - the smallest example is **8_17**: $`\vec{F}_3`$-index 7 for K = $`K^{mr}`$ and 9 for $`K^r`$ = $`K^m`$. Its $`\vec{F}`$-index is 13 for both.
 
 All these results are **certified**: every exclusion was checked again with exact or interval-arithmetic
 methods (knot Floer homology, verified volumes, verified canonical triangulations), see `verify_oriented.py`
@@ -208,8 +201,7 @@ sage tests/check_iota_engine.sage                # iota_knots vs fknots, Sage
 
 For F₃ (`src/iota_knots.cpp`):
 - every internal vertex of a ternary tree is a crossing, with the left–right strand over;
-- the map ι (a caret becomes a ternary caret with an empty middle leaf) sends F into F₃ and $`\vec{F}`$ into
-  $`\vec{F}_3`$, preserving the oriented knot, so the index for F₃ is at most the one for F.
+- the map ι (a caret becomes a ternary caret with an empty middle leaf) sends F into F₃ and $`\vec{F}`$ into $`\vec{F}_3`$, preserving the oriented knot, so the index for F₃ is at most the one for F.
 
 The oriented diagrams are built by `oriented.py` (`oriented_pd_code`, `oriented_pd_code3`).
 
