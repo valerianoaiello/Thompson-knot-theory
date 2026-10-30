@@ -4,7 +4,7 @@
 # 1) The PD code (built only from the geometry of the tree diagram) and the oriented Gauss code (whose
 #    crossing signs come from our own rule) give the same HOMFLY in Sage, equal to the one of libhomfly
 #    in C++; the Reidemeister I/II simplification does not change it. Random diagrams of F and F_3.
-# 2) Agreement with the old ternary code in '../vecchio codice' (up to mirror image, see
+# 2) Agreement with the author's earlier ternary code (directory $THOMPSON_OLD_CODE, skipped if absent) (up to mirror image, see
 #    tests/check_graft_and_old_code.sage for the cases where the old code returns the mirror).
 # 3) Example 2.3 of the paper: iota(x0 x2^2 x5 x6 (x4 x6 x7)^-1) gives the knot 4_1.
 # 4) For F, bin/iota_knots (construction through iota) and bin/fknots (Tait graph) are independent
@@ -15,7 +15,8 @@ from sage.libs.homfly import homfly_polynomial_string
 HERE = os.getcwd()
 IOTA = os.path.join(HERE, 'bin', 'iota_knots')
 FKNOTS = os.path.join(HERE, 'bin', 'fknots')
-OLD = os.path.join(HERE, '..', 'vecchio codice')
+# the author's earlier Python implementation (optional; its location can be set with THOMPSON_OLD_CODE)
+OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join(HERE, '..', 'vecchio codice'))
 
 random.seed(int(2026))
 failures = 0
@@ -97,48 +98,42 @@ for (g, t, b), r in zip(pairs, res):
 print('1) checked {} knot diagrams out of {} random pairs'.format(nknots, len(pairs)))
 
 # 2) old code ---------------------------------------------------------------------------------
-sys.path.insert(0, OLD)
-import group_operations as go
-import knot_construction as kc
+if os.path.isdir(OLD):
+    sys.path.insert(0, OLD)
+    import group_operations as go
+    import knot_construction as kc
 
-agree = mirror = other = crash = 0
-old_pairs = [(fix(random_words(random.randint(1, 4), 3)), fix(random_words(random.randint(1, 4), 3)))
-             for _ in range(int(300))]
-old_pairs = [(t, b) for t, b in old_pairs if len(t) == len(b)]
-res = run_eval(['F3 {} {}'.format(','.join(t), ','.join(b)) for t, b in old_pairs])
-for (t, b), r in zip(old_pairs, res):
-    if 'pd' not in r:
-        continue
-    try:
-        Hold = homfly(Link(kc.tree_diagram_to_planar_diagram(go.Ternary_tree_diagrams(list(t), list(b)))))
-    except Exception:
-        crash += 1
-        continue
-    Lnew = Link(sage_eval(r['pd']))
-    if Hold == homfly(Lnew):
-        agree += 1
-    elif Hold == homfly(Lnew.mirror_image()):
-        mirror += 1
-    else:
-        other += 1
-print('2) old code: agree={} mirror={} different={} old-code-crash={}'.format(agree, mirror, other, crash))
-check(other == 0, 'disagreement with the old code')
+    agree = mirror = other = crash = 0
+    old_pairs = [(fix(random_words(random.randint(1, 4), 3)), fix(random_words(random.randint(1, 4), 3)))
+                 for _ in range(int(300))]
+    old_pairs = [(t, b) for t, b in old_pairs if len(t) == len(b)]
+    res = run_eval(['F3 {} {}'.format(','.join(t), ','.join(b)) for t, b in old_pairs])
+    for (t, b), r in zip(old_pairs, res):
+        if 'pd' not in r:
+            continue
+        try:
+            Hold = homfly(Link(kc.tree_diagram_to_planar_diagram(go.Ternary_tree_diagrams(list(t), list(b)))))
+        except Exception:
+            crash += 1
+            continue
+        Lnew = Link(sage_eval(r['pd']))
+        if Hold == homfly(Lnew):
+            agree += 1
+        elif Hold == homfly(Lnew.mirror_image()):
+            mirror += 1
+        else:
+            other += 1
+    print('2) old code: agree={} mirror={} different={} old-code-crash={}'.format(agree, mirror, other, crash))
+    check(other == 0, 'disagreement with the old code')
+else:
+    print('2) old code not found in %s: skipped' % OLD)
 
 # 3) Example 2.3 ------------------------------------------------------------------------------
-y0 = go.Ternary_tree_diagrams(['00', '01', '02', '1', '2'], ['0', '1', '20', '21', '22'])
-
-
-def y(i):  # y_{2k} = right shift^k (y_0)
-    e = y0
-    for _ in range(i // 2):
-        e = go.right_shift_homomorphism(e)
-    return e
-
-
-pos = go.multiply_many_tree_diagrams([y(0), y(4), y(4), y(10), y(12)])
-neg = go.multiply_many_tree_diagrams([y(8), y(12), y(14)]).inverse_tree_diagram()
-g = go.multiplication_tree_diagrams(pos, neg)
-r = run_eval(['F3 {} {}'.format(','.join(g.top), ','.join(g.bottom))])[0]
+sys.path.insert(0, HERE)
+import ftrees as FT
+# x0 x2^2 x5 x6 (x4 x6 x7)^-1 = x0 x2 x2 x5 x6 x7^-1 x6^-1 x4^-1, sent to F_3 by iota inside bin/iota_knots
+g = FT.word(0, 2, 2, 5, 6, -7, -6, -4)
+r = run_eval(['F {} {}'.format(','.join(FT.leaf_words(g[0])), ','.join(FT.leaf_words(g[1])))])[0]
 K = link_from_ogc(r['ogc'])
 print('3) Example 2.3 ->', K.get_knotinfo())
 check(str(K.get_knotinfo()) == "KnotInfo['K4_1']", 'Example 2.3')

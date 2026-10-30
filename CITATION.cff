@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software or its data, please cite it as below."
+title: "Thompson-knot-theory: the F-, F3-, vec F- and vec F3-indices of knots"
+authors:
+  - family-names: Aiello
+    given-names: Valeriano
+type: software
+license: MIT
+repository-code: "https://github.com/valerianoaiello/Thompson-knot-theory"
+date-released: "2026-10-30"
+keywords:
+  - Thompson group
+  - knot theory
+  - Jones construction
+  - knot invertibility

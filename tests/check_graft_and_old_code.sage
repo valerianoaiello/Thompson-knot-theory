@@ -4,7 +4,8 @@
 # 1) Prime test: grafting a tree diagram S (>= 2 leaves) into a pair of corresponding leaves of a
 #    tree diagram R (>= 2 leaves) gives a non-prime diagram whose knot is the connected sum, i.e.
 #    HOMFLY(graft) = HOMFLY(R) * HOMFLY(S). This justifies skipping non-prime diagrams.
-# 2) Agreement (up to mirror image) with the old ternary code in '../vecchio codice' on iota(g).
+# 2) Agreement (up to mirror image) with the author's earlier ternary code on iota(g) (directory
+#    $THOMPSON_OLD_CODE, default ../vecchio codice; skipped if absent).
 #    Note: on about 5% of the diagrams the old code returns the mirror image of the knot of the
 #    other diagrams (it uses the same crossing rule, but some PD orientations are wrong; checked
 #    by hand on top = 0,1,20,21,220,221,222, bottom = 00,010,011,012,02,1,2, a right-handed
@@ -58,9 +59,7 @@ print('grafting gives the connected sum on %d random knot diagrams: ok' % tested
 
 
 # 2) old code, through Jones' map iota: F -> F_3 (every caret gets a middle leaf)
-sys.path.insert(0, os.path.join('..', 'vecchio codice'))
-import group_operations as go
-import knot_construction as kc
+OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join('..', 'vecchio codice'))
 
 
 def iota_words(t, prefix=''):
@@ -69,17 +68,23 @@ def iota_words(t, prefix=''):
     return iota_words(t[0], prefix + '0') + [prefix + '1'] + iota_words(t[1], prefix + '2')
 
 
-same = mirrored = 0
-for _ in range(300):
-    n = random.randint(2, 5)
-    tp, tm = random_tree(n), random_tree(n)
-    if F.number_of_components(tp, tm) != 1:
-        continue
-    H = homfly(tp, tm)
-    pd_old = kc.tree_diagram_to_planar_diagram(go.Ternary_tree_diagrams(iota_words(tp), iota_words(tm)))
-    H_old = Link(pd_old).homfly_polynomial('L', 'M', 'lm')
-    assert H_old in (H, mirror(H)), (tp, tm)
-    same += H_old == H
-    mirrored += H_old != H
-print('old code agrees up to mirror on %d knot diagrams (%d identical, %d mirror): ok'
-      % (same + mirrored, same, mirrored))
+if os.path.isdir(OLD):
+    sys.path.insert(0, OLD)
+    import group_operations as go
+    import knot_construction as kc
+    same = mirrored = 0
+    for _ in range(300):
+        n = random.randint(2, 5)
+        tp, tm = random_tree(n), random_tree(n)
+        if F.number_of_components(tp, tm) != 1:
+            continue
+        H = homfly(tp, tm)
+        pd_old = kc.tree_diagram_to_planar_diagram(go.Ternary_tree_diagrams(iota_words(tp), iota_words(tm)))
+        H_old = Link(pd_old).homfly_polynomial('L', 'M', 'lm')
+        assert H_old in (H, mirror(H)), (tp, tm)
+        same += H_old == H
+        mirrored += H_old != H
+    print('old code agrees up to mirror on %d knot diagrams (%d identical, %d mirror): ok'
+          % (same + mirrored, same, mirrored))
+else:
+    print('old code not found in %s: skipped' % OLD)
