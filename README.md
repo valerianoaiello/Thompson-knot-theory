@@ -1,4 +1,4 @@
-# Thompson knot theory: the F-, F₃-, $\vec{F}$- and $\vec{F}_3$-indices of knots
+# Thompson knot theory: the F-, F₃-, $`\vec{F}`$- and $`\vec{F}_3`$-indices of knots
 
 Jones' construction associates a knot or link L(g) with every element g of Thompson's group F, given as a
 pair of binary trees (T₊, T₋), and also with every element of the Brown–Thompson group F₃ (pairs of
@@ -9,8 +9,8 @@ table (prime knots with ≤ 13 crossings), four indices:
 |---|---|---|---|
 | **F-index** | F | number of leaves of each tree | unoriented, up to mirror image |
 | **F₃-index** | F₃ | number of internal vertices of each tree + 1 | unoriented, up to mirror image |
-| **$\vec{F}$-index** | binary oriented subgroup ${\vec{F}\le F}$ | number of leaves | **oriented** |
-| **$\vec{F}_3$-index** | ternary oriented subgroup ${\vec{F}_3\le F_3}$ | internal vertices + 1 | **oriented** |
+| **$`\vec{F}`$-index** | binary oriented subgroup $`{\vec{F}\le F}`$ | number of leaves | **oriented** |
+| **$`\vec{F}_3`$-index** | ternary oriented subgroup $`{\vec{F}_3\le F_3}`$ | internal vertices + 1 | **oriented** |
 
 The index of K is the smallest n such that K = L(g) for a tree diagram g with that n.
 
@@ -21,37 +21,37 @@ dyadic rationals and whose slopes are powers of 2 [1, 2]. It has the presentatio
 
 $$F = \langle x_0, x_1, x_2, \dots \mid x_n x_k = x_k x_{n+1} \text{ for } k < n \rangle .$$
 
-Its elements are described by *tree diagrams* $(T_+, T_-)$: pairs of rooted binary trees with the same number
+Its elements are described by *tree diagrams* $`(T_+, T_-)`$: pairs of rooted binary trees with the same number
 of leaves, up to adding or cancelling pairs of opposite carets.
 
-**The Brown–Thompson group $F_3$** is defined in the same way with triadic breakpoints and slopes powers of
-3 [3]; it has the presentation $\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle$,
-and its elements are pairs of rooted ternary trees. Jones' map $\iota\colon F \to F_3$, $x_n \mapsto y_{2n}$,
+**The Brown–Thompson group $`F_3`$** is defined in the same way with triadic breakpoints and slopes powers of
+3 [3]; it has the presentation $`\langle y_0, y_1, \dots \mid y_n y_k = y_k y_{n+2} \text{ for } k < n \rangle`$,
+and its elements are pairs of rooted ternary trees. Jones' map $`\iota\colon F \to F_3`$, $`x_n \mapsto y_{2n}`$,
 replaces every binary caret by a ternary caret whose middle edge ends in a leaf.
 
-**Jones' construction** [4, 5, 6]. Given $(T_+, T_-)$, draw $T_+$ above and $T_-$ below a horizontal line,
+**Jones' construction** [4, 5, 6]. Given $`(T_+, T_-)`$, draw $`T_+`$ above and $`T_-`$ below a horizontal line,
 with the leaves on the line, and join the two roots by an edge around the left side. For ternary trees every
 internal vertex becomes a crossing, the strand joining the left and right children passing over the strand
-joining the parent and the middle child; for $F$ the trees are first sent to $F_3$ by $\iota$. The result is a
-knot or link $L(T_+, T_-)$, and every knot and link arises in this way from $F$ and from $F_3$.
+joining the parent and the middle child; for $F$ the trees are first sent to $`F_3`$ by $`\iota`$. The result is a
+knot or link $`L(T_+, T_-)`$, and every knot and link arises in this way from $F$ and from $`F_3`$.
 Equivalently, the regions between consecutive leaves are coloured alternately black and white, and $L(g)$ is
-the link whose *Tait graph* $\Gamma(g)$ has the black regions as vertices and one edge for every internal vertex
+the link whose *Tait graph* $`\Gamma(g)`$ has the black regions as vertices and one edge for every internal vertex
 of the two trees.
 
-**The oriented subgroups.** Jones' *oriented subgroup* $\vec{F}$ (resp. $\vec{F}_3$) consists of the elements
-of $F$ (resp. $F_3$) whose Tait graph is 2-colourable [4, 5, 7]. The colouring, with the leftmost vertex
+**The oriented subgroups.** Jones' *oriented subgroup* $`\vec{F}`$ (resp. $`\vec{F}_3`$) consists of the elements
+of $F$ (resp. $`F_3`$) whose Tait graph is 2-colourable [4, 5, 7]. The colouring, with the leftmost vertex
 coloured +, orients $L(g)$: the boundary of a + region runs counterclockwise, that of a − region clockwise.
-Every oriented link arises from $\vec{F}$ [8]. $\vec{F}$ is isomorphic to $F_3$ [9]. Concretely:
-- $g \in \vec{F}$ iff every leaf has the same parity of right edges on its path from the root in $T_+$ and
-  in $T_-$;
-- $g \in \vec{F}_3$ iff $c_+(i) \equiv c_-(i) \pmod 2$ for every leaf $i$, where the weight $c$ of a leaf
+Every oriented link arises from $`\vec{F}`$ [8]. $`\vec{F}`$ is isomorphic to $`F_3`$ [9]. Concretely:
+- $`g \in \vec{F}`$ iff every leaf has the same parity of right edges on its path from the root in $`T_+`$ and
+  in $`T_-`$;
+- $`g \in \vec{F}_3`$ iff $`c_+(i) \equiv c_-(i) \pmod 2`$ for every leaf $i$, where the weight $c$ of a leaf
   counts the middle edges of its path, plus the right edges in the odd words and the left edges in the
   even words, the words being the pieces of the path between middle edges [7, Prop. 1]. The colour of the
-  Tait vertex to the left of leaf $2v$ is the parity of $c_\pm(2v)$, even = +.
+  Tait vertex to the left of leaf $2v$ is the parity of $`c_\pm(2v)`$, even = +.
 
-**The indices.** The F-index (resp. F₃-, $\vec{F}$-, $\vec{F}_3$-index) of a knot K is the smallest n such that
+**The indices.** The F-index (resp. F₃-, $`\vec{F}`$-, $`\vec{F}_3`$-index) of a knot K is the smallest n such that
 K = L(g) for a tree diagram g of size n in the corresponding group (table above). The F- and F₃-indices are
-indices of unoriented knots, the $\vec{F}$- and $\vec{F}_3$-indices of oriented knots. A survey is [5].
+indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of oriented knots. A survey is [5].
 
 ## Main results
 
@@ -61,8 +61,8 @@ indices of unoriented knots, the $\vec{F}$- and $\vec{F}_3$-indices of oriented 
 |---|---|---|
 | F | n = 13 | all knots with ≤ 10 crossings; 550 of 552 with 11; 1348 of 2176 with 12; 3902 of 9988 with 13 |
 | F₃ | n = 8 | all knots with ≤ 10 crossings; 513 of 552 with 11; 1052 of 2176 with 12; 1563 of 9988 with 13 |
-| $\vec{F}$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
-| $\vec{F}_3$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
+| $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
+| $`\vec{F}_3`$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
 
 Tables:
 - `results/F_index_table.md`, `results/F3_index_table.md`, `results/Fvec_index_table.md`,
@@ -71,37 +71,44 @@ Tables:
 
 Checked on the final tables (`tests/check_index_inequalities.py`), for every knot:
 - F₃-index ≤ F-index;
-- F₃-index ≤ $\vec{F}_3$-index ≤ $\vec{F}$-index;
-- F-index ≤ $\vec{F}$-index.
+- F₃-index ≤ $`\vec{F}_3`$-index ≤ $`\vec{F}`$-index;
+- F-index ≤ $`\vec{F}`$-index.
 
 ### Oriented indices
 
-For an oriented knot K write Kr for its reverse, Km for its mirror image and Kmr for both.
-- **The inverse rule.** L(g⁻¹) is the mirror image of the reverse of L(g), in $\vec{F}$ and in
-  $\vec{F}_3$ (`results/inverse_rule.md`; for $\vec{F}$ this is Aiello–Conti, CAOT 13 (2019), Remark 3.8).
-  Hence index(K) = index(Kmr) and index(Kr) = index(Km).
-- **Invertible knots** (K = Kr): the four values coincide.
-- **Non-invertible knots**: `oriented_scan.py` computes index(K) and index(Kr) from all the diagrams.
+For an oriented knot K write $`K^r`$ for its reverse, $`K^m`$ for its mirror image and $`K^{mr}`$ for both.
+- **The inverse rule.** L(g⁻¹) is the mirror image of the reverse of L(g), in $`\vec{F}`$ and in
+  $`\vec{F}_3`$ (`results/inverse_rule.md`; for $`\vec{F}`$ this is Aiello–Conti, CAOT 13 (2019), Remark 3.8).
+  Hence index(K) = index($`K^{mr}`$) and index($`K^r`$) = index($`K^m`$).
+- **Invertible knots** (K = $`K^r`$): the four values coincide.
+- **Non-invertible knots**: `oriented_scan.py` computes index(K) and index($`K^r`$) from all the diagrams.
 
-**K and Kr can have different indices:**
-- $\vec{F}$, non-invertible knots with ≤ 13 crossings, n ≤ 17 (`results/oriented_index_Fvec.md`), 1308 knots:
+**K and $`K^r`$ can have different indices:**
+- $`\vec{F}`$, non-invertible knots with ≤ 13 crossings, n ≤ 17 (`results/oriented_index_Fvec.md`), 1308 knots:
   - 85 have both orientations realized with different indices: 13/15 for 10_88, 12n_18, 12n_49, …;
     15/17 for 10_93, 10_102, 11a_26, …;
-  - 226 have one orientation ≤ 17 and the other > 17, e.g. 10_95;
+  - 226 have one orientation with index 17 and the other not realized with n ≤ 17 (e.g. 10_95); by the
+    moves in the proof of Theorem 4.2 of Aiello, Rev. Un. Mat. Argentina 69 (2026) (which gives
+    $`|\mathrm{ind}(K)-\mathrm{ind}(K^r)|\le 4`$), the other orientation has index exactly 19 for 170 of
+    them and 19 or 21 for the other 56 (`results/reverse_bound_Fvec.csv`);
   - 8_17, 9_32 and 9_33 have equal indices.
-- $\vec{F}_3$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
+- $`\vec{F}_3`$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
   - 710 have both orientations realized with different indices;
   - 236 have one orientation > 11;
-  - the smallest example is **8_17**: $\vec{F}_3$-index 7 for K = Kmr and 9 for Kr = Km. Its
-    $\vec{F}$-index is 13 for both.
+  - the smallest example is **8_17**: $`\vec{F}_3`$-index 7 for K = $`K^{mr}`$ and 9 for $`K^r`$ = $`K^m`$. Its
+    $`\vec{F}`$-index is 13 for both.
+
+All these results are **certified**: every exclusion was checked again with exact or interval-arithmetic
+methods (knot Floer homology, verified volumes, verified canonical triangulations), see `verify_oriented.py`
+and `results/oriented_verified_Fvec.md`, `results/oriented_verified_F3vec.md`.
 
 ### Mutants
 
-The $\vec{F}$-index distinguishes the Conway knot 11n_34 (≥ 19) from its mutant, the Kinoshita–Terasaka
+The $`\vec{F}`$-index distinguishes the Conway knot 11n_34 (≥ 19) from its mutant, the Kinoshita–Terasaka
 knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
 - The proof is certified by the Seifert genus (knot Floer homology): all 2580 diagrams of their HOMFLY
   class with n ≤ 17 have genus 2, while 11n_34 has genus 3.
-- The F-, F₃- and $\vec{F}_3$-indices of the two knots coincide.
+- The F-, F₃- and $`\vec{F}_3`$-indices of the two knots coincide.
 
 ### Comparison with classical invariants
 
@@ -109,11 +116,17 @@ knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
 - **Braid index.** Luo–Wan (arXiv:2408.10875, Theorem 1.15) prove braid ≤ F-index. On the data, braid < index
   holds for all four indices, with no equality for any non-trivial knot; for F₃ six knots have index = braid + 1.
 - **Crossing number.** Golan–Sapir (arXiv:1501.00724, Lemma 6.11) prove F-index ≤ 12c; on the data F-index ≤ c + 3.
-  The trivial bound c ≤ 2(index − 1) is attained by 105 knots for F₃ and 3 for $\vec{F}_3$, never for F or $\vec{F}$.
+  The trivial bound c ≤ 2(index − 1) is attained by 105 knots for F₃ and 3 for $`\vec{F}_3`$, never for F or $`\vec{F}`$.
+
+### The Borromean rings
+
+Jones asked for the F- and F₃-indices of the Borromean rings (On the construction of knots and links from
+Thompson's groups, 2019, Section 7). They are **9** (F, as already found by D. Sweeney) and **6** (F₃);
+in Jones' normalization, which counts internal vertices, 8 and 5 (`borromean.py`, `results/borromean.md`).
 
 ### Other results
 
-- **Parity theorem.** For g in $\vec{F}$ or $\vec{F}_3$ the number of components of L(g) is ≡ n mod 2, so
+- **Parity theorem.** For g in $`\vec{F}`$ or $`\vec{F}_3`$ the number of components of L(g) is ≡ n mod 2, so
   knots only occur for odd n. This is Aiello–Conti, CAOT 13 (2019), Prop. 3.11; a second proof is in
   `results/parity_theorem.md`, checked by `tests/check_parity.py`.
 - **Corrections to D. Sweeney's table** of F-indices
@@ -128,7 +141,7 @@ knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
   | 10_132 | no value (listed with 5_1 at 8) | **9** | none of the 8-leaf diagrams of the class is 10_132; a 9-leaf diagram is |
   | 10_156 | no value (listed with 8_16 at 10) | **10** | a 10-leaf diagram exists; its class does not occur with fewer leaves |
 
-  His oriented data (all diagrams of $\vec{F}$ up to 11 leaves, unlabelled) agree with ours.
+  His oriented data (all diagrams of $`\vec{F}`$ up to 11 leaves, unlabelled) agree with ours.
 
 ## Installation
 
@@ -195,8 +208,8 @@ sage tests/check_iota_engine.sage                # iota_knots vs fknots, Sage
 
 For F₃ (`src/iota_knots.cpp`):
 - every internal vertex of a ternary tree is a crossing, with the left–right strand over;
-- the map ι (a caret becomes a ternary caret with an empty middle leaf) sends F into F₃ and $\vec{F}$ into
-  $\vec{F}_3$, preserving the oriented knot, so the index for F₃ is at most the one for F.
+- the map ι (a caret becomes a ternary caret with an empty middle leaf) sends F into F₃ and $`\vec{F}`$ into
+  $`\vec{F}_3`$, preserving the oriented knot, so the index for F₃ is at most the one for F.
 
 The oriented diagrams are built by `oriented.py` (`oriented_pd_code`, `oriented_pd_code3`).
 
@@ -204,10 +217,10 @@ The oriented diagrams are built by `oriented.py` (`oriented_pd_code`, `oriented_
 
 The reductions are not the same in the four groups:
 
-| reduction | F | F₃ | $\vec{F}$ | $\vec{F}_3$ |
+| reduction | F | F₃ | $`\vec{F}`$ | $`\vec{F}_3`$ |
 |---|---|---|---|---|
 | (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
-| (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $\vec{F}$) | **no** (does not preserve $\vec{F}_3$: it swaps black and white regions) |
+| (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $`\vec{F}`$) | **no** (does not preserve $`\vec{F}_3`$: it swaps black and white regions) |
 | skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | only if the common interval starts at an even leaf |
 | keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
 
@@ -216,8 +229,8 @@ The reductions are not the same in the four groups:
 - **Primality.**
   - A non-prime diagram is a graft, i.e. a connected sum, so a prime knot is already realized with fewer
     leaves.
-  - In $\vec{F}_3$ a graft below a middle edge (common interval starting at an odd leaf) can have pieces
-    outside $\vec{F}_3$, so it is kept.
+  - In $`\vec{F}_3`$ a graft below a middle edge (common interval starting at an odd leaf) can have pieces
+    outside $`\vec{F}_3`$, so it is kept.
   - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
 - **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified
   Gauss codes.
@@ -262,15 +275,15 @@ The reductions are not the same in the four groups:
 | file | content |
 |---|---|
 | `ftrees.py` | reference implementation in Python: trees, Tait graph, PD code, product in F |
-| `oriented.py` | oriented links for $\vec{F}$ and $\vec{F}_3$, oriented comparison of knots (SnapPy isometries on meridian and longitude) |
-| `src/fknots.cpp` | fast enumerator for F and $\vec{F}$ (`vec`): symmetries, primality, components, HOMFLY (libhomfly); `-1` = all diagrams of given classes |
-| `src/iota_knots.cpp` | enumerator for F₃ and $\vec{F}_3$ (`F3vec`); with `F` it maps binary trees by ι (an independent cross-check of `fknots`) |
+| `oriented.py` | oriented links for $`\vec{F}`$ and $`\vec{F}_3`$, oriented comparison of knots (SnapPy isometries on meridian and longitude) |
+| `src/fknots.cpp` | fast enumerator for F and $`\vec{F}`$ (`vec`): symmetries, primality, components, HOMFLY (libhomfly); `-1` = all diagrams of given classes |
+| `src/iota_knots.cpp` | enumerator for F₃ and $`\vec{F}_3`$ (`F3vec`); with `F` it maps binary trees by ι (an independent cross-check of `fknots`) |
 | `run.py` | parallel enumeration |
 | `identify.sage`, `identify_lib.py` | identification with KnotInfo and SnapPy (crash-tolerant process pool `RobustPool`) |
 | `complete_check.py`, `resolve_undecided.py`, `apply_complete_check.py` | complete check over all diagrams of the relevant HOMFLY classes |
 | `make_table.py`, `small_knots_table.py` | final tables |
-| `oriented_scan.py` | oriented indices (K, Kr, Km, Kmr) of the non-invertible knots |
-| `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs Kr in $\vec{F}$ |
+| `oriented_scan.py` | oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots |
+| `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs $`K^r`$ in $`\vec{F}`$ |
 | `tests/` | the checks listed above |
 
 ## Data
@@ -310,8 +323,8 @@ its files are no longer in the working tree.
    34 (2025), 2340002.
 6. V. F. R. Jones, *On the construction of knots and links from Thompson's groups*, in: Knots,
    low-dimensional topology and applications, Springer Proc. Math. Stat. 284 (2019), 43–66.
-7. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup $\vec{F}_3$ and its relatives in higher
+7. V. Aiello, T. Nagnibeda, *On the oriented Thompson subgroup $`\vec{F}_3`$ and its relatives in higher
    Brown–Thompson groups*, J. Algebra Appl. 21 (2022), 2250139.
-8. V. Aiello, *On the Alexander theorem for the oriented Thompson group $\vec{F}$*, Algebr. Geom. Topol. 20
+8. V. Aiello, *On the Alexander theorem for the oriented Thompson group $`\vec{F}`$*, Algebr. Geom. Topol. 20
    (2020), 429–438.
 9. G. Golan, M. Sapir, *On Jones' subgroup of R. Thompson group F*, J. Algebra 470 (2017), 122–159.
