@@ -1,131 +1,225 @@
-# F-index of knots (Jones' construction, unoriented case)
+# Thompson knot theory: the F-, F₃-, $\vec{F}$- and $\vec{F}_3$-indices of knots
 
-For every n = 2, 3, … we enumerate all binary tree diagrams (T₊, T₋) with n leaves, build the knot
-L(T₊, T₋) and compute its HOMFLY polynomial; the knots are then recognized in the KnotInfo table
-(prime knots up to 13 crossings). The F-index of K is the first n at which K appears.
+Jones' construction associates a knot or link L(g) with every element g of Thompson's group F, given as a
+pair of binary trees (T₊, T₋), and also with every element of the Brown–Thompson group F₃ (pairs of
+ternary trees). Every knot arises in this way. This repository computes, for the knots of the KnotInfo
+table (prime knots with ≤ 13 crossings), four indices:
+
+| index | group | n = | knot type |
+|---|---|---|---|
+| **F-index** | F | number of leaves of each tree | unoriented, up to mirror image |
+| **F₃-index** | F₃ | number of internal vertices of each tree + 1 | unoriented, up to mirror image |
+| **$\vec{F}$-index** | Jones' oriented subgroup $\vec{F} \le F$ | number of leaves | **oriented** |
+| **$\vec{F}_3$-index** | the oriented subgroup $\vec{F}_3 \le F_3$ | internal vertices + 1 | **oriented** |
+
+The index of K is the smallest n such that K = L(g) for a tree diagram g with that n.
+
+**The two oriented groups.**
+- An element is in $\vec{F}$ (resp. $\vec{F}_3$) iff the Tait graph of its diagram is 2-colourable. The
+  colouring orients L(g): the boundary of a + region runs counterclockwise, that of a − region clockwise,
+  and the leftmost vertex is +.
+- In $\vec{F}$: every leaf has the same parity of right edges in T₊ and in T₋.
+- In $\vec{F}_3$ (Aiello–Nagnibeda, J. Algebra Appl. 21 (2022) 2250139): c₊(i) ≡ c₋(i) mod 2 for every
+  leaf i. The colour of the Tait vertex to the left of leaf 2v is the parity of c±(2v), even = +.
+
+Background: V. Aiello, *An introduction to Thompson knot theory and to Jones subgroups*, JKTR 34 (2025)
+2340002.
+
+## Main results
+
+### Computed ranges
+
+| index | all tree diagrams up to | known for |
+|---|---|---|
+| F | n = 13 | all knots with ≤ 10 crossings; 550 of 552 with 11; 1348 of 2176 with 12; 3902 of 9988 with 13 |
+| F₃ | n = 8 | all knots with ≤ 10 crossings; 513 of 552 with 11; 1052 of 2176 with 12; 1563 of 9988 with 13 |
+| $\vec{F}$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
+| $\vec{F}_3$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
+
+Tables:
+- `results/F_index_table.md`, `results/F3_index_table.md`, `results/Fvec_index_table.md`,
+  `results/F3vec_index_table.md`;
+- knots with ≤ 9 crossings, all four indices side by side: `results/Fvec_index_upto9.md`.
+
+Checked on the final tables (`tests/check_index_inequalities.py`), for every knot:
+- F₃-index ≤ F-index;
+- F₃-index ≤ $\vec{F}_3$-index ≤ $\vec{F}$-index;
+- F-index ≤ $\vec{F}$-index.
+
+### Oriented indices
+
+For an oriented knot K write Kr for its reverse, Km for its mirror image and Kmr for both.
+- **The inverse rule.** L(g⁻¹) is the mirror image of the reverse of L(g), in $\vec{F}$ and in
+  $\vec{F}_3$ (`results/inverse_rule.md`; for $\vec{F}$ this is Aiello–Conti, CAOT 13 (2019), Remark 3.8).
+  Hence index(K) = index(Kmr) and index(Kr) = index(Km).
+- **Invertible knots** (K = Kr): the four values coincide.
+- **Non-invertible knots**: `oriented_scan.py` computes index(K) and index(Kr) from all the diagrams.
+
+**K and Kr can have different indices:**
+- $\vec{F}$, non-invertible knots with ≤ 13 crossings, n ≤ 17 (`results/oriented_index_Fvec.md`), 1308 knots:
+  - 85 have both orientations realized with different indices: 13/15 for 10_88, 12n_18, 12n_49, …;
+    15/17 for 10_93, 10_102, 11a_26, …;
+  - 226 have one orientation ≤ 17 and the other > 17, e.g. 10_95;
+  - 8_17, 9_32 and 9_33 have equal indices.
+- $\vec{F}_3$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
+  - 710 have both orientations realized with different indices;
+  - 236 have one orientation > 11;
+  - the smallest example is **8_17**: $\vec{F}_3$-index 7 for K = Kmr and 9 for Kr = Km. Its
+    $\vec{F}$-index is 13 for both.
+
+### Mutants
+
+The $\vec{F}$-index distinguishes the Conway knot 11n_34 (≥ 19) from its mutant, the Kinoshita–Terasaka
+knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
+- The proof is certified by the Seifert genus (knot Floer homology): all 2580 diagrams of their HOMFLY
+  class with n ≤ 17 have genus 2, while 11n_34 has genus 3.
+- The F-, F₃- and $\vec{F}_3$-indices of the two knots coincide.
+
+### Other results
+
+- **Parity theorem.** For g in $\vec{F}$ or $\vec{F}_3$ the number of components of L(g) is ≡ n mod 2, so
+  knots only occur for odd n. This is Aiello–Conti, CAOT 13 (2019), Prop. 3.11; a second proof is in
+  `results/parity_theorem.md`, checked by `tests/check_parity.py`.
+- **Corrections to D. Sweeney's table** of F-indices
+  ([sweeneyde/thompson_knots](https://github.com/sweeneyde/thompson_knots)), in
+  `results/sweeney_corrections.md`. 245 of 249 knots agree. The others:
+  - 10_45 has F-index 13, not 11;
+  - 10_163 has F-index 10, not 11;
+  - 10_132 = 9 and 10_156 = 10 were missing.
+
+  His oriented data (all diagrams of $\vec{F}$ up to 11 leaves, unlabelled) agree with ours.
 
 ## Usage
 
-```bash
-make                      # builds bin/fknots and bin/iota_knots (uses SageMath's libhomfly)
-python3 run.py 13         # enumerates n = 2..13 in parallel  -> results/raw/n<n>.tsv
-sage identify.sage 13     # recognizes the knots              -> results/F_index.csv
-sage tests/check_cpp.sage # checks the C++ code against the reference implementation
-python3 make_table.py      # final table: F-index, KnotInfo name, representative -> results/F_index_table.md
-```
-
-`run.py` skips the values of n already computed, so a run can be resumed or extended
-(`python3 run.py 14`).
-`sage` is `/Applications/SageMath-10-8.app/Contents/Frameworks/Sage.framework/Versions/Current/venv/bin/sage`.
-`identify.sage` needs the packages `database_knotinfo` and `snappy` in Sage's Python
-(`sage -pip install database_knotinfo snappy`).
-
-**$\vec{F}$-index (oriented subgroup).** Jones' oriented subgroup $\vec{F} \le F$ consists of the tree diagrams whose
-Tait graph is 2-colourable. Equivalently, every leaf has the same parity of right edges on the path from
-the root in T₊ and in T₋ (checked in `tests/check_vecF.sage`). The colouring orients the knot.
+Run everything from the repository root. `sage` is SageMath's executable.
 
 ```bash
-python3 run.py 13 --group Fvec       # -> results/raw_Fvec/n<n>.tsv   (bin/fknots ... vec)
-sage identify.sage 13 Fvec           # -> results/Fvec_index.csv, ...
-python3 make_table.py Fvec           # -> results/Fvec_index_table.md
+make                                  # bin/fknots, bin/iota_knots (link SageMath's libhomfly; set SAGE_LOCAL)
+python3 run.py 13                     # F: enumerate n = 2..13 in parallel  -> results/raw/n<n>.tsv
+python3 run.py 8  --group F3          # F₃                                   -> results/raw_F3/
+python3 run.py 17 --group Fvec        # vec{F}                               -> results/raw_Fvec/
+python3 run.py 11 --group F3vec       # vec{F}₃                              -> results/raw_F3vec/
+sage identify.sage 13 [F|F3|Fvec|F3vec]                # identify the knots  -> results/<G>_index.csv
+sage -python complete_check.py <G>                     # all diagrams of the classes found late / not found
+sage -python resolve_undecided.py <G>                  # second pass on the undecided diagrams
+sage -python apply_complete_check.py <G>               # apply the complete check to <G>_index.csv
+python3 make_table.py <G>                              # final table -> results/<G>_index_table.md
+python3 small_knots_table.py                           # all four indices, knots with <= 9 crossings
+sage -python oriented_scan.py Fvec|F3vec [procs] [maxc]  # oriented indices of the non-invertible knots
 ```
 
-The vertical reflection does not preserve $\vec{F}$, so in this mode the only symmetry used is g ↔ g⁻¹
-(which gives the mirror image). Knots only arise for odd n: for $g \in \vec{F}$ the number of components of L(g)
-has the parity of n. The $\vec{F}$-index is an index of oriented knots. `results/Fvec_index.csv` lists
-the knots up to mirror image and reversal, i.e. min(index K, index Kr), which is the oriented index of
-every invertible knot; for the non-invertible knots `oriented_scan.py` gives the values for K, Kr, Km and
-Kmr (`results/oriented_index_Fvec.md`). The same holds for the $\vec{F}_3$-index (`--group F3vec`,
-`results/oriented_index_F3vec.md`).
+Notes:
+- `run.py` skips the values of n already computed, so a run can be resumed or extended.
+- `complete_check.py`, `resolve_undecided.py` and `oriented_scan.py` keep their progress in `tmp_check/` and
+  resume after an interruption.
+- `identify.sage` needs `sage -pip install database_knotinfo snappy`.
+- The raw data (`results/raw*/`, several GB) and `tmp_check/` are not in git.
 
-**F₃-index.** The same pipeline works for the Brown–Thompson group F₃, with ternary tree diagrams:
+Tests:
 
 ```bash
-python3 run.py 9 --group F3          # -> results/raw_F3/n<n>.tsv   (bin/iota_knots)
-sage identify.sage 13 F3             # -> results/F3_index.csv, F3_index_summary.txt, unidentified_classes_F3.csv
+python3 tests/check_parity.py                    # parity theorem, every step of the proof, n <= 9
+python3 tests/check_F3vec.py                     # vec{F}₃: weights, Tait graph, grafts, pair counts
+sage -python tests/check_oriented3.py            # orientation in vec{F}₃: engine, ι, inverse rule
+sage -python tests/check_index_inequalities.py   # inequalities between the four indices, ι of every witness
+sage tests/check_cpp.sage                        # C++ vs Python vs Sage, Example 2.3 of the paper (4₁)
+sage tests/check_vecF.sage                       # vec{F}
+sage tests/check_iota_engine.sage                # iota_knots vs fknots, Sage
 ```
 
-Here n is the number of internal vertices of each ternary tree plus one, as in the definition of
-the F₃-index: a binary tree diagram with n leaves is mapped by ι to a ternary one with the same n,
-so F₃-index ≤ F-index.
+## Method
+
+### Construction
+
+`ftrees.py` builds the Tait graph Γ(T₊, T₋):
+- its vertices are 0, …, n−1: vertex 0 is the region to the left of leaf 0, vertex j the gap between
+  leaves j−1 and j;
+- every internal vertex of a tree whose left subtree covers the leaves [a, j−1] gives an edge (a, j),
+  positive in T₊ and negative in T₋;
+- the link is the one whose Tait graph is Γ.
+
+For F₃ (`src/iota_knots.cpp`):
+- every internal vertex of a ternary tree is a crossing, with the left–right strand over;
+- the map ι (a caret becomes a ternary caret with an empty middle leaf) sends F into F₃ and $\vec{F}$ into
+  $\vec{F}_3$, preserving the oriented knot, so the index for F₃ is at most the one for F.
+
+The oriented diagrams are built by `oriented.py` (`oriented_pd_code`, `oriented_pd_code3`).
+
+### Reductions of the enumeration
+
+The reductions are not the same in the four groups:
+
+| reduction | F | F₃ | $\vec{F}$ | $\vec{F}_3$ |
+|---|---|---|---|---|
+| (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
+| (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $\vec{F}$) | **no** (swaps black and white regions) |
+| skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | only if the common interval starts at an even leaf |
+| keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
+
+- **Symmetries.** One representative per orbit is kept. The oriented scan accounts for g⁻¹ through the
+  inverse rule, and checks that rule directly on thousands of diagrams.
+- **Primality.**
+  - A non-prime diagram is a graft, i.e. a connected sum, so a prime knot is already realized with fewer
+    leaves.
+  - In $\vec{F}_3$ a graft below a middle edge (common interval starting at an odd leaf) can have pieces
+    outside $\vec{F}_3$, so it is kept.
+  - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
+- **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified
+  Gauss codes.
+
+### Identification and complete check
+
+1. **Raw data.** For every n the enumerator gives one line per HOMFLY class (up to mirror image), with the
+   number of diagrams and up to 50 representatives.
+2. **First identification.** `identify.sage` identifies the stored representatives.
+   - A diagram with ≤ 13 crossings after simplification goes to Sage's `get_knotinfo()`. Then the knot has
+     crossing number ≤ 13, so a HOMFLY match is a proof.
+   - Larger diagrams go to SnapPy: complement identification, census up to 15 crossings, and Gordon–Luecke.
+     A HOMFLY match alone is not enough there: at n = 10 a class has the HOMFLY of 13n_2638, but its knot
+     is 14n_2554.
+3. **Complete check.** Only 50 representatives per class are stored, so a knot can hide in a large class:
+   10_132 was missed at n = 9, and 13n_2290 was found at 13 instead of 11. `complete_check.py` therefore
+   enumerates **every** diagram of the classes of the knots found after their class first appears, or not
+   found at all. Each diagram is compared with the knot: hyperbolic volume first, then a SnapPy isometry.
+4. **Undecided diagrams.** Diagrams without a hyperbolic structure go to `resolve_undecided.py`. A
+   different knot Floer homology, or an essential torus (a satellite knot), proves the diagram is not the
+   target. No diagram is left undecided in the current results (`results/complete_check_<G>.md`).
+5. **Lower bounds.** `lower_bound` is the first n at which the knot's HOMFLY class appears, and it is
+   exact, because the HOMFLY polynomial is computed for every diagram. A knot that never appears gets
+   n_max + 1, also exact after the complete check.
+
+### Output files
+
+- `results/<G>_index.csv`, one row per KnotInfo knot, with columns:
+  - the index;
+  - `lower_bound`;
+  - `status` (identified / not found);
+  - a witness `top_tree`, `bottom_tree`: leaf addresses, 0 = left, 1 = right, and 2 = right for ternary
+    trees, where 1 = middle;
+  - the number of crossings after simplification and the HOMFLY polynomial.
+- `results/<G>_index_table.md`: index, KnotInfo name and a representative (for F also in normal form
+  x₀^a₀ ⋯ x_k^a_k x_k^-b_k ⋯ x₀^-b₀, checked by multiplying the generators).
+- `results/knots_beyond_table*.csv`: knots with 14–15 crossings recognized by SnapPy (upper bounds).
+- `results/unidentified_classes*.csv`: HOMFLY classes of no prime knot with ≤ 13 crossings.
 
 ## Files
 
 | file | content |
 |---|---|
-| `ftrees.py` | reference implementation in Python (slow but readable): trees, Tait graph, PD code, product in F |
-| `src/fknots.cpp` | fast enumerator: symmetries, primality, components, simplification, HOMFLY (libhomfly) |
-| `src/iota_knots.cpp` | enumerator for F₃ (ternary trees; each internal vertex is a crossing, left–right strand over); with `F` it maps binary trees by ι and gives an independent cross-check of `fknots` |
-| `run.py` | runs `fknots` (or `iota_knots` with `--group F3`) on several processes and merges the results |
-| `identify.sage`, `identify_lib.py` | comparison with KnotInfo / SnapPy and computation of the F-index (or F₃-index), in parallel on all the cores (optional 3rd argument: number of processes); worker processes that crash inside SnapPy are restarted |
-| `tests/check_cpp.sage` | checks: Example 2.3 of the paper (4₁) and C++ / Python / Sage agreement for n ≤ 7 |
-| `tests/check_graft_and_old_code.sage` | grafting = connected sum, agreement with `../vecchio codice` up to mirror |
-| `tests/check_iota_engine.sage` | checks of `iota_knots`: Sage agreement on random F and F₃ diagrams, old code, Example 2.3, and same counts and HOMFLY classes as `fknots` for n ≤ 8 |
-| `results/cross_check_iota_construction/` | results of the independent implementation via ι into F₃ (n ≤ 10), same HOMFLY classes |
-
-Construction (see `ftrees.py`): the Tait graph Γ(T₊, T₋) has vertices 0, …, n−1 (0 = the region to the
-left of leaf 0, j = the gap between leaves j−1 and j); every internal vertex of a tree whose left
-subtree covers the leaves [a, j−1] gives an edge (a, j), positive in T₊ and negative in T₋. The knot is
-the link whose Tait graph is Γ. Everything is defined up to mirror image.
-
-Reductions of the enumeration:
-
-* **symmetries**: (T₊, T₋) ↦ (T₋, T₊) and (T₊, T₋) ↦ (σT₊, σT₋) (horizontal and vertical reflections)
-  give the mirror image; one representative per orbit is kept;
-* **primality**: diagrams obtained by gluing a tree diagram with ≥ 2 leaves in place of a pair of
-  leaves of another tree diagram with ≥ 2 leaves are skipped, i.e. those where a non-root subtree of
-  T₊ and one of T₋ cover the same leaves (this includes non-reduced diagrams). Such a knot is a
-  connected sum, so a prime knot is already realized with fewer leaves. Note that composite knots can
-  still arise from prime diagrams (e.g. granny and square knots at n = 9);
-* **one component**: only knots are kept;
-* HOMFLY is computed after a Reidemeister I and II simplification, with a cache on the simplified
-  Gauss codes.
-
-## Output
-
-`results/raw/n<n>.tsv`: one line per class of HOMFLY polynomials (up to mirror) with the number of
-diagrams, the minimal number of crossings after simplification and up to 50 representatives
-`T₊|T₋|simplified Gauss code` (trees are given by the addresses of their leaves, 0 = left, 1 = right,
-as in the old code).
-
-`results/F_index.csv`, for every knot of the table:
-
-* `F_index`: exact value, when a representative with that number of leaves is recognized as that knot.
-  The diagram is first simplified further with spherogram (SnapPy) and then given to Sage's
-  `Link.get_knotinfo()` (if it has ≤ 13 crossings). If that fails or is ambiguous, because several
-  knots of the table share the HOMFLY polynomial (e.g. 4₁ # 4₁ and 12n₄₆₂), SnapPy identifies the knot
-  complement. The SnapPy census covers knots up to 15 crossings, and by Gordon–Luecke the complement
-  determines the knot up to mirror image. All the stored representatives of the class are tried,
-  since one HOMFLY class can contain several knots (e.g. 10₁₅₆ and 13n₂₆₃₈ at n = 10);
-* `lower_bound`: the first n at which a diagram with the same HOMFLY appears (no diagram with fewer
-  leaves can give the knot); if the knot never appeared it is max(n_max + 1, ⌈c/2⌉ + 1), since a tree
-  diagram with n leaves has 2n − 2 crossings;
-* `top_tree`, `bottom_tree`: a tree diagram realizing it.
-
-`results/unidentified_classes.csv`: HOMFLY classes of no prime knot with ≤ 13 crossings (composite
-knots, or knots with more than 13 crossings). The column `knots` names them from up to 5
-representatives: KnotInfo for composite knots (e.g. `3_1 # 3_1`), SnapPy for prime knots with 14–15
-crossings (e.g. `14n_6950`), `non-hyperbolic` or `?` otherwise. Composite names are up to mirror of
-each factor, so they do not distinguish the granny knot from the square knot.
-
-`results/F_index_table.md` / `.csv` (from `make_table.py`): one row per knot with its F-index, its
-KnotInfo name and a representative realizing the index, both as an element of F in normal form
-(x₀^a₀ ⋯ x_k^a_k x_k^-b_k ⋯ x₀^-b₀, checked by multiplying the generators with `ftrees.py`) and as a
-tree diagram. `results/table_n10/` holds the same table for n ≤ 10.
-
-`results/knots_beyond_table.csv`: knots with 14 or 15 crossings recognized by SnapPy (outside KnotInfo),
-with the first n at which one of the stored representatives realizes them. Since only up to 50
-representatives per class are stored, this n is an upper bound for their F-index; the lower bound is
-the first n at which their HOMFLY appears.
-
-Note on the identification: `get_knotinfo` is only used on diagrams with ≤ 13 crossings. Then the knot
-has crossing number ≤ 13, so it is in KnotInfo and a HOMFLY match is a proof. On larger diagrams a
-HOMFLY match is not enough: at n = 10 a class has the HOMFLY of 13n₂₆₃₈, but SnapPy shows that its
-knot is 14n₂₅₅₄.
+| `ftrees.py` | reference implementation in Python: trees, Tait graph, PD code, product in F |
+| `oriented.py` | oriented links for $\vec{F}$ and $\vec{F}_3$, oriented comparison of knots (SnapPy isometries on meridian and longitude) |
+| `src/fknots.cpp` | fast enumerator for F and $\vec{F}$ (`vec`): symmetries, primality, components, HOMFLY (libhomfly); `-1` = all diagrams of given classes |
+| `src/iota_knots.cpp` | enumerator for F₃ and $\vec{F}_3$ (`F3vec`); with `F` it maps binary trees by ι (an independent cross-check of `fknots`) |
+| `run.py` | parallel enumeration |
+| `identify.sage`, `identify_lib.py` | identification with KnotInfo and SnapPy (crash-tolerant process pool `RobustPool`) |
+| `complete_check.py`, `resolve_undecided.py`, `apply_complete_check.py` | complete check over all diagrams of the relevant HOMFLY classes |
+| `make_table.py`, `small_knots_table.py` | final tables |
+| `oriented_scan.py` | oriented indices (K, Kr, Km, Kmr) of the non-invertible knots |
+| `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs Kr in $\vec{F}$ |
+| `tests/` | the checks listed above |
 
 ## History
 
-This repository (`Thompson-knot-theory`) also contains, in its git history, the earlier Python implementation
-of the project (up to commit `c79ea62`, February 2025). It was merged into this history when the current
-code (C++ enumerators, identification with KnotInfo and SnapPy, complete checks, oriented indices)
-replaced it; its files are no longer in the working tree.
+This repository also contains, in its git history, the earlier Python implementation of the project (up
+to commit `c79ea62`, February 2025). It was merged into this history when the current code replaced it;
+its files are no longer in the working tree.
