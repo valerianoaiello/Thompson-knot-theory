@@ -17,9 +17,13 @@ import ftrees as F
 
 def tait_colours(tp, tm):
     """Colours (+1/-1) of the vertices of the Tait graph, vertex 0 = +1; None if not 2-colourable."""
-    n = F.n_leaves(tp)
+    return tait_colours_of_graph(F.n_leaves(tp), F.tait_graph(tp, tm))
+
+
+def tait_colours_of_graph(n, edges):
+    """Colours (+1/-1) of the vertices 0..n-1 of a connected graph, vertex 0 = +1; None if not bipartite."""
     adj = [[] for _ in range(n)]
-    for a, b, _ in F.tait_graph(tp, tm):
+    for a, b, _ in edges:
         adj[a].append(b)
         adj[b].append(a)
     col = [0] * n
@@ -48,11 +52,15 @@ def oriented_components(tp, tm):
     """Like ftrees.link_components, but every component is walked along the orientation given by the
     colouring. Raises ValueError if (T+, T-) is not in vec{F}, AssertionError if the orientation is not
     coherent (it never should be)."""
-    col = tait_colours(tp, tm)
+    return oriented_components_of_graph(F.n_leaves(tp), F.tait_graph(tp, tm), tait_colours(tp, tm))
+
+
+def oriented_components_of_graph(n, tait_edges, col):
+    """oriented_components for a Tait graph drawn as in ftrees (vertices on a line, arcs above for sign +1
+    and below for sign -1) with the colours col of its vertices."""
     if col is None:
-        raise ValueError('not in vec{F}')
-    n = F.n_leaves(tp)
-    edges, corners = F.medial_of_graph(n, F.tait_graph(tp, tm))
+        raise ValueError('not 2-colourable')
+    edges, corners = F.medial_of_graph(n, tait_edges)
     vert = corner_vertices(n, edges)
     at = {}
     for c, (e1, e2) in enumerate(corners):
@@ -80,7 +88,10 @@ def oriented_components(tp, tm):
 def oriented_pd_code(tp, tm):
     """PD code (Sage's convention) of the oriented link L(g), g = (T+, T-) in vec{F}: strands are numbered
     along the orientation given by the colouring."""
-    edges, comps = oriented_components(tp, tm)
+    return _pd_of_components(*oriented_components(tp, tm))
+
+
+def _pd_of_components(edges, comps):
     if not edges:
         return []
     label, nxt = {}, 1
@@ -101,6 +112,103 @@ def oriented_pd_code(tp, tm):
         s = entry[(x, under_parity)]
         pd.append([slot_label[(x, (s + k) % 4)] for k in range(4)])
     return pd
+
+
+# ---------------------------------------------------------------------------------------------
+# vec{F}_3 (Aiello-Nagnibeda, J. Algebra Appl. 21 (2022) 2250139)
+# ---------------------------------------------------------------------------------------------
+# Ternary trees are nested 3-tuples (left, middle, right), a leaf is None; leaf addresses use 0, 1, 2 for
+# left, middle, right. With 2c + 1 leaves the gaps between consecutive leaves (and the two outer ones) are
+# numbered 0..2c + 1; the even gaps are the black regions, i.e. the c + 1 vertices of the Tait graph
+# (vertex v = gap 2v). Every internal vertex of T+ (resp. T-) is a crossing, an arc above (resp. below)
+# the line between the two black gaps around it, drawn as in ftrees.
+# Colours: the vertex to the left of leaf 2v gets the parity of the weight c+(2v) (or c-(2v), the same in
+# vec{F}_3): even = +, so the leftmost vertex (leaf 0..0, weight 0) is +. Strands are oriented as for
+# vec{F}: counterclockwise around + regions, clockwise around - regions.
+
+def ternary_from_words(words):
+    """Ternary tree with the given leaf addresses (digits 0, 1, 2), from left to right."""
+    def rec(ws, depth):
+        if ws == [''] or (len(ws) == 1 and len(ws[0]) == depth):
+            return None
+        return tuple(rec([w for w in ws if w[depth] == d], depth + 1) for d in '012')
+    words = ['' if w == '0' and len(words) == 1 else w for w in words]
+    return rec(words, 0)
+
+
+def ternary_words(t, prefix=''):
+    if t is None:
+        return [prefix or '0']
+    return [w for i, s in enumerate(t) for w in ternary_words(s, prefix + str(i))]
+
+
+def ternary_leaves(t):
+    return 1 if t is None else sum(ternary_leaves(s) for s in t)
+
+
+def weight(word):
+    """c of Definition 3: middle edges + right edges in odd words + left edges in even words (the words
+    being the pieces between middle edges, the first one odd)."""
+    parts = word.split('1')
+    return word.count('1') + sum(p.count('2') if k % 2 == 0 else p.count('0') for k, p in enumerate(parts))
+
+
+def tait_graph3(tp, tm):
+    """Edges (u, w, side, sign) of the Tait graph of (T+, T-) in F_3, u < w; side = +1 (drawn above the
+    line) for T+ and -1 for T-. sign is the crossing type in the convention of oriented_pd_code (over strand
+    SW-NE iff +1): equal to side at a vertex starting at an even leaf (always the case in iota(F)), the
+    opposite at an odd one."""
+    out = []
+
+    def rec(t, a, sign):
+        if t is None:
+            return
+        sizes = [ternary_leaves(x) for x in t]
+        gaps = [a, a + sizes[0], a + sizes[0] + sizes[1], a + sum(sizes)]
+        u, w = [g // 2 for g in gaps if g % 2 == 0]
+        # a vertex starting at an odd leaf has its black regions in the other two quadrants (between left
+        # and middle, and outside the right subtree): the crossing has the opposite sign w.r.t. its edge
+        out.append((u, w, sign, sign if a % 2 == 0 else -sign))
+        for x, b in zip(t, gaps):
+            rec(x, b, sign)
+
+    rec(tp, 0, +1)
+    rec(tm, 0, -1)
+    return out
+
+
+def tait_colours3(tp, tm):
+    """Colours of the c + 1 Tait vertices from the weights c+- (vertex v = left of leaf 2v); None if
+    (T+, T-) is not in vec{F}_3."""
+    cp = [weight(w) % 2 for w in ternary_words(tp)]
+    cm = [weight(w) % 2 for w in ternary_words(tm)]
+    if cp != cm:
+        return None
+    return [1 if cp[2 * v] == 0 else -1 for v in range((len(cp) + 1) // 2)]
+
+
+def oriented_components3(tp, tm):
+    col = tait_colours3(tp, tm)
+    if col is None:
+        raise ValueError('not in vec{F}_3')
+    n = len(col)
+    edges = tait_graph3(tp, tm)
+    draw = [e[:3] for e in edges]
+    assert col == tait_colours_of_graph(n, draw), 'c+- is not the 2-colouring of the Tait graph'
+    medial_edges, comps = oriented_components_of_graph(n, draw, col)
+    assert [e[:2] for e in medial_edges] == [e[:2] for e in edges]
+    return [(u, w, x) for u, w, _, x in edges], comps
+
+
+def oriented_pd_code3(tp, tm):
+    """PD code (Sage's convention) of the oriented link L(g), g = (T+, T-) in vec{F}_3."""
+    return _pd_of_components(*oriented_components3(tp, tm))
+
+
+def iota(t):
+    """The embedding of binary trees in ternary trees (a caret becomes a ternary caret with an empty
+    middle leaf)."""
+    return None if t is None else (iota(t[0]), None, iota(t[1]))
 
 
 # ---------------------------------------------------------------------------------------------
