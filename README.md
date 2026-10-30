@@ -119,3 +119,10 @@ Note on the identification: `get_knotinfo` is only used on diagrams with ≤ 13 
 has crossing number ≤ 13, so it is in KnotInfo and a HOMFLY match is a proof. On larger diagrams a
 HOMFLY match is not enough: at n = 10 a class has the HOMFLY of 13n₂₆₃₈, but SnapPy shows that its
 knot is 14n₂₅₅₄.
+
+## History
+
+This repository (`Thompson-knot-theory`) also contains, in its git history, the earlier Python implementation
+of the project (up to commit `c79ea62`, February 2025). It was merged into this history when the current
+code (C++ enumerators, identification with KnotInfo and SnapPy, complete checks, oriented indices)
+replaced it; its files are no longer in the working tree.
