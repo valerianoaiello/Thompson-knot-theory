@@ -90,10 +90,15 @@ knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
   `results/parity_theorem.md`, checked by `tests/check_parity.py`.
 - **Corrections to D. Sweeney's table** of F-indices
   ([sweeneyde/thompson_knots](https://github.com/sweeneyde/thompson_knots)), in
-  `results/sweeney_corrections.md`. 245 of 249 knots agree. The others:
-  - 10_45 has F-index 13, not 11;
-  - 10_163 has F-index 10, not 11;
-  - 10_132 = 9 and 10_156 = 10 were missing.
+  `results/sweeney_corrections.md`. 245 of his 249 knot entries agree with ours, including all 87 entries
+  "≥ 12". The other four:
+
+  | knot | Sweeney | correct F-index | reason |
+  |---|---|---|---|
+  | 10_45 | 11 | **13** | his 11-leaf diagram is a different knot with the same HOMFLY polynomial (volume 16.8704 vs 13.7161, complements not isometric); no diagram with 11 or 12 leaves gives 10_45 |
+  | 10_163 | 11 | **10** | a 10-leaf diagram exists (its complement is K10n35 = 10_163 in KnotInfo); it is also in his own data, in an unlabelled class |
+  | 10_132 | no value (listed with 5_1 at 8) | **9** | none of the 8-leaf diagrams of the class is 10_132; a 9-leaf diagram is |
+  | 10_156 | no value (listed with 8_16 at 10) | **10** | a 10-leaf diagram exists; its class does not occur with fewer leaves |
 
   His oriented data (all diagrams of $\vec{F}$ up to 11 leaves, unlabelled) agree with ours.
 
