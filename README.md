@@ -75,6 +75,14 @@ knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
   class with n ≤ 17 have genus 2, while 11n_34 has genus 3.
 - The F-, F₃- and $\vec{F}_3$-indices of the two knots coincide.
 
+### Comparison with classical invariants
+
+`results/index_bounds.md` (script `index_bounds.py`):
+- **Braid index.** Luo–Wan (arXiv:2408.10875, Theorem 1.15) prove braid ≤ F-index. On the data, braid < index
+  holds for all four indices, with no equality for any non-trivial knot; for F₃ six knots have index = braid + 1.
+- **Crossing number.** Golan–Sapir (arXiv:1501.00724, Lemma 6.11) prove F-index ≤ 12c; on the data F-index ≤ c + 3.
+  The trivial bound c ≤ 2(index − 1) is attained by 105 knots for F₃ and 3 for $\vec{F}_3$, never for F or $\vec{F}$.
+
 ### Other results
 
 - **Parity theorem.** For g in $\vec{F}$ or $\vec{F}_3$ the number of components of L(g) is ≡ n mod 2, so
