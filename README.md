@@ -9,8 +9,8 @@ table (prime knots with ≤ 13 crossings), four indices:
 |---|---|---|---|
 | **F-index** | F | number of leaves of each tree | unoriented, up to mirror image |
 | **F₃-index** | F₃ | number of internal vertices of each tree + 1 | unoriented, up to mirror image |
-| **$\vec{F}$-index** | binary oriented subgroup $\vec{F} \le F$ | number of leaves | **oriented** |
-| **$\vec{F}_3$-index** | ternary oriented subgroup $\vec{F}_3 \le F_3$ | internal vertices + 1 | **oriented** |
+| **$\vec{F}$-index** | binary oriented subgroup ${\vec{F}\le F}$ | number of leaves | **oriented** |
+| **$\vec{F}_3$-index** | ternary oriented subgroup ${\vec{F}_3\le F_3}$ | internal vertices + 1 | **oriented** |
 
 The index of K is the smallest n such that K = L(g) for a tree diagram g with that n.
 
