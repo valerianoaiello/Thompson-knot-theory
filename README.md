@@ -20,7 +20,7 @@ python3 make_table.py      # final table: F-index, KnotInfo name, representative
 `identify.sage` needs the packages `database_knotinfo` and `snappy` in Sage's Python
 (`sage -pip install database_knotinfo snappy`).
 
-**F⃗-index (oriented subgroup).** Jones' oriented subgroup F⃗ ≤ F consists of the tree diagrams whose
+**$\vec{F}$-index (oriented subgroup).** Jones' oriented subgroup $\vec{F} \le F$ consists of the tree diagrams whose
 Tait graph is 2-colourable. Equivalently, every leaf has the same parity of right edges on the path from
 the root in T₊ and in T₋ (checked in `tests/check_vecF.sage`). The colouring orients the knot.
 
@@ -30,10 +30,13 @@ sage identify.sage 13 Fvec           # -> results/Fvec_index.csv, ...
 python3 make_table.py Fvec           # -> results/Fvec_index_table.md
 ```
 
-The vertical reflection does not preserve F⃗, so in this mode the only symmetry used is g ↔ g⁻¹
-(which gives the mirror image). Knots only arise for odd n: for g ∈ F⃗ the number of components of L(g)
-has the parity of n. For a knot the HOMFLY polynomial does not depend on the orientation, so knots are
-listed up to mirror image and up to reversal of the orientation.
+The vertical reflection does not preserve $\vec{F}$, so in this mode the only symmetry used is g ↔ g⁻¹
+(which gives the mirror image). Knots only arise for odd n: for $g \in \vec{F}$ the number of components of L(g)
+has the parity of n. The $\vec{F}$-index is an index of oriented knots. `results/Fvec_index.csv` lists
+the knots up to mirror image and reversal, i.e. min(index K, index Kr), which is the oriented index of
+every invertible knot; for the non-invertible knots `oriented_scan.py` gives the values for K, Kr, Km and
+Kmr (`results/oriented_index_Fvec.md`). The same holds for the $\vec{F}_3$-index (`--group F3vec`,
+`results/oriented_index_F3vec.md`).
 
 **F₃-index.** The same pipeline works for the Brown–Thompson group F₃, with ternary tree diagrams:
 
