@@ -21,3 +21,7 @@ tmp_check/
 
 # the paper is kept locally only
 paper/
+
+# instructions for Claude Code, kept locally only
+CLAUDE.md
+.DS_Store
