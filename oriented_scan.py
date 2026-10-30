@@ -239,7 +239,8 @@ def main():
     # output
     def ckey(k):
         c, rest = k.split('_')
-        return (int(c), rest[0] if not rest[0].isdigit() else '', int(rest.lstrip('an')))
+        cr = int(c.rstrip('an'))
+        return (cr, c[len(str(cr)):], int(rest))
 
     rows = []
     for k in sorted(targets, key=ckey):
