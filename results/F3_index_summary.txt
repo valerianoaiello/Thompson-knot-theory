@@ -1,4 +1,4 @@
-F3-index computed with tree diagrams up to n = 8
+F3-index computed with tree diagrams up to n = 9
 0 worker crashes, 0 representatives skipped because they crash SnapPy/spherogram, 0 representatives with a get_knotinfo timeout (600 s)
 complete check applied (results/complete_check_F3.md): every diagram of the HOMFLY classes of the knots found late or not found was compared
 
@@ -10,9 +10,9 @@ crossing number  7:    7 /    7 knots with known F3-index
 crossing number  8:   21 /   21 knots with known F3-index
 crossing number  9:   49 /   49 knots with known F3-index
 crossing number 10:  165 /  165 knots with known F3-index
-crossing number 11:  513 /  552 knots with known F3-index
-crossing number 12: 1052 / 2176 knots with known F3-index
-crossing number 13: 1563 / 9988 knots with known F3-index
+crossing number 11:  552 /  552 knots with known F3-index
+crossing number 12: 2162 / 2176 knots with known F3-index
+crossing number 13: 8357 / 9988 knots with known F3-index
 
 0_1      F3-index  1   T+ =    T- = 
 3_1      F3-index  4   T+ = 0,1,20,21,220,221,222   T- = 0,10,11,120,121,122,2
