@@ -242,9 +242,11 @@ The reductions are not the same in the four groups:
    10_132 was missed at n = 9, and 13n_2290 was found at 13 instead of 11. `complete_check.py` therefore
    enumerates **every** diagram of the classes of the knots found after their class first appears, or not
    found at all. Each diagram is compared with the knot: hyperbolic volume first, then a SnapPy isometry.
-4. **Undecided diagrams.** Diagrams without a hyperbolic structure go to `resolve_undecided.py`. A
-   different knot Floer homology, or an essential torus (a satellite knot), proves the diagram is not the
-   target. No diagram is left undecided in the current results (`results/complete_check_<G>.md`).
+4. **Undecided diagrams.** Some diagrams have no hyperbolic structure (SnapPy finds none), so step 3 cannot
+   compare them with the knot K being sought. They are treated by `resolve_undecided.py`: such a diagram is
+   not K if its knot Floer homology differs from that of K, or if its complement contains an essential torus
+   (it is then a satellite knot, while K is hyperbolic). No diagram is left undecided in the current results
+   (`results/complete_check_<G>.md`).
 5. **Lower bounds.** `lower_bound` is the first n at which the knot's HOMFLY class appears, and it is
    exact, because the HOMFLY polynomial is computed for every diagram. A knot that never appears gets
    n_max + 1, also exact after the complete check.
