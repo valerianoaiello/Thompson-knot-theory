@@ -7,7 +7,7 @@ usage (from F_index/, after identify.sage):   python3 make_table.py [F|F3|Fvec|F
 reads  <results_dir>/F_index.csv and <results_dir>/knots_beyond_table.csv
 writes <results_dir>/F_index_table.csv and <results_dir>/F_index_table.md
 With F3: F3_index.csv, knots_beyond_table_F3.csv -> F3_index_table.csv / .md; the representative is
-the ternary tree diagram (leaf addresses 0, 1, 2 = left, middle, right), without normal form.
+the ternary tree diagram (leaf addresses 0, 1, 2 = left, middle, right) and its normal form in F_3.
 
 Normal form: for a reduced tree diagram (T+, T-) (prime diagrams are reduced) the element is
 x_0^a_0 ... x_k^a_k x_k^-b_k ... x_0^-b_0, where a_i (resp. b_i) is the exponent of leaf i of T+
@@ -134,14 +134,10 @@ def main():
                          'note': 'not in KnotInfo (SnapPy name); upper bound',
                          'top_tree': r['top_tree'], 'bottom_tree': r['bottom_tree']})
     for r in rows:
-        r['normal_form'] = normal_form(r['top_tree'], r['bottom_tree']) if not ternary else ''
+        r['normal_form'] = (normal_form3 if ternary else normal_form)(r['top_tree'], r['bottom_tree'])
     rows.sort(key=lambda r: (r[col], crossing_key(r['knot'])))
 
     fields = [col, 'knot', 'normal_form', 'top_tree', 'bottom_tree', 'note']
-    if ternary:
-        fields.remove('normal_form')
-        for r in rows:
-            del r['normal_form']
     name = '%s_index_table' % group
     with open(os.path.join(d, name + '.csv'), 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fields)
@@ -169,17 +165,18 @@ def main():
             f.write('|---|---|---|---|---|\n')
         else:
             f.write('Knots up to mirror image, KnotInfo names. n = number of internal vertices of each '
-                    'ternary tree + 1. The representative is a ternary tree diagram of F₃ realizing the '
-                    'knot (leaf addresses, 0 = left, 1 = middle, 2 = right).\n')
+                    'ternary tree + 1. The representative is an element of F₃ realizing the knot: normal form in '
+                    'the generators y_0, y_1, ... of F₃ (y_{2m} = iota(x_m), see make_table.py) and ternary tree '
+                    'diagram (leaf addresses, 0 = left, 1 = middle, 2 = right).\n')
             if group == 'F3vec':
                 f.write('F⃗₃ is the oriented subgroup of F₃ (Tait graph 2-colourable; Aiello-Nagnibeda, J. Algebra '
                         'Appl. 21 (2022) 2250139). Knots only occur for odd n. Knots are also listed up to reversal '
                         'of the orientation, which HOMFLY does not see.\n')
-            f.write('\n| %s-index | knot | top tree | bottom tree |\n' % G)
-            f.write('|---|---|---|---|\n')
+            f.write('\n| %s-index | knot | representative (normal form) | top tree | bottom tree |\n' % G)
+            f.write('|---|---|---|---|---|\n')
         for r in rows:
             knot = r['knot'] + (' *' if r['note'] else '')
-            nf = ' %s |' % r['normal_form'] if not ternary else ''
+            nf = ' %s |' % r['normal_form']
             f.write('| %d | %s |%s `%s` | `%s` |\n' % (r[col], knot, nf, r['top_tree'], r['bottom_tree']))
         if any(r['note'] for r in rows):
             f.write('\n\\* knot with 14 or 15 crossings, not in KnotInfo (name from the SnapPy census); '

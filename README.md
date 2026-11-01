@@ -297,8 +297,10 @@ The reductions are not the same in the four groups:
   - a witness `top_tree`, `bottom_tree`: leaf addresses, 0 = left, 1 = right, and 2 = right for ternary
     trees, where 1 = middle;
   - the number of crossings after simplification and the HOMFLY polynomial.
-- `results/<G>_index_table.md`: index, KnotInfo name and a representative (for F also in normal form
-  x₀^a₀ ⋯ x_k^a_k x_k^-b_k ⋯ x₀^-b₀, checked by multiplying the generators).
+- `results/<G>_index_table.md`: index, KnotInfo name and a representative, as a tree diagram and in normal
+  form x₀^a₀ ⋯ x_k^a_k x_k^-b_k ⋯ x₀^-b₀ (generators x_i of F for F and $`\vec{F}`$, y_i of F₃ for F₃ and
+  $`\vec{F}_3`$, with y₂ₘ = ι(xₘ); see `make_table.py`). Every normal form is checked: for F by multiplying
+  the generators, for F₃ by comparing the piecewise linear maps of [0, 1] (exact arithmetic).
 - `results/knots_beyond_table*.csv`: knots with 14–15 crossings recognized by SnapPy (upper bounds).
 - `results/unidentified_classes*.csv`: HOMFLY classes of no prime knot with ≤ 13 crossings.
 
