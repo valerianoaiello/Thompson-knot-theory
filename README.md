@@ -61,10 +61,18 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 | $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
 | $`\vec{F}_3`$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
 
-Tables:
-- `results/F_index_table.md`, `results/F3_index_table.md`, `results/Fvec_index_table.md`,
-  `results/F3vec_index_table.md`;
-- knots with ≤ 9 crossings, all four indices side by side: `results/Fvec_index_upto9.md`.
+**Where to find the values** (a guide to all the files is in [`results/README.md`](results/README.md)):
+- the final tables, with a representative of every knot in normal form and as a tree diagram:
+  [`results/F_index_table.md`](results/F_index_table.md), [`results/F3_index_table.md`](results/F3_index_table.md),
+  [`results/Fvec_index_table.md`](results/Fvec_index_table.md),
+  [`results/F3vec_index_table.md`](results/F3vec_index_table.md) (also as `.csv`);
+- the oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots:
+  [`results/oriented_index_Fvec.md`](results/oriented_index_Fvec.md),
+  [`results/oriented_index_F3vec.md`](results/oriented_index_F3vec.md);
+- knots with ≤ 9 crossings, all four indices side by side: [`results/Fvec_index_upto9.md`](results/Fvec_index_upto9.md).
+
+The files `results/<G>_index.csv` are working files (one row per KnotInfo knot, also those not found, with the
+exact lower bound): they have no normal forms.
 
 Checked on the final tables (`tests/check_index_inequalities.py`), for every knot:
 - F₃-index ≤ F-index;
