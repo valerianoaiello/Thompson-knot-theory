@@ -20,6 +20,7 @@ import re
 from collections import Counter
 
 import certify_indices as C
+from make_table import normal_form, normal_form3
 
 HERE = C.HERE
 RAW = {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}
@@ -133,11 +134,14 @@ def main():
                 cells.append('? (%d)' % bound)
                 continue
             cells.append('%s%d%s (%d)' % ('**' if n < bound else '', n, '**' if n < bound else '', bound))
-            witnesses.append('- %s in %s, n = %d (%d diagrams in the class, %d of %d checked): `%s | %s`'
-                             % (name, g, n, size, res[True], sum(res.values()), wit[0], wit[1]))
+            nf = (normal_form3 if g in ('F3', 'F3vec') else normal_form)(wit[0], wit[1])
+            witnesses.append('- %s in %s, n = %d (%d diagrams in the class, %d of %d checked): `%s`; trees `%s | %s`'
+                             % (name, g, n, size, res[True], sum(res.values()), nf, wit[0], wit[1]))
             print(name, g, n, bound, flush=True)
         lines.append('| %s | %s |' % (name, ' | '.join(cells)))
-    lines += ['', 'Bold: the inequality is strict.', '', '## Witnesses', ''] + witnesses
+    lines += ['', 'Bold: the inequality is strict.', '', '## Witnesses', '',
+              'Normal form (x_i: generators of F; y_i: generators of F_3, with y_{2m} = iota(x_m), see make_table.py) '
+              'and tree diagram (leaf addresses of the top and bottom trees).', ''] + witnesses
     open(os.path.join(HERE, 'results', 'connected_sums.md'), 'w').write('\n'.join(lines) + '\n')
     print('\n'.join(lines))
 

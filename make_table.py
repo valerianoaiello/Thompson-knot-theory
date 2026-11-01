@@ -14,23 +14,83 @@ x_0^a_0 ... x_k^a_k x_k^-b_k ... x_0^-b_0, where a_i (resp. b_i) is the exponent
 (resp. T-): the number of trailing 0's of its address, minus one if the rest of the address only
 contains 1's (the leaf hangs from the right side of the tree). Every normal form is checked by
 multiplying the generators with ftrees.py.
+
+normal_form3 does the same for F_3, with the generators y_0, y_1, ... (relations y_n y_l = y_l y_{n+2} for l < n):
+y_i adds a caret below child i mod 2 (left or middle) of the vertex at depth i // 2 of the right vine of the top
+tree, and below the right child of that vertex in the bottom tree, so that y_{2m} = iota(x_m). The exponent of a
+leaf is the number of trailing 0's of its address, minus one if the rest of the address only contains 2's. Every
+normal form is checked by comparing the piecewise linear maps of [0, 1] of the tree diagram and of the product of
+the generators (exact rational arithmetic; the same check confirms the binary normal forms).
 """
 import csv
 import os
 import re
 import sys
+from fractions import Fraction
 
 import ftrees as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def leaf_exponents(words):
+def leaf_exponents(words, k=2):
     out = []
     for w in words:
         t = len(w) - len(w.rstrip('0'))
-        out.append(t - 1 if t and set(w.rstrip('0')) <= {'1'} else t)
+        out.append(t - 1 if t and set(w.rstrip('0')) <= {str(k - 1)} else t)
     return out
+
+
+# piecewise linear maps of [0, 1], as lists of breakpoints (x, f(x)); a tree diagram maps the leaf intervals of
+# the top tree to those of the bottom tree, and a product gh means "first g, then h"
+
+def _pl(top, bottom, k):
+    def end(w):
+        return sum(Fraction(int(c), k ** (i + 1)) for i, c in enumerate(w)) + Fraction(1, k ** len(w))
+    return [(Fraction(0), Fraction(0))] + [(end(u), end(v)) for u, v in zip(top, bottom)]
+
+
+def _ev(f, t):
+    for (x0, y0), (x1, y1) in zip(f, f[1:]):
+        if x0 <= t <= x1:
+            return y0 + (t - x0) * (y1 - y0) / (x1 - x0)
+
+
+def _then(f, g):
+    xs = {x for x, _ in f} | {_ev([(y, x) for x, y in f], x) for x, _ in g}
+    return [(x, _ev(g, _ev(f, x))) for x in sorted(xs)]
+
+
+def _generator(i, k):
+    """Leaf addresses (top, bottom) of x_i (k = 2) or y_i (k = 3)."""
+    m, j = divmod(i, k - 1)
+    p = str(k - 1) * m
+    leaves = [str(k - 1) * lv + str(d) for lv in range(m) for d in range(k - 1)] + [p + str(d) for d in range(k)]
+
+    def expand(c):
+        return [u for w in leaves for u in ([w + str(d) for d in range(k)] if w == p + str(c) else [w])]
+    return expand(j), expand(k - 1)
+
+
+def normal_form3(top, bottom):
+    """Normal form of the element (top, bottom) (comma-separated leaf addresses) of F_3, checked as a map."""
+    tw, bw = top.split(','), bottom.split(',')
+    a, b = leaf_exponents(tw, 3), leaf_exponents(bw, 3)
+    letters = [(i, 1) for i, e in enumerate(a) for _ in range(e)]
+    letters += [(i, -1) for i in reversed(range(len(b))) for _ in range(b[i])]
+    h = [(Fraction(0), Fraction(0)), (Fraction(1), Fraction(1))]
+    for i, sgn in letters:
+        g = _pl(*_generator(i, 3), 3)
+        h = _then(h, g if sgn > 0 else [(y, x) for x, y in g])
+    f = _pl(tw, bw, 3)
+    assert all(_ev(f, x) == _ev(h, x) for x in {x for x, _ in f} | {x for x, _ in h}), (top, bottom)
+
+    def power(i, e):
+        return 'y%d' % i + ('^%d' % e if e != 1 else '')
+
+    pos = [power(i, e) for i, e in enumerate(a) if e]
+    neg = [power(i, -e) for i, e in reversed(list(enumerate(b))) if e]
+    return ' '.join(pos + neg) or '1'
 
 
 def normal_form(top, bottom):
