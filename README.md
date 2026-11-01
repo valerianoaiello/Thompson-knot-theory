@@ -57,7 +57,7 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 | index | all tree diagrams up to | known for |
 |---|---|---|
 | F | n = 13 | all knots with ≤ 10 crossings; 550 of 552 with 11; 1348 of 2176 with 12; 3902 of 9988 with 13 |
-| F₃ | n = 8 | all knots with ≤ 10 crossings; 513 of 552 with 11; 1052 of 2176 with 12; 1563 of 9988 with 13 |
+| F₃ | n = 9 | all knots with ≤ 11 crossings; 2162 of 2176 with 12; 8357 of 9988 with 13 |
 | $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
 | $`\vec{F}_3`$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
 
@@ -69,7 +69,30 @@ Tables:
 Checked on the final tables (`tests/check_index_inequalities.py`), for every knot:
 - F₃-index ≤ F-index;
 - F₃-index ≤ $`\vec{F}_3`$-index ≤ $`\vec{F}`$-index;
-- F-index ≤ $`\vec{F}`$-index.
+- F-index ≤ $`\vec{F}`$-index;
+- span V + 1 ≤ F-index ≤ $`\vec{F}`$-index, V the Jones polynomial (a theorem of the paper; `jones_span_bound.py`,
+  `results/jones_span_bound.md`). The bound is attained by 1440 knots for F (the first is 7_4, with F-index 8)
+  and by 8 knots for $`\vec{F}`$; for them the index is proved by the witness alone.
+
+### Certified verification
+
+**All the values of the four tables are certified** by exact or interval-arithmetic computations, with no
+contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.py`; results in
+`results/certified_<G>.md`, `results/certified_retry_<G>.md`, `results/certified_completeness.md`).
+- **Witnesses** (a diagram of size n is K): a combinatorial isomorphism between the verified canonical
+  retriangulations of the two complements, or equal isomorphism signatures of random retriangulations
+  (also for satellite knots), so the complements are homeomorphic and the knots coincide up to mirror image
+  (Gordon–Luecke); KnotInfo for a few torus knots. 6049 (F), 11320 (F₃), 2155 ($`\vec{F}`$) and 12708
+  ($`\vec{F}_3`$) witnesses.
+- **Exclusions** (no smaller diagram is K): every diagram of the HOMFLY class of K between its first appearance
+  and the index is shown not to be K by its crossing number, by being a connected sum of non-trivial knots
+  (K is prime), by knot Floer homology, by the verified volume, by the verified canonical triangulation, or
+  by an essential torus found by Regina. 27857 (F), 28392 (F₃), 390776 ($`\vec{F}`$) and 14265 ($`\vec{F}_3`$)
+  diagrams.
+- **Completeness**: every knot with a known index has a certified witness, every knot whose index exceeds the
+  first appearance of its HOMFLY class is in the complete check, and all the diagrams of these classes in the
+  relevant range are excluded. The only non-certified ingredient is the exact enumeration of the diagrams and
+  of their HOMFLY polynomials.
 
 ### Oriented indices
 
@@ -158,13 +181,17 @@ Run everything from the repository root. `sage` is SageMath's executable.
 ```bash
 make                                  # bin/fknots, bin/iota_knots (link SageMath's libhomfly; set SAGE_LOCAL)
 python3 run.py 13                     # F: enumerate n = 2..13 in parallel  -> results/raw/n<n>.tsv
-python3 run.py 8  --group F3          # F₃                                   -> results/raw_F3/
+python3 run.py 9  --group F3          # F₃                                   -> results/raw_F3/
 python3 run.py 17 --group Fvec        # vec{F}                               -> results/raw_Fvec/
 python3 run.py 11 --group F3vec       # vec{F}₃                              -> results/raw_F3vec/
 sage identify.sage 13 [F|F3|Fvec|F3vec]                # identify the knots  -> results/<G>_index.csv
 sage -python complete_check.py <G>                     # all diagrams of the classes found late / not found
 sage -python resolve_undecided.py <G>                  # second pass on the undecided diagrams
 sage -python apply_complete_check.py <G>               # apply the complete check to <G>_index.csv
+sage -python certify_indices.py <G> [procs]            # certified verification of the table
+sage -python certify_retry.py <G> [procs] [timeout]    # second pass on what the first one left open
+sage -python certify_completeness.py                   # every value certified?
+sage -python jones_span_bound.py                       # comparison with the Jones span bound
 python3 make_table.py <G>                              # final table -> results/<G>_index_table.md
 python3 small_knots_table.py                           # all four indices, knots with <= 9 crossings
 sage -python oriented_scan.py Fvec|F3vec [procs] [maxc]  # oriented indices of the non-invertible knots
@@ -246,7 +273,8 @@ The reductions are not the same in the four groups:
    compare them with the knot K being sought. They are treated by `resolve_undecided.py`: such a diagram is
    not K if its knot Floer homology differs from that of K, or if its complement contains an essential torus
    (it is then a satellite knot, while K is hyperbolic). No diagram is left undecided in the current results
-   (`results/complete_check_<G>.md`).
+   (`results/complete_check_<G>.md`). All the conclusions of steps 3–4 were checked again with certified
+   methods only (see Certified verification above).
 5. **Lower bounds.** `lower_bound` is the first n at which the knot's HOMFLY class appears, and it is
    exact, because the HOMFLY polynomial is computed for every diagram. A knot that never appears gets
    n_max + 1, also exact after the complete check.
@@ -276,6 +304,8 @@ The reductions are not the same in the four groups:
 | `run.py` | parallel enumeration |
 | `identify.sage`, `identify_lib.py` | identification with KnotInfo and SnapPy (crash-tolerant process pool `RobustPool`) |
 | `complete_check.py`, `resolve_undecided.py`, `apply_complete_check.py` | complete check over all diagrams of the relevant HOMFLY classes |
+| `certify_indices.py`, `certify_retry.py`, `certify_completeness.py` | certified verification of all the tables |
+| `jones_span_bound.py` | comparison with the bound span V + 1 ≤ F-index ≤ $`\vec{F}`$-index |
 | `make_table.py`, `small_knots_table.py` | final tables |
 | `oriented_scan.py` | oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots |
 | `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs $`K^r`$ in $`\vec{F}`$ |
