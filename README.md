@@ -79,11 +79,20 @@ Checked on the final tables (`tests/check_index_inequalities.py`), for every kno
 **All the values of the four tables are certified** by exact or interval-arithmetic computations, with no
 contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.py`; results in
 `results/certified_<G>.md`, `results/certified_retry_<G>.md`, `results/certified_completeness.md`).
-- **Witnesses** (a diagram of size n is K): a combinatorial isomorphism between the verified canonical
-  retriangulations of the two complements, or equal isomorphism signatures of random retriangulations
-  (also for satellite knots), so the complements are homeomorphic and the knots coincide up to mirror image
-  (Gordon–Luecke); KnotInfo for a few torus knots. 6049 (F), 11320 (F₃), 2155 ($`\vec{F}`$) and 12708
-  ($`\vec{F}_3`$) witnesses.
+- **Witnesses**: the witness diagram of size n is K. We show that the complement of its knot is homeomorphic
+  to the complement of K; by the theorem of Gordon and Luecke, the two knots are then equal up to mirror image.
+  The homeomorphism is found in one of three ways:
+  - *Canonical triangulations* (hyperbolic knots, almost all cases). SnapPy computes, with verified
+    arithmetic, the canonical triangulation of each complement, which depends only on the manifold; a
+    combinatorial isomorphism between the two triangulations gives the homeomorphism.
+  - *Isomorphism signatures* (when the first method is too slow, and for satellite knots). Each
+    triangulation is changed at random by moves that do not change the manifold, until the two complements
+    reach the same triangulation, i.e. the same isomorphism signature. This proves the homeomorphism; it
+    uses no hyperbolic geometry.
+  - *KnotInfo* (a few torus knots). The simplified witness has at most 13 crossings, so its knot is in
+    KnotInfo, where it is identified.
+
+  Witnesses certified: 6049 (F), 11320 (F₃), 2155 ($`\vec{F}`$) and 12708 ($`\vec{F}_3`$).
 - **Exclusions** (no smaller diagram is K): every diagram of the HOMFLY class of K between its first appearance
   and the index is shown not to be K by its crossing number, by being a connected sum of non-trivial knots
   (K is prime), by knot Floer homology, by the verified volume, by the verified canonical triangulation, or
