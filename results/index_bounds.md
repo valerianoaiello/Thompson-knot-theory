@@ -2,7 +2,7 @@
 
 **Data.**
 
-- Indices: the final tables `results/<G>_index.csv` (F up to n = 13, F₃ up to n = 8, $\vec{F}$ up to n = 17, $\vec{F}_3$ up to n = 11), knots with a known index only.
+- Indices: the final tables `results/<G>_index.csv` (F up to n = 13, F₃ up to n = 9, $\vec{F}$ up to n = 17, $\vec{F}_3$ up to n = 11), knots with a known index only.
 - Braid index and arc index: KnotInfo. The braid index is available for 2977 knots, up to 12 crossings.
 - For the oriented groups the index of the tables is min(index K, index Kr) (see `results/oriented_index_<G>.md`). The bounds below hold for every orientation, since braid index, arc index and crossing number do not depend on it.
 - Script: `index_bounds.py`.
@@ -19,7 +19,7 @@ The theorem does not cover F₃ and $\vec{F}_3$.
 | index | knots compared | min(index − braid) | knots attaining it (index / braid) | min(2·index − arc) | equality braid = index |
 |---|---|---|---|---|---|
 | F | 2147 | 3 | 3_1 (5 / 2) | 5 | none |
-| F₃ | 1814 | 1 | 6_1 (5 / 4), 10_13 (7 / 6), 10_35 (7 / 6), 10_58 (7 / 6), 10_137 (6 / 5), 10_138 (6 / 5) | 2 | none |
+| F₃ | 2963 | 1 | 6_1 (5 / 4), 10_13 (7 / 6), 10_35 (7 / 6), 10_58 (7 / 6), 10_137 (6 / 5), 10_138 (6 / 5) | 2 | none |
 | $\vec{F}$ | 1011 | 4 | 4_1 (7 / 3) | 8 | none |
 | $\vec{F}_3$ | 2974 | 2 | 4_1 (5 / 3), 5_2 (5 / 3), 8_12 (7 / 5), 9_15 (7 / 5), 9_25 (7 / 5), 10_55 (7 / 5), 10_137 (7 / 5), 11n_1 (7 / 5), 12n_3 (7 / 5) | 2 | none |
 
@@ -34,7 +34,7 @@ Distribution of index − braid index (number of knots):
 | index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | F |  |  | 1 | 9 | 57 | 259 | 710 | 787 | 283 | 41 |  |  |
-| F₃ | 6 | 288 | 903 | 544 | 72 | 1 |  |  |  |  |  |  |
+| F₃ | 6 | 305 | 1097 | 1100 | 377 | 77 | 1 |  |  |  |  |  |
 | $\vec{F}$ |  |  |  | 1 |  | 1 | 10 | 25 | 42 | 146 | 188 | 384 |
 | $\vec{F}_3$ |  | 9 | 171 | 807 | 905 | 713 | 279 | 89 | 1 |  |  |  |
 

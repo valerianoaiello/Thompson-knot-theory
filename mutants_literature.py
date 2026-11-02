@@ -5,6 +5,8 @@ up to 13 crossings, compared with the four indices.
 
 usage (from F_index/):   sage -python mutants_literature.py DIR      (DIR contains 12mut.out and 13mut.out)
                          -> results/mutants_literature.csv
+                         python3 mutants_literature.py --update    (recomputes the indices of the pairs already in
+                         results/mutants_literature.csv from the current tables, without Stoimenow's files)
 
 The tables list groups of mutant prime knots (crossing number, KnotScape number, Dowker-Thistlethwaite code),
 groups separated by blank lines. The KnotScape number is converted to the KnotInfo name (alternating knots
@@ -62,36 +64,28 @@ def check(task):
     return out
 
 
-def main():
-    from identify_lib import RobustPool
-    d = sys.argv[1]
-    groups = read_groups(os.path.join(d, '12mut.out')) + read_groups(os.path.join(d, '13mut.out'))
-    knots = [k for g in groups for k in g]
-    with RobustPool(os.cpu_count()) as pool:
-        ok = {}
-        for res in pool.map(check, [knots[i:i + 20] for i in range(0, len(knots), 20)]):
-            ok.update(res)
-    bad = [k for k, v in ok.items() if not v]
-    print('%d groups, %d knots; name conversion checked by SnapPy, failures: %s' % (len(groups), len(knots), bad or 'none'))
+def compare(pairs):
+    """pairs = [(group id, group size, knot 1, knot 2, name_check)] -> rows of the CSV."""
     tables = {g: {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', g + '_index.csv')))}
               for g in GROUPS}
     rows = []
-    for gid, grp in enumerate(groups, 1):
-        names = [k for k, _ in grp]
-        for a, b in combinations(names, 2):
-            row = {'group': gid, 'group_size': len(names), 'knot_1': a, 'knot_2': b,
-                   'name_check': 'ok' if ok[a] and ok[b] else 'FAILED'}
-            dist = []
-            for g in GROUPS:
-                ra, rb = tables[g][a], tables[g][b]
-                ia, ib = ra[g + '_index'], rb[g + '_index']
-                row[g + '_1'] = ia or '>=%s' % ra['lower_bound']
-                row[g + '_2'] = ib or '>=%s' % rb['lower_bound']
-                if (ia and ib and ia != ib) or (ia and not ib and int(ia) < int(rb['lower_bound'])) or \
-                        (ib and not ia and int(ib) < int(ra['lower_bound'])):
-                    dist.append(g)
-            row['distinguished_by'] = ' '.join(dist)
-            rows.append(row)
+    for gid, size, a, b, check in pairs:
+        row = {'group': gid, 'group_size': size, 'knot_1': a, 'knot_2': b, 'name_check': check}
+        dist = []
+        for g in GROUPS:
+            ra, rb = tables[g][a], tables[g][b]
+            ia, ib = ra[g + '_index'], rb[g + '_index']
+            row[g + '_1'] = ia or '>=%s' % ra['lower_bound']
+            row[g + '_2'] = ib or '>=%s' % rb['lower_bound']
+            if (ia and ib and ia != ib) or (ia and not ib and int(ia) < int(rb['lower_bound'])) or \
+                    (ib and not ia and int(ib) < int(ra['lower_bound'])):
+                dist.append(g)
+        row['distinguished_by'] = ' '.join(dist)
+        rows.append(row)
+    return rows
+
+
+def write(rows):
     with open(os.path.join(HERE, 'results', 'mutants_literature.csv'), 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
@@ -103,6 +97,25 @@ def main():
         by_c[c][0] += 1
         by_c[c][1] += bool(r['distinguished_by'])
     print('pairs of mutants (all pairs within the groups), distinguished by an index:', by_c)
+
+
+def main():
+    if sys.argv[1] == '--update':
+        old = list(csv.DictReader(open(os.path.join(HERE, 'results', 'mutants_literature.csv'))))
+        write(compare([(r['group'], r['group_size'], r['knot_1'], r['knot_2'], r['name_check']) for r in old]))
+        return
+    from identify_lib import RobustPool
+    d = sys.argv[1]
+    groups = read_groups(os.path.join(d, '12mut.out')) + read_groups(os.path.join(d, '13mut.out'))
+    knots = [k for g in groups for k in g]
+    with RobustPool(os.cpu_count()) as pool:
+        ok = {}
+        for res in pool.map(check, [knots[i:i + 20] for i in range(0, len(knots), 20)]):
+            ok.update(res)
+    bad = [k for k, v in ok.items() if not v]
+    print('%d groups, %d knots; name conversion checked by SnapPy, failures: %s' % (len(groups), len(knots), bad or 'none'))
+    write(compare([(gid, len(grp), a, b, 'ok' if ok[a] and ok[b] else 'FAILED')
+                   for gid, grp in enumerate(groups, 1) for a, b in combinations([k for k, _ in grp], 2)]))
 
 
 if __name__ == '__main__':

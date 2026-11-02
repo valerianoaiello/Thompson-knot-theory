@@ -36,7 +36,7 @@ def main():
     w = L.append
     w('# The indices compared with the braid index, the arc index and the crossing number\n')
     w('**Data.**\n')
-    w('- Indices: the final tables `results/<G>_index.csv` (F up to n = 13, F₃ up to n = 8, $\\vec{F}$ up to n = 17, '
+    w('- Indices: the final tables `results/<G>_index.csv` (F up to n = 13, F₃ up to n = 9, $\\vec{F}$ up to n = 17, '
       '$\\vec{F}_3$ up to n = 11), knots with a known index only.')
     w('- Braid index and arc index: KnotInfo. The braid index is available for %d knots, up to 12 crossings.' % len(braid))
     w('- For the oriented groups the index of the tables is min(index K, index Kr) (see '
