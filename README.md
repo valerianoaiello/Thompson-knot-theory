@@ -258,7 +258,7 @@ The reductions are not the same in the four groups:
 |---|---|---|---|---|
 | (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
 | (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $`\vec{F}`$) | **no** (does not preserve $`\vec{F}_3`$: it swaps black and white regions) |
-| skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | only if the common interval starts at an even leaf |
+| skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | yes (see below) |
 | keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
 
 - **Symmetries.** One representative per orbit is kept. The oriented scan accounts for g⁻¹ through the
@@ -266,8 +266,17 @@ The reductions are not the same in the four groups:
 - **Primality.**
   - A non-prime diagram is a graft, i.e. a connected sum, so a prime knot is already realized with fewer
     leaves.
-  - In $`\vec{F}_3`$ a graft below a middle edge (common interval starting at an odd leaf) can have pieces
-    outside $`\vec{F}_3`$, so it is kept.
+  - In the oriented groups a piece may lie outside the group, or carry the opposite orientation. All the
+    non-prime diagrams can nevertheless be skipped: if a non-prime diagram with k leaves realizes a prime
+    oriented knot J, then J or its reverse is realized with at most k − 4 leaves, and the reverse moves
+    (ind(K^r) ≤ ind(K) + 2 or + 4) bound the other orientation (paper, Section 3, Lemma and Corollary on
+    non-prime diagrams).
+  - `bin/iota_knots` skips all of them by default. The runs whose results are in `results/` used an older,
+    weaker rule in $`\vec{F}_3`$: a non-prime diagram was skipped only if the common interval starts at an
+    even leaf (numbering the leaves from 0). To reproduce them exactly, set `THOMPSON_OLD_NONPRIME_RULE=1`.
+    The two rules give the same tables: none of the 12,708 witnesses of the $`\vec{F}_3`$-index and of the
+    16,006 oriented witnesses is a non-prime diagram. The time is almost the same, since the additional
+    non-prime diagrams are nearly never knots (n = 9: 9,800 of 685,727 knot diagrams).
   - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
 - **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified
   Gauss codes.

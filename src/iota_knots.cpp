@@ -40,9 +40,13 @@
  * Aiello-Nagnibeda (J. Algebra Appl. 21 (2022) 2250139) c+(2i) = c-(2i) mod 2 for every leaf 2i, where c is
  * the weight of a leaf (see leaf_weight_mask). Pairs are taken in buckets with the same mask. The vertical
  * reflection does not preserve vec{F}_3 (it swaps the black and white regions), so the only symmetry is
- * (T+,T-) <-> (T-,T+) (the mirror image). A non-prime diagram is skipped only if the common interval starts at
- * an even leaf: then both the grafted diagram and the outer one are in vec{F}_3 (checked in
- * tests/check_F3vec.py); a graft at an odd leaf (below a middle edge) is kept.
+ * (T+,T-) <-> (T-,T+) (the mirror image). Every non-prime diagram is skipped, as in the other groups: by
+ * Lemma lem:nonprime and Corollary cor:nonprime of the paper this loses no index, not even of an oriented knot
+ * (the inner piece may lie outside vec{F}_3 or carry the other orientation, but then a smaller diagram
+ * realizes the knot or its reverse, and the reverse moves bound the other orientation). With the environment
+ * variable THOMPSON_OLD_NONPRIME_RULE=1 the rule of the runs reported in the paper is used instead: a
+ * non-prime diagram is skipped only if the common interval starts at an even leaf (0-based), i.e. when both
+ * pieces are in vec{F}_3 (checked in tests/check_F3vec.py). The two rules give the same tables.
  */
 
 #include <algorithm>
@@ -641,9 +645,9 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   }
   const int arity = group == "F" ? 2 : 3;
   const bool vec = group == "F3vec";
-  // THOMPSON_SKIP_ALL_NONPRIME: skip every non-prime diagram also in vec{F}_3 (allowed by Lemma lem:nonprime
-  // and Corollary cor:nonprime of the paper); by default only those whose common interval starts at an even leaf
-  const bool skip_all_nonprime = std::getenv("THOMPSON_SKIP_ALL_NONPRIME") != nullptr;
+  // every non-prime diagram is skipped (Lemma lem:nonprime of the paper); THOMPSON_OLD_NONPRIME_RULE=1 restores
+  // the rule of the runs reported in the paper (vec{F}_3: skip only if the common interval starts at an even leaf)
+  const bool old_nonprime_rule = std::getenv("THOMPSON_OLD_NONPRIME_RULE") != nullptr;
   const int c = n - 1;
   std::vector<std::string> shapes;  // in the group's own arity
   gen_shapes(c, arity, shapes);
@@ -684,7 +688,7 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
         if (std::make_pair(sb, sa) < std::make_pair(a, b)) continue;
       }
       ++canonical;
-      if (!is_prime_pair(trees[a], trees[b], vec && !skip_all_nonprime)) continue;
+      if (!is_prime_pair(trees[a], trees[b], vec && old_nonprime_rule)) continue;
       ++prime;
       if (!build_diagram(trees[a], trees[b], partner, d, true)) continue;
       ++knots;
