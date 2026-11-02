@@ -641,6 +641,9 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   }
   const int arity = group == "F" ? 2 : 3;
   const bool vec = group == "F3vec";
+  // THOMPSON_SKIP_ALL_NONPRIME: skip every non-prime diagram also in vec{F}_3 (allowed by Lemma lem:nonprime
+  // and Corollary cor:nonprime of the paper); by default only those whose common interval starts at an even leaf
+  const bool skip_all_nonprime = std::getenv("THOMPSON_SKIP_ALL_NONPRIME") != nullptr;
   const int c = n - 1;
   std::vector<std::string> shapes;  // in the group's own arity
   gen_shapes(c, arity, shapes);
@@ -681,7 +684,7 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
         if (std::make_pair(sb, sa) < std::make_pair(a, b)) continue;
       }
       ++canonical;
-      if (!is_prime_pair(trees[a], trees[b], vec)) continue;
+      if (!is_prime_pair(trees[a], trees[b], vec && !skip_all_nonprime)) continue;
       ++prime;
       if (!build_diagram(trees[a], trees[b], partner, d, true)) continue;
       ++knots;
