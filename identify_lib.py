@@ -47,9 +47,10 @@ TIMEOUT = 30        # seconds for each call to get_knotinfo / SnapPy ...
 LONG_TIMEOUT = 600  # ... and for the second try of get_knotinfo after a timeout (with a busy CPU
                     # get_knotinfo can take more than 30 s on a 13-crossing diagram: a timeout must
                     # not make the result depend on the load of the machine)
-NAME_REPS = int(os.environ.get('NAME_REPS', 1))  # representatives used to name the classes of
+NAME_REPS = int(os.environ.get('NAME_REPS', 0))  # representatives used to name the classes of
                     # unidentified_classes.csv (there are tens of thousands of them at n = 13);
-                    # NAME_REPS=0 skips the naming (vec{F}_3 at n = 11 has 700k such classes)
+                    # 0 (default) skips the naming, which is not needed for the tables and mostly
+                    # calls get_knotinfo on composite knots (~18 s each); NAME_REPS=1 names them
 TIMEOUTS = []       # representatives on which get_knotinfo timed out twice (per process)
 
 RV = LaurentPolynomialRing(ZZ, 'v,z')
@@ -185,12 +186,15 @@ def identify_class(task):
         S = with_timeout(simplified, seq, hands)
         if S is None or not S.crossings:
             continue
-        nm = knotinfo_name(S)
-        if nm not in todo:  # ambiguous HOMFLY, > 13 crossings, ...: all the representatives
-            nm = snappy_name(S)  # are tried, since a class can contain several knots
-            # (e.g. 14n_2554 has the HOMFLY of 13n_2638)
-            if is_beyond(nm):
-                beyond.append((nm, top, bottom))
+        # SnapPy first (about 40 times faster than get_knotinfo); get_knotinfo only when SnapPy gives no
+        # name (non-hyperbolic or composite knots). Every identification is certified afterwards
+        # (certify_indices.py). All the representatives are tried, since a class can contain several
+        # knots (e.g. 14n_2554 has the HOMFLY of 13n_2638).
+        nm = snappy_name(S)
+        if is_beyond(nm):
+            beyond.append((nm, top, bottom))
+        if nm in (None, 'non-hyperbolic'):
+            nm = knotinfo_name(S)
         if nm in todo:
             todo.discard(nm)
             found.append((nm, top, bottom, len(S.crossings)))
@@ -206,7 +210,9 @@ def name_class(reps):
         S = with_timeout(simplified, seq, hands) if seq else None
         if S is None or not S.crossings:
             continue
-        nm = knotinfo_name(S) or snappy_name(S)
+        nm = snappy_name(S)
+        if nm in (None, 'non-hyperbolic'):
+            nm = knotinfo_name(S) or nm
         if is_beyond(nm):
             beyond.append((nm, top, bottom))
         knots.add(nm if nm else '? (%d crossings)' % len(S.crossings))

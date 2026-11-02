@@ -46,7 +46,7 @@ VOLUME_EPS = 1e-7
 _TARGETS = {}         # per process: knot -> (hyperbolic, volume, exterior)
 
 
-def _geometric(E, tries=5):
+def _geometric(E, tries=50):  # a randomization costs ~0.1 ms, naming a diagram ~1 s
     for _ in range(tries):
         if E.solution_type() == 'all tetrahedra positively oriented':
             return True
@@ -95,7 +95,10 @@ def _compare(top, bottom, pd, knots):
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
         else:
             if name is None:
-                name = (knotinfo_name(S) if len(S.crossings) <= 13 else None) or snappy_name(S) or ''
+                name = snappy_name(S)
+                if name in (None, 'non-hyperbolic') and len(S.crossings) <= 13:
+                    name = knotinfo_name(S) or name
+                name = name or ''
             if name in ('', 'non-hyperbolic'):
                 res[k] = 'undecided'
             else:
