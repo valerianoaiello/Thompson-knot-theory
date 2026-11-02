@@ -160,7 +160,10 @@ def quick_name(S):
     timeout), then SnapPy with the full timeout. Every identification is certified afterwards
     (certify_indices.py)."""
     nm = snappy_name(S, QUICK)
-    if nm in (None, 'non-hyperbolic'):
+    # SnapPy names the knots with <= 10 crossings as in Rolfsen's table, whose numbering differs from
+    # KnotInfo's (10_83 / 10_86, and 10_162-10_166 after the Perko pair): for them, as when SnapPy gives
+    # no name, get_knotinfo decides. Above 10 crossings SnapPy's Hoste-Thistlethwaite names are KnotInfo's.
+    if nm in (None, 'non-hyperbolic') or re.fullmatch(r'(\d+)_\d+', nm) and int(nm.split('_')[0]) <= 10:
         nm = knotinfo_name(S) or nm
     if nm is None:
         nm = snappy_name(S)
