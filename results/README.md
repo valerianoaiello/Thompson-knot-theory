@@ -36,7 +36,7 @@ How to read the tables:
 | `oriented_verified_<G>.md` | the certified verification of the oriented results |
 | `jones_span_bound.md` / `.csv`, `index_bounds.md` | comparison with the Jones polynomial, braid index, crossing number, genus |
 | `mutants.md`, `mutants_literature.csv`, `mutant_candidates.csv` | mutant knots |
-| `reverse_bound_Fvec.csv`, `inverse_rule.md`, `parity_theorem.md` | K versus $`K^r`$ in $`\vec{F}`$; the rule for $`g^{-1}`$; the parity theorem |
+| `reverse_bound_Fvec.csv`, `reverse_bound_F3vec.csv`, `inverse_rule.md`, `parity_theorem.md` | K versus $`K^r`$ in $`\vec{F}`$ and $`\vec{F}_3`$ (value of the unrealized orientation from the reverse moves); the rule for $`g^{-1}`$; the parity theorem |
 | `sweeney_corrections.md` | comparison with D. Sweeney's table |
 | `logs/` | logs of the runs |
 
