@@ -16,6 +16,7 @@ Output: results/certified_completeness.md.
 import csv
 import json
 import os
+import sys
 
 import certify_indices as C
 
@@ -115,12 +116,13 @@ def check(group):
 def main():
     lines = ['# Completeness of the certified verification', '',
              'Script `certify_completeness.py` (see its docstring).', '']
-    for group in ('F', 'F3', 'Fvec', 'F3vec'):
+    groups = sys.argv[1:] or ['F', 'F3', 'Fvec', 'F3vec']
+    for group in groups:
         stats, problems, cmp = check(group)
         lines += ['## %s' % group, ''] + ['- %s: %s' % kv for kv in stats.items()]
         lines += ['- **problems: %d**' % len(problems)] + ['  - %s' % p for p in problems[:50]]
         lines += ['  - more diagrams than compared: %s' % (c,) for c in cmp[:10]] + ['']
-    open(os.path.join(HERE, 'results', 'certified_completeness.md'), 'w').write('\n'.join(lines) + '\n')
+    open(os.path.join(HERE, 'results', 'certified_completeness%s.md' % ('' if not sys.argv[1:] else '_' + '_'.join(groups))), 'w').write('\n'.join(lines) + '\n')
     print('\n'.join(lines))
 
 

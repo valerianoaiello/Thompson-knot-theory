@@ -154,7 +154,8 @@ def main():
     from sage.all import KnotInfo
     group = sys.argv[1]
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
-    nmax = {'Fvec': 17, 'F3vec': 11}[group]
+    raw = os.path.join(HERE, 'results', {'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}[group])
+    nmax = max(int(f[1:-4]) for f in os.listdir(raw) if f.startswith('n') and f.endswith('.tsv'))
     rows = [r for r in csv.DictReader(open(os.path.join(HERE, 'results', 'oriented_index_%s.csv' % group)))
             if r['verdict'] == 'DIFFERENT']
     tasks, wtasks = [], []
