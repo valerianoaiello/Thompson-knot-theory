@@ -44,6 +44,8 @@ import snappy  # noqa: F401  (needed by spherogram for exteriors)
 import spherogram
 
 TIMEOUT = 30        # seconds for each call to get_knotinfo / SnapPy ...
+QUICK = 2           # ... except the first SnapPy try, which is cut short: on a few diagrams SnapPy's
+                    # identify takes long, and get_knotinfo is then faster
 LONG_TIMEOUT = 600  # ... and for the second try of get_knotinfo after a timeout (with a busy CPU
                     # get_knotinfo can take more than 30 s on a 13-crossing diagram: a timeout must
                     # not make the result depend on the load of the machine)
@@ -134,10 +136,10 @@ def knotinfo_name(S):
     return ' # '.join(sorted(base_name(k) for k, e in res for _ in range(e)))
 
 
-def snappy_name(S):
+def snappy_name(S, timeout=TIMEOUT):
     """Name (up to mirror) of the knot from its complement, 'non-hyperbolic' or None."""
     E = S.exterior()
-    ids = with_timeout(E.identify) or []
+    ids = with_timeout(E.identify, timeout=timeout) or []
     names = [str(M).split('(')[0] for M in ids]
     for name in names:  # KnotInfo uses Hoste-Thistlethwaite names above 10 crossings
         m = re.fullmatch(r'K(\d+)([an])(\d+)', name)
@@ -150,6 +152,19 @@ def snappy_name(S):
     if E.solution_type() != 'all tetrahedra positively oriented':
         return 'non-hyperbolic'
     return None
+
+
+def quick_name(S):
+    """Name (up to mirror) of the knot of S: SnapPy with a short timeout (about 40 times faster than
+    get_knotinfo), then get_knotinfo (<= 13 crossings: non-hyperbolic or composite knots, or a SnapPy
+    timeout), then SnapPy with the full timeout. Every identification is certified afterwards
+    (certify_indices.py)."""
+    nm = snappy_name(S, QUICK)
+    if nm in (None, 'non-hyperbolic'):
+        nm = knotinfo_name(S) or nm
+    if nm is None:
+        nm = snappy_name(S)
+    return nm
 
 
 def is_beyond(nm):
@@ -186,15 +201,11 @@ def identify_class(task):
         S = with_timeout(simplified, seq, hands)
         if S is None or not S.crossings:
             continue
-        # SnapPy first (about 40 times faster than get_knotinfo); get_knotinfo only when SnapPy gives no
-        # name (non-hyperbolic or composite knots). Every identification is certified afterwards
-        # (certify_indices.py). All the representatives are tried, since a class can contain several
-        # knots (e.g. 14n_2554 has the HOMFLY of 13n_2638).
-        nm = snappy_name(S)
+        # All the representatives are tried, since a class can contain several knots (e.g. 14n_2554
+        # has the HOMFLY of 13n_2638).
+        nm = quick_name(S)
         if is_beyond(nm):
             beyond.append((nm, top, bottom))
-        if nm in (None, 'non-hyperbolic'):
-            nm = knotinfo_name(S)
         if nm in todo:
             todo.discard(nm)
             found.append((nm, top, bottom, len(S.crossings)))
@@ -210,9 +221,7 @@ def name_class(reps):
         S = with_timeout(simplified, seq, hands) if seq else None
         if S is None or not S.crossings:
             continue
-        nm = snappy_name(S)
-        if nm in (None, 'non-hyperbolic'):
-            nm = knotinfo_name(S) or nm
+        nm = quick_name(S)
         if is_beyond(nm):
             beyond.append((nm, top, bottom))
         knots.add(nm if nm else '? (%d crossings)' % len(S.crossings))

@@ -71,7 +71,7 @@ def _compare(top, bottom, pd, knots):
     import snappy  # noqa: F401
     import spherogram
     import ftrees as F
-    from identify_lib import knotinfo_name, snappy_name
+    from identify_lib import quick_name
     if pd is None:
         pd = F.pd_code(F.from_leaf_words(top.split(',')), F.from_leaf_words(bottom.split(',')))
     S = spherogram.Link([[x - 1 for x in c] for c in pd])
@@ -95,10 +95,7 @@ def _compare(top, bottom, pd, knots):
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
         else:
             if name is None:
-                name = snappy_name(S)
-                if name in (None, 'non-hyperbolic') and len(S.crossings) <= 13:
-                    name = knotinfo_name(S) or name
-                name = name or ''
+                name = quick_name(S) or ''
             if name in ('', 'non-hyperbolic'):
                 res[k] = 'undecided'
             else:
