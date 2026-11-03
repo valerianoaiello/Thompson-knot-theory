@@ -44,6 +44,14 @@ CHUNK = 2000          # diagrams per task
 VOLUME_EPS = 1e-7
 
 _TARGETS = {}         # per process: knot -> (hyperbolic, volume, exterior)
+_CROSSINGS = {}       # per process: knot -> crossing number (KnotInfo)
+
+
+def crossing_number(knot):
+    if knot not in _CROSSINGS:
+        from sage.all import KnotInfo
+        _CROSSINGS[knot] = int(getattr(KnotInfo, 'K' + knot).crossing_number())
+    return _CROSSINGS[knot]
 
 
 def _geometric(E, tries=50):  # a randomization costs ~0.1 ms, naming a diagram ~1 s
@@ -107,6 +115,9 @@ def _compare(top, bottom, pd, knots):
     name = None  # exact name, computed only if needed
     res = {}
     for k in knots:
+        if len(S.crossings) < crossing_number(k):
+            res[k] = 'no'  # a diagram with fewer crossings than the crossing number of k (exact)
+            continue
         hyp, vk, Ek = _target(k)
         if geo and hyp:
             if abs(vol - vk) > VOLUME_EPS:

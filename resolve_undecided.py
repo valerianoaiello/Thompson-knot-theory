@@ -6,6 +6,7 @@ usage (from F_index/):   sage -python resolve_undecided.py GROUP [processes]
 
 For every knot of results/complete_check_<G>.csv with undecided diagrams below its index (or below n_max + 1
 when not found), every such diagram is examined again:
+  0. after simplification it has fewer crossings than the crossing number of the target: not the target;
   1. knot Floer homology (spherogram, up to mirror image): if it differs from the target's, the diagram
      is not the target;
   2. otherwise 100 randomizations looking for a hyperbolic structure; if found, volume + isometry;
@@ -73,6 +74,9 @@ def examine(task):
                 pd = F.pd_code(F.from_leaf_words(fl[1].split(',')), F.from_leaf_words(fl[2].split(',')))
             L = spherogram.Link([[x - 1 for x in c] for c in pd])
             L.simplify('global')
+            if len(L.crossings) < C.crossing_number(knot):
+                out['fewer crossings than the knot'] += 1
+                continue
             if _target_hfk(knot) not in hfk(L):
                 out['knot Floer homology differs'] += 1
                 continue
