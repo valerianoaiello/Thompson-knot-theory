@@ -280,6 +280,7 @@ The reductions are not the same in the four groups:
 | (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
 | (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $`\vec{F}`$) | **no** (does not preserve $`\vec{F}_3`$: it swaps black and white regions) |
 | skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | yes (see below) |
+| skip the diagrams with an admissible RIII–RII reduction (paper, Section 3) | – | yes | – | – |
 | keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
 
 - **Symmetries.** One representative per orbit is kept. The oriented scan accounts for g⁻¹ through the
@@ -301,6 +302,10 @@ The reductions are not the same in the four groups:
     skipping them halves the pairs of trees whose link is built and reduces the enumeration for n = 11
     from 47 to 32 minutes, with the same 710,516 HOMFLY-PT classes.
   - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
+- **RIII–RII reductions (F₃).** A ternary diagram whose signed Tait trees admit the RIII–RII reduction of the
+  paper (Section 3) gives the same link as a diagram of size n − 1, so it is skipped (`THOMPSON_NO_RIII_RII=1`
+  disables it). For n = 8 this skips 27% of the knot diagrams; the first n of every HOMFLY class is unchanged.
+  It does not apply to $`\vec{F}_3`$ (the reduced Tait graph is not 2-colourable) nor to F.
 - **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified
   Gauss codes.
 
