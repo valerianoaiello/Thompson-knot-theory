@@ -10,9 +10,11 @@ when not found), every such diagram is examined again:
   1. knot Floer homology (spherogram, up to mirror image): if it differs from the target's, the diagram
      is not the target;
   2. otherwise 100 randomizations looking for a hyperbolic structure; if found, volume + isometry;
-  3. otherwise equal isomorphism signatures of random retriangulations of the two complements: the diagram
+  3. otherwise the homology of the covers of degree 2-5 of the complement (exact, as in certify_indices.py):
+     if it differs from the target's, the diagram is not the target;
+  4. otherwise equal isomorphism signatures of random retriangulations of the two complements: the diagram
      is the target (exact);
-  4. otherwise an essential torus found by Regina (incompressible and not boundary parallel, as in
+  5. otherwise an essential torus found by Regina (incompressible and not boundary parallel, as in
      certify_indices.py; at most 120 s, in a separate process): the knot is a satellite, so it is not the target, provided the
      target is hyperbolic (some targets are satellites, e.g. 13n_4587).
 Steps 1, 3 and 4 are exact. (An earlier version used SnapPy's splitting_surfaces in step 4, whose tori need
@@ -87,6 +89,14 @@ def examine(task):
                 if same:
                     left.append((fl[1], fl[2], 'IS THE TARGET'))
                 continue
+            try:
+                if CI.covers(E) != _target_covers(knot):
+                    # homology of the covers of degree 2-5 of the complement (exact, also for non-hyperbolic
+                    # complements): different complements, so not the target
+                    out['homology of the covers differs'] += 1
+                    continue
+            except Exception:
+                pass
             if C.same_as_target(E, knot, tries=2000):
                 # exact: the complements are homeomorphic (Gordon-Luecke); needed above all for targets that
                 # are satellites, whose diagrams also contain essential tori
@@ -99,6 +109,15 @@ def examine(task):
             out['still undecided'] += 1
             left.append((fl[1], fl[2], 'undecided'))
     return {'task': task, 'knot': knot, 'counts': dict(out), 'left': left}
+
+
+_COVERS = {}
+
+
+def _target_covers(knot):
+    if knot not in _COVERS:
+        _COVERS[knot] = CI.covers(CI.knot_exterior(knot))
+    return _COVERS[knot]
 
 
 def essential_torus_killable(E, timeout=120):

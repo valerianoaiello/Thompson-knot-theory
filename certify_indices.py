@@ -114,7 +114,7 @@ def covers(E, maxdeg=5):
     """Sorted homology groups of the connected covers of degree 2..maxdeg of the complement (exact: the covers
     come from the transitive permutation representations of the fundamental group). A topological invariant
     of the complement, hence of the knot up to mirror image."""
-    return sorted((d, C.covering_type(), str(C.homology())) for d in range(2, maxdeg + 1) for C in E.covers(d))
+    return sorted((d, C.cover_info()['type'], str(C.homology())) for d in range(2, maxdeg + 1) for C in E.covers(d))
 
 
 def essential_torus(E):
