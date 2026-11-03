@@ -20,7 +20,7 @@ results/unidentified_classes_F3vec.csv
 tmp_check/
 
 # the paper is kept locally only
-paper/
+/paper
 
 # instructions for Claude Code, kept locally only
 CLAUDE.md
