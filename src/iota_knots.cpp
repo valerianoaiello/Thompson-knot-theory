@@ -50,6 +50,7 @@
  */
 
 #include <algorithm>
+#include <tuple>
 #include <array>
 #include <chrono>
 #include <cstdio>
@@ -234,6 +235,95 @@ static Tree build_tree(const std::string &ternary_shape) {
   for (int v = 1; v < t.c; ++v) t.intervals.push_back((uint16_t)(t.iv[v].first * 64 + t.iv[v].second));
   std::sort(t.intervals.begin(), t.intervals.end());
   return t;
+}
+
+
+/* RIII-RII reduction (paper, Section 3): the signed Tait tree of one ternary tree, as a key. For every internal
+ * vertex starting at leaf a, the edge joins the black regions u < w (the even gaps among a, a + s0, a + s0 + s1,
+ * a + s0 + s1 + s2, halved) and has p = +1 if a is even, -1 otherwise (its sign is p on the top tree and -p on
+ * the bottom one). */
+struct TaitEdge {
+  int u, w, p;
+  bool operator<(const TaitEdge &o) const { return std::tie(u, w, p) < std::tie(o.u, o.w, o.p); }
+  bool operator==(const TaitEdge &o) const { return u == o.u && w == o.w && p == o.p; }
+};
+
+static std::vector<TaitEdge> tait_tree(const Tree &t) {
+  std::vector<TaitEdge> out;
+  for (int v = 0; v < t.c; ++v) {
+    int a = t.iv[v].first, g[4], k = 0;
+    g[0] = a;
+    for (int i = 0; i < 3; ++i) {
+      int ch = t.ch[v][i];
+      g[i + 1] = g[i] + (ch < 0 ? 1 : t.iv[ch].second - t.iv[ch].first + 1);
+    }
+    int ends[2];
+    for (int i = 0; i < 4; ++i)
+      if (g[i] % 2 == 0 && k < 2) ends[k++] = g[i] / 2;
+    out.push_back({std::min(ends[0], ends[1]), std::max(ends[0], ends[1]), a % 2 == 0 ? 1 : -1});
+  }
+  std::sort(out.begin(), out.end());
+  return out;
+}
+
+static std::string tait_key(const std::vector<TaitEdge> &e) {
+  std::string k;
+  for (auto &x : e) {
+    k.push_back((char)x.u);
+    k.push_back((char)x.w);
+    k.push_back(x.p > 0 ? '+' : '-');
+  }
+  return k;
+}
+
+/* True if (T+, T-) admits an admissible RIII-RII reduction: a vertex w of degree 2 in one Tait tree (edges wa,
+ * wb) and 1 in the other (edge wc), an edge bc in the first tree with the sign of wa; replacing wa, wb, bc by
+ * ab (sign -sgn(wc)) and ac (sign -sgn(wb)), removing wc and w, both Tait trees must again be Tait trees of
+ * ternary trees (keys in `smaller`). The diagram then gives the same link as a diagram of size n - 1. */
+static bool riii_rii_reducible(const std::vector<TaitEdge> &ep, const std::vector<TaitEdge> &em, int nv,
+                               const std::unordered_set<std::string> &smaller) {
+  const std::vector<TaitEdge> *E[2] = {&ep, &em};
+  for (int w = 0; w < nv; ++w)
+    for (int A = 0; A < 2; ++A) {
+      const std::vector<TaitEdge> &EA = *E[A], &EB = *E[1 - A];
+      int ia[3], na = 0, ib = -1, nb = 0;
+      for (int i = 0; i < (int)EA.size(); ++i)
+        if (EA[i].u == w || EA[i].w == w) {
+          if (na < 3) ia[na] = i;
+          ++na;
+        }
+      for (int i = 0; i < (int)EB.size(); ++i)
+        if (EB[i].u == w || EB[i].w == w) {
+          ib = i;
+          ++nb;
+        }
+      if (na != 2 || nb != 1) continue;
+      auto other = [w](const TaitEdge &e) { return e.u == w ? e.w : e.u; };
+      const TaitEdge &wc = EB[ib];
+      int c = other(wc);
+      for (int swap = 0; swap < 2; ++swap) {
+        const TaitEdge &wa = EA[ia[swap]], &wb = EA[ia[1 - swap]];
+        int a = other(wa), b = other(wb);
+        int ibc = -1;
+        for (int i = 0; i < (int)EA.size(); ++i)
+          if (EA[i].u == std::min(b, c) && EA[i].w == std::max(b, c)) ibc = i;
+        if (ibc < 0 || EA[ibc].p != wa.p) continue;
+        auto rel = [w](int x) { return x - (x > w ? 1 : 0); };
+        std::vector<TaitEdge> na_, nb_;
+        for (int i = 0; i < (int)EA.size(); ++i)
+          if (i != ia[0] && i != ia[1] && i != ibc)
+            na_.push_back({rel(EA[i].u), rel(EA[i].w), EA[i].p});
+        // sgn(ab) = -sgn(wc): on the A side p(ab) = p(wc); sgn(ac) = -sgn(wb): p(ac) = -p(wb)
+        na_.push_back({std::min(rel(a), rel(b)), std::max(rel(a), rel(b)), wc.p});
+        na_.push_back({std::min(rel(a), rel(c)), std::max(rel(a), rel(c)), -wb.p});
+        for (int i = 0; i < (int)EB.size(); ++i)
+          if (i != ib) nb_.push_back({rel(EB[i].u), rel(EB[i].w), EB[i].p});
+        std::sort(na_.begin(), na_.end());
+        std::sort(nb_.begin(), nb_.end());
+        if (smaller.count(tait_key(na_)) && smaller.count(tait_key(nb_))) return true;
+      }
+    }
+  return false;
 }
 
 /* Weight parity (Aiello-Nagnibeda, Definition 3) of the leaves 0, 2, 4, ... of a ternary shape: bit i is
@@ -661,6 +751,18 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
     sig[i] = index.at(mirror_shape(shapes[i], arity));
     trees[i] = build_tree(arity == 2 ? iota_shape(shapes[i]) : shapes[i]);
   }
+  // RIII-RII reduction (F_3 only: in F the reduced diagram is not of the form iota(g), in vec{F}_3 it is never
+  // 2-colourable); THOMPSON_NO_RIII_RII=1 disables it
+  const bool riii = group == "F3" && !std::getenv("THOMPSON_NO_RIII_RII") && c >= 2;
+  std::vector<std::vector<TaitEdge>> tait(riii ? N : 0);
+  std::unordered_set<std::string> smaller;
+  if (riii) {
+    for (int i = 0; i < N; ++i) tait[i] = tait_tree(trees[i]);
+    std::vector<std::string> sm;
+    gen_shapes(c - 1, 3, sm);
+    for (auto &x : sm) smaller.insert(tait_key(tait_tree(build_tree(x))));
+  }
+  long long riii_skipped = 0;
   std::vector<uint32_t> wmask(vec ? N : 0);
   std::unordered_map<uint32_t, std::vector<int>> bucket;  // weight mask -> trees (increasing)
   for (int i = 0; i < (int)wmask.size(); ++i) bucket[wmask[i] = leaf_weight_mask(shapes[i])].push_back(i);
@@ -691,6 +793,10 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
       ++canonical;
       if (!is_prime_pair(trees[a], trees[b], vec && old_nonprime_rule)) continue;
       ++prime;
+      if (riii && riii_rii_reducible(tait[a], tait[b], n, smaller)) {
+        ++riii_skipped;
+        continue;
+      }
       if (!build_diagram(trees[a], trees[b], partner, d, true)) continue;
       ++knots;
       // invariants: 2(n-1) crossings, each passed twice, each with a sign; in vec{F}_3 knots only for odd n
@@ -732,8 +838,9 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   }
   std::fprintf(f,
                "# n=%d shard=%d/%d examined=%lld canonical=%lld prime=%lld knots=%lld classes=%zu "
-               "cache_hits=%lld failed_checks=%lld\n",
-               n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits, failed_checks);
+               "cache_hits=%lld failed_checks=%lld riii_rii_skipped=%lld\n",
+               n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits, failed_checks,
+               riii_skipped);
   for (auto &kv : classes) {
     std::fprintf(f, "%s\t%lld\t%d\t", kv.first.c_str(), kv.second.count, kv.second.min_crossings);
     for (size_t r = 0; r < kv.second.reps.size(); ++r)
