@@ -93,6 +93,10 @@ def _compare(top, bottom, pd, knots):
                 res[k] = 'undecided'
         elif geo:
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
+        elif hyp:
+            # no hyperbolic structure after 50 tries, hyperbolic target: left to resolve_undecided.py
+            # (knot Floer homology, more randomizations, essential tori), faster than naming the diagram
+            res[k] = 'undecided'
         else:
             if name is None:
                 name = quick_name(S) or ''

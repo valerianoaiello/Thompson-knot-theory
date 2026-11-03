@@ -32,6 +32,7 @@ see robust_map, which restarts the pool and isolates the guilty representatives.
 import csv
 import glob
 import multiprocessing as mp
+import json
 import os
 import re
 import sys
@@ -154,19 +155,35 @@ def snappy_name(S, timeout=TIMEOUT):
     return None
 
 
+_ROLFSEN = None
+
+
+def rolfsen_to_knotinfo(nm):
+    """KnotInfo name of the knot that SnapPy calls nm in Rolfsen's table (results/rolfsen_to_knotinfo.json,
+    written by rolfsen_names.py), or None."""
+    global _ROLFSEN
+    if _ROLFSEN is None:
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results', 'rolfsen_to_knotinfo.json')
+        _ROLFSEN = json.load(open(path))
+    return _ROLFSEN.get(nm)
+
+
 def quick_name(S):
     """Name (up to mirror) of the knot of S: SnapPy with a short timeout (about 40 times faster than
     get_knotinfo), then get_knotinfo (<= 13 crossings: non-hyperbolic or composite knots, or a SnapPy
-    timeout), then SnapPy with the full timeout. Every identification is certified afterwards
-    (certify_indices.py)."""
+    timeout), then SnapPy with the full timeout. SnapPy names the knots with <= 10 crossings as in Rolfsen's
+    table, whose numbering differs from KnotInfo's (10_83 / 10_86, and 10_162-10_166 after the Perko pair):
+    these names are translated with the table of rolfsen_names.py. Every identification is certified
+    afterwards (certify_indices.py)."""
     nm = snappy_name(S, QUICK)
-    # SnapPy names the knots with <= 10 crossings as in Rolfsen's table, whose numbering differs from
-    # KnotInfo's (10_83 / 10_86, and 10_162-10_166 after the Perko pair): for them, as when SnapPy gives
-    # no name, get_knotinfo decides. Above 10 crossings SnapPy's Hoste-Thistlethwaite names are KnotInfo's.
-    if nm in (None, 'non-hyperbolic') or re.fullmatch(r'(\d+)_\d+', nm) and int(nm.split('_')[0]) <= 10:
+    if nm not in (None, 'non-hyperbolic') and re.fullmatch(r'(\d+)_\d+', nm) and int(nm.split('_')[0]) <= 10:
+        return rolfsen_to_knotinfo(nm) or knotinfo_name(S)
+    if nm in (None, 'non-hyperbolic'):
         nm = knotinfo_name(S) or nm
     if nm is None:
         nm = snappy_name(S)
+        if nm and re.fullmatch(r'(\d+)_\d+', nm) and int(nm.split('_')[0]) <= 10:
+            nm = rolfsen_to_knotinfo(nm)
     return nm
 
 
