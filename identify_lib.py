@@ -40,6 +40,7 @@ from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from concurrent.futures.process import BrokenProcessPool
 
 from cysignals.alarm import alarm, cancel_alarm, AlarmInterrupt
+from cysignals.signals import SignalError
 from sage.all import Link, KnotInfo, LaurentPolynomialRing, ZZ
 import snappy  # noqa: F401  (needed by spherogram for exteriors)
 import spherogram
@@ -102,8 +103,8 @@ def with_timeout(f, *args, timeout=TIMEOUT, raise_timeout=False):
         if raise_timeout:
             raise TimedOut()
         return None
-    except Exception:
-        return None
+    except (Exception, SignalError):  # SignalError (e.g. SIGILL inside libbraiding during get_knotinfo) is
+        return None                   # a BaseException: the representative is just not recognized
 
 
 def simplified(seq, hands):
