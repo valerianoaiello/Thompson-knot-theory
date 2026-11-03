@@ -76,6 +76,12 @@ def examine(task):
                 if same:
                     left.append((fl[1], fl[2], 'IS THE TARGET'))
                 continue
+            if C.same_as_target(E, knot, tries=2000):
+                # a torus of splitting_surfaces need not be essential (it may be boundary parallel): a diagram
+                # whose complement is the target's must not be excluded by it
+                left.append((fl[1], fl[2], 'IS THE TARGET'))
+                out['the target (equal isomorphism signatures)'] += 1
+                continue
             if any('euler = 0' in str(s) for s in E.splitting_surfaces()):
                 out['satellite (torus of splitting_surfaces)'] += 1
                 continue

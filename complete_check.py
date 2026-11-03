@@ -66,6 +66,31 @@ def _target(knot):
     return _TARGETS[knot]
 
 
+_TARGET_SIGS = {}     # per process: knot -> isomorphism signatures of random triangulations of its complement
+
+
+def same_as_target(E, knot, tries=300):
+    """True if a random retriangulation of the complement E reaches one of 200 random triangulations of the
+    complement of the knot (equal isomorphism signatures): the knots then coincide up to mirror image
+    (Gordon-Luecke). Exact, also when SnapPy finds no hyperbolic structure; False means 'not found'."""
+    if knot not in _TARGET_SIGS:
+        import spherogram
+        from sage.all import KnotInfo
+        pd = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + knot).link().pd_code()]
+        F = spherogram.Link([[x - 1 for x in c] for c in pd]).exterior()
+        sigs = set()
+        for _ in range(200):
+            F.randomize()
+            sigs.add(F.triangulation_isosig(decorated=False))
+        _TARGET_SIGS[knot] = sigs
+    sigs = _TARGET_SIGS[knot]
+    for _ in range(tries):
+        if E.triangulation_isosig(decorated=False) in sigs:
+            return True
+        E.randomize()
+    return False
+
+
 def _compare(top, bottom, pd, knots):
     """{knot: 'yes' | 'no' | 'undecided'} for the diagram (top, bottom) of F, or with the given PD code."""
     import snappy  # noqa: F401
@@ -93,11 +118,10 @@ def _compare(top, bottom, pd, knots):
                 res[k] = 'undecided'
         elif geo:
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
-        elif hyp:
-            # no hyperbolic structure after 50 tries, hyperbolic target: left to resolve_undecided.py
-            # (knot Floer homology, more randomizations, essential tori), faster than naming the diagram
-            res[k] = 'undecided'
         else:
+            # no hyperbolic structure after 50 tries: name the diagram (SnapPy, then get_knotinfo, exact up to
+            # 13 crossings). Leaving these diagrams to resolve_undecided.py is faster, but a diagram of the
+            # target can then be excluded by a torus that is not essential (13n_4587 in vec{F}_3, n = 11)
             if name is None:
                 name = quick_name(S) or ''
             if name in ('', 'non-hyperbolic'):
