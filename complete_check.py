@@ -120,8 +120,8 @@ def _compare(top, bottom, pd, knots):
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
         else:
             # no hyperbolic structure after 50 tries: name the diagram (SnapPy, then get_knotinfo, exact up to
-            # 13 crossings). Leaving these diagrams to resolve_undecided.py is faster, but a diagram of the
-            # target can then be excluded by a torus that is not essential (13n_4587 in vec{F}_3, n = 11)
+            # 13 crossings). Leaving all of them to resolve_undecided.py is faster, but its torus test assumed
+            # a hyperbolic target and excluded a diagram of the satellite 13n_4587 (vec{F}_3, n = 11)
             if name is None:
                 name = quick_name(S) or ''
             if name in ('', 'non-hyperbolic'):

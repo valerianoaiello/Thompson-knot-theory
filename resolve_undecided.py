@@ -9,9 +9,14 @@ when not found), every such diagram is examined again:
   1. knot Floer homology (spherogram, up to mirror image): if it differs from the target's, the diagram
      is not the target;
   2. otherwise 100 randomizations looking for a hyperbolic structure; if found, volume + isometry;
-  3. otherwise SnapPy's splitting_surfaces: a closed normal surface of Euler characteristic 0 makes the
-     knot a satellite (the targets are hyperbolic), so it is not the target.
-A diagram passing all three stays undecided. The csv is updated (undecided_before_index = what is left),
+  3. otherwise equal isomorphism signatures of random retriangulations of the two complements: the diagram
+     is the target (exact);
+  4. otherwise an essential torus found by Regina (incompressible and not boundary parallel, as in
+     certify_indices.py; at most 120 s): the knot is a satellite, so it is not the target, provided the
+     target is hyperbolic (some targets are satellites, e.g. 13n_4587).
+Steps 1, 3 and 4 are exact. (An earlier version used SnapPy's splitting_surfaces in step 4, whose tori need
+not be essential: it excluded a diagram of 13n_4587, vec{F}_3, n = 11.) A diagram passing all of them stays
+undecided, and the certified verification (certify_indices.py) has to decide it. The csv is updated (undecided_before_index = what is left),
 and results/complete_check_<G>.md gets a note. Then run apply_complete_check.py.
 """
 import csv
@@ -23,6 +28,8 @@ from collections import Counter
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import complete_check as C  # noqa: E402
+import certify_indices as CI  # noqa: E402
+from identify_lib import with_timeout  # noqa: E402
 
 _HFK = {}
 STEP = 100            # diagrams per task
@@ -77,13 +84,13 @@ def examine(task):
                     left.append((fl[1], fl[2], 'IS THE TARGET'))
                 continue
             if C.same_as_target(E, knot, tries=2000):
-                # a torus of splitting_surfaces need not be essential (it may be boundary parallel): a diagram
-                # whose complement is the target's must not be excluded by it
+                # exact: the complements are homeomorphic (Gordon-Luecke); needed above all for targets that
+                # are satellites, whose diagrams also contain essential tori
                 left.append((fl[1], fl[2], 'IS THE TARGET'))
                 out['the target (equal isomorphism signatures)'] += 1
                 continue
-            if any('euler = 0' in str(s) for s in E.splitting_surfaces()):
-                out['satellite (torus of splitting_surfaces)'] += 1
+            if hyp and with_timeout(CI.essential_torus, E, timeout=120):
+                out['satellite (essential torus, Regina)'] += 1
                 continue
             out['still undecided'] += 1
             left.append((fl[1], fl[2], 'undecided'))

@@ -666,6 +666,7 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   for (int i = 0; i < (int)wmask.size(); ++i) bucket[wmask[i] = leaf_weight_mask(shapes[i])].push_back(i);
 
   long long examined = 0, canonical = 0, prime = 0, knots = 0, cache_hits = 0;
+  long long failed_checks = 0;  // diagrams violating a structural invariant (must stay 0)
   std::unordered_map<std::string, std::string> cache;  // canonical gauss -> homfly key
   const size_t max_cache = 1000000;
   std::map<std::string, ClassInfo> classes;
@@ -692,6 +693,11 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
       ++prime;
       if (!build_diagram(trees[a], trees[b], partner, d, true)) continue;
       ++knots;
+      // invariants: 2(n-1) crossings, each passed twice, each with a sign; in vec{F}_3 knots only for odd n
+      if (d.ncross != 2 * c || (int)d.gauss.size() != 2 * d.ncross) ++failed_checks;
+      for (int x = 0; x < d.ncross; ++x)
+        if (d.sign[x] != 1 && d.sign[x] != -1) ++failed_checks;
+      if (vec && n % 2 == 0) ++failed_checks;
       std::vector<Visit> g = d.gauss;
       simplify(g, d.sign);
       std::string key = UNKNOT_MIRROR_KEY;
@@ -726,8 +732,8 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   }
   std::fprintf(f,
                "# n=%d shard=%d/%d examined=%lld canonical=%lld prime=%lld knots=%lld classes=%zu "
-               "cache_hits=%lld\n",
-               n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits);
+               "cache_hits=%lld failed_checks=%lld\n",
+               n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits, failed_checks);
   for (auto &kv : classes) {
     std::fprintf(f, "%s\t%lld\t%d\t", kv.first.c_str(), kv.second.count, kv.second.min_crossings);
     for (size_t r = 0; r < kv.second.reps.size(); ++r)
@@ -735,6 +741,11 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
     std::fprintf(f, "\n");
   }
   std::fclose(f);
+  if (failed_checks) {
+    std::fprintf(stderr, "iota_knots: %lld diagrams violate a structural invariant (n = %d, shard %d)\n",
+                 failed_checks, n, shard);
+    return 3;
+  }
   return 0;
 }
 

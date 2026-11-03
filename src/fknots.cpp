@@ -350,6 +350,7 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
     std::map<std::string, ClassInfo> classes;
     const std::string unknot_key = "1*L^0*M^0 ";
     long long examined = 0, canonical = 0, prime = 0, knots = 0, cache_hits = 0;
+    long long failed_checks = 0;  // diagrams violating a structural invariant (must stay 0)
     std::unordered_map<std::string, std::string> cache;
     const size_t max_cache = 1000000;
     Diagram D;
@@ -385,9 +386,13 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
             if (common) continue;
             prime++;
             build_diagram(n, T[i], T[j], D);
+            // invariants: the Tait graph has 2(n-1) edges, so its corners (sum of the degrees) are 4(n-1)
+            if (D.E != 2 * (n - 1) || D.ncorners != 2 * D.E) failed_checks++;
             if (components(D, walk) != 1) continue;
             knots++;
+            if (vec && n % 2 == 0) failed_checks++;  // parity theorem: in vec{F} knots only for odd n
             Gauss G = gauss_code(D, walk);
+            if ((int)G.seq.size() != 2 * D.E) failed_checks++;  // a knot passes twice through every crossing
             simplify(G);
             std::string key = unknot_key;
             if (!G.seq.empty()) {
@@ -417,8 +422,9 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
         perror(outpath);
         return 1;
     }
-    fprintf(f, "# n=%d shard=%d/%d examined=%lld canonical=%lld prime=%lld knots=%lld classes=%zu cache_hits=%lld\n",
-            n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits);
+    fprintf(f, "# n=%d shard=%d/%d examined=%lld canonical=%lld prime=%lld knots=%lld classes=%zu cache_hits=%lld "
+            "failed_checks=%lld\n",
+            n, shard, nshards, examined, canonical, prime, knots, classes.size(), cache_hits, failed_checks);
     for (auto &kv : classes) {
         fprintf(f, "%s\t%lld\t%d\t", kv.first.c_str(), kv.second.count, kv.second.min_crossings);
         for (size_t r = 0; r < kv.second.reps.size(); r++)
@@ -427,6 +433,11 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
         fprintf(f, "\n");
     }
     fclose(f);
+    if (failed_checks) {
+        fprintf(stderr, "fknots: %lld diagrams violate a structural invariant (n = %d, shard %d)\n", failed_checks, n,
+                shard);
+        return 3;
+    }
     return 0;
 }
 
