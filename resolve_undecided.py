@@ -12,7 +12,7 @@ when not found), every such diagram is examined again:
   3. otherwise equal isomorphism signatures of random retriangulations of the two complements: the diagram
      is the target (exact);
   4. otherwise an essential torus found by Regina (incompressible and not boundary parallel, as in
-     certify_indices.py; at most 120 s): the knot is a satellite, so it is not the target, provided the
+     certify_indices.py; at most 120 s, in a separate process): the knot is a satellite, so it is not the target, provided the
      target is hyperbolic (some targets are satellites, e.g. 13n_4587).
 Steps 1, 3 and 4 are exact. (An earlier version used SnapPy's splitting_surfaces in step 4, whose tori need
 not be essential: it excluded a diagram of 13n_4587, vec{F}_3, n = 11.) A diagram passing all of them stays
@@ -89,12 +89,27 @@ def examine(task):
                 left.append((fl[1], fl[2], 'IS THE TARGET'))
                 out['the target (equal isomorphism signatures)'] += 1
                 continue
-            if hyp and with_timeout(CI.essential_torus, E, timeout=120):
+            if hyp and essential_torus_killable(E, timeout=120):
                 out['satellite (essential torus, Regina)'] += 1
                 continue
             out['still undecided'] += 1
             left.append((fl[1], fl[2], 'undecided'))
     return {'task': task, 'knot': knot, 'counts': dict(out), 'left': left}
+
+
+def essential_torus_killable(E, timeout=120):
+    """CI.essential_torus(E) in a separate process, killed after `timeout` seconds (Regina's normal surface
+    enumeration can take very long on large triangulations and is not interrupted by an alarm). True or False,
+    None on a timeout or an error."""
+    import subprocess
+    code = ('import sys; sys.path.insert(0, %r); import snappy, certify_indices as C; '
+            'print(C.essential_torus(snappy.Manifold(sys.argv[1])))' % HERE)
+    try:
+        out = subprocess.run([sys.executable, '-c', code, E.triangulation_isosig(decorated=False)],
+                             capture_output=True, text=True, timeout=timeout).stdout.strip()
+    except subprocess.TimeoutExpired:
+        return None
+    return {'True': True, 'False': False}.get(out.splitlines()[-1] if out else '')
 
 
 def main():
