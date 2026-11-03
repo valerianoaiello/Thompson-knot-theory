@@ -296,8 +296,10 @@ The reductions are not the same in the four groups:
     weaker rule in $`\vec{F}_3`$: a non-prime diagram was skipped only if the common interval starts at an
     even leaf (numbering the leaves from 0). To reproduce them exactly, set `THOMPSON_OLD_NONPRIME_RULE=1`.
     The two rules give the same tables: none of the 12,708 witnesses of the $`\vec{F}_3`$-index and of the
-    16,006 oriented witnesses is a non-prime diagram. The time is almost the same, since the additional
-    non-prime diagrams are nearly never knots (n = 9: 9,800 of 685,727 knot diagrams).
+    16,006 oriented witnesses is a non-prime diagram. The additional non-prime diagrams are nearly never
+    knots (n = 11: 2.9 million of 136.9 million knot diagrams), but building their links takes time:
+    skipping them halves the pairs of trees whose link is built and reduces the enumeration for n = 11
+    from 47 to 32 minutes, with the same 710,516 HOMFLY-PT classes.
   - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
 - **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified
   Gauss codes.
