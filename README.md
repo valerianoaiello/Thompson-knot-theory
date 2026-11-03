@@ -195,6 +195,20 @@ in the paper are drawn with [Thompson_utilities](https://github.com/valerianoaie
 
 Run everything from the repository root. `sage` is SageMath's executable.
 
+The whole computation of one index, phase after phase, is run by `pipeline.py`, which times every phase
+(`results/logs/pipeline_<G>.log`) and resumes after the last completed phase:
+
+```bash
+python3 pipeline.py F3vec 11 --jobs 8      # enumerate, identify, complete check, resolve, apply, table,
+                                           # oriented scan, reverse bound, verify, certify (dry run: --dry-run)
+```
+
+The scripts write to `results/` and `tmp_check/`: to keep existing results, run the pipeline in a separate
+checkout (`git worktree add ../F_index_rerun`, then `make` there); without `--force` it refuses to overwrite
+`results/<G>_index.csv`. Long runs: `caffeinate -i python3 pipeline.py ...` keeps the Mac awake.
+
+The single phases:
+
 ```bash
 make                                  # bin/fknots, bin/iota_knots (link SageMath's libhomfly; set SAGE_LOCAL)
 python3 run.py 13                     # F: enumerate n = 2..13 in parallel  -> results/raw/n<n>.tsv
@@ -207,7 +221,7 @@ sage -python resolve_undecided.py <G>                  # second pass on the unde
 sage -python apply_complete_check.py <G>               # apply the complete check to <G>_index.csv
 sage -python certify_indices.py <G> [procs]            # certified verification of the table
 sage -python certify_retry.py <G> [procs] [timeout]    # second pass on what the first one left open
-sage -python certify_completeness.py                   # every value certified?
+sage -python certify_completeness.py [<G>]             # every value certified?
 sage -python jones_span_bound.py                       # comparison with the Jones span bound
 python3 make_table.py <G>                              # final table -> results/<G>_index_table.md
 python3 small_knots_table.py                           # all four indices, knots with <= 9 crossings
@@ -219,7 +233,14 @@ Notes:
 - `complete_check.py`, `resolve_undecided.py` and `oriented_scan.py` keep their progress in `tmp_check/` and
   resume after an interruption.
 - `identify.sage` needs `sage -pip install database_knotinfo snappy`.
+- `identify.sage` does not name the HOMFLY classes of no table knot (`unidentified_classes*.csv`), which are not
+  needed for the tables; `NAME_REPS=1 sage identify.sage ...` names them.
 - The raw data (`results/raw*/`, several GB) and `tmp_check/` are not in git.
+
+Running times on an 8-core Mac (2020), $`\vec{F}_3`$ with n ≤ 9: the whole pipeline takes about 31 minutes
+(identification 13 min, complete check 2 min, certification 9 min, the rest a few minutes). Before the
+identification by SnapPy first (2026-11) the same run took 1 h 28 min. For n = 11 the enumeration takes about
+47 min and the identification about one hour.
 
 Tests:
 
@@ -286,15 +307,22 @@ The reductions are not the same in the four groups:
 1. **Raw data.** For every n the enumerator gives one line per HOMFLY class (up to mirror image), with the
    number of diagrams and up to 50 representatives.
 2. **First identification.** `identify.sage` identifies the stored representatives.
-   - A diagram with ≤ 13 crossings after simplification goes to Sage's `get_knotinfo()`. Then the knot has
-     crossing number ≤ 13, so a HOMFLY match is a proof.
-   - Larger diagrams go to SnapPy: complement identification, census up to 15 crossings, and Gordon–Luecke.
-     A HOMFLY match alone is not enough there: at n = 10 a class has the HOMFLY of 13n_2638, but its knot
-     is 14n_2554.
+   - Every representative goes first to SnapPy (complement identification, census up to 15 crossings), with
+     a 2 s timeout: it is about 40 times faster than Sage's `get_knotinfo()`. SnapPy names the knots with
+     ≤ 10 crossings as in Rolfsen's table, whose numbering differs from KnotInfo's (10_83 / 10_86, and
+     10_162–10_166 after the Perko pair); these names are translated with `results/rolfsen_to_knotinfo.json`
+     (written by `rolfsen_names.py` from the KnotInfo diagrams).
+   - When SnapPy gives no name (torus, satellite or composite knots, or a timeout), a diagram with ≤ 13
+     crossings goes to `get_knotinfo()`, and then SnapPy is tried again with a longer timeout.
+   - A HOMFLY match alone is not enough on diagrams with more than 13 crossings: at n = 10 a class has the
+     HOMFLY of 13n_2638, but its knot is 14n_2554.
+   - Every identification is certified afterwards (Certified verification above).
 3. **Complete check.** Only 50 representatives per class are stored, so a knot can hide in a large class:
    10_132 was missed at n = 9, and 13n_2290 was found at 13 instead of 11. `complete_check.py` therefore
    enumerates **every** diagram of the classes of the knots found after their class first appears, or not
-   found at all. Each diagram is compared with the knot: hyperbolic volume first, then a SnapPy isometry.
+   found at all. Each diagram is compared with the knot: hyperbolic volume first, then a SnapPy isometry. A
+   diagram with no hyperbolic structure after 50 randomizations, compared with a hyperbolic knot, is left
+   to step 4 (faster than naming it).
 4. **Undecided diagrams.** Some diagrams have no hyperbolic structure (SnapPy finds none), so step 3 cannot
    compare them with the knot K being sought. They are treated by `resolve_undecided.py`: such a diagram is
    not K if its knot Floer homology differs from that of K, or if its complement contains an essential torus
@@ -329,8 +357,10 @@ The reductions are not the same in the four groups:
 | `oriented.py` | oriented links for $`\vec{F}`$ and $`\vec{F}_3`$, oriented comparison of knots (SnapPy isometries on meridian and longitude) |
 | `src/fknots.cpp` | fast enumerator for F and $`\vec{F}`$ (`vec`): symmetries, primality, components, HOMFLY (libhomfly); `-1` = all diagrams of given classes |
 | `src/iota_knots.cpp` | enumerator for F₃ and $`\vec{F}_3`$ (`F3vec`); with `F` it maps binary trees by ι (an independent cross-check of `fknots`) |
+| `pipeline.py` | all the phases of one index, with timings and resumption |
 | `run.py` | parallel enumeration |
-| `identify.sage`, `identify_lib.py` | identification with KnotInfo and SnapPy (crash-tolerant process pool `RobustPool`) |
+| `identify.sage`, `identify_lib.py` | identification with SnapPy and KnotInfo (crash-tolerant process pool `RobustPool`) |
+| `rolfsen_names.py` | SnapPy's Rolfsen names → KnotInfo names (`results/rolfsen_to_knotinfo.json`) |
 | `complete_check.py`, `resolve_undecided.py`, `apply_complete_check.py` | complete check over all diagrams of the relevant HOMFLY classes |
 | `certify_indices.py`, `certify_retry.py`, `certify_completeness.py` | certified verification of all the tables |
 | `jones_span_bound.py` | comparison with the bound span V + 1 ≤ F-index ≤ $`\vec{F}`$-index |
