@@ -38,6 +38,11 @@ _HFK = {}
 STEP = 100            # diagrams per task
 
 
+def leaves_to_n(group, leaves):
+    """n of a tree diagram from the number of leaves of its trees (ternary trees: 2n - 1 leaves)."""
+    return (leaves + 1) // 2 if group in ('F3', 'F3vec') else leaves
+
+
 def hfk(L):
     r = L.knot_floer_homology()['ranks']
     return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
@@ -160,6 +165,8 @@ def main():
     if os.path.exists(progress):
         for line in open(progress):
             res = json.loads(line)
+            if res['knot'] not in todo:  # resolved by an earlier run of this script
+                continue
             done.add(tuple(res['task']))
             counts[res['knot']].update(res['counts'])
             left[res['knot']] += [tuple(x) for x in res['left']]
@@ -188,7 +195,15 @@ def main():
             k, ', '.join('%s %d' % kv for kv in sorted(counts[k].items())), rest,
             '; **a diagram with fewer leaves is the knot**: %s | %s' % found[0][:2] if found else ''))
         if found:
-            print('WARNING: %s is realized by %s | %s (rerun the check for it)' % (k, found[0][0], found[0][1]))
+            # exact (equal isomorphism signatures or isometric hyperbolic complements): the knot has a diagram
+            # with fewer leaves than its index (or than the lower bound if it was not found); keep the smallest
+            n, top, bottom = min((leaves_to_n(group, len(x[0].split(','))), x[0], x[1]) for x in found)
+            below = sum(1 for x in left[k] if x[2] != 'IS THE TARGET'
+                        and (not x[1] or leaves_to_n(group, len(x[0].split(','))) < n))
+            print('%s is realized by a diagram with n = %d: %s | %s' % (k, n, top, bottom))
+            r['new_index'], r['top_tree'], r['bottom_tree'] = str(n), top, bottom
+            r['verdict'] = 'FOUND by resolve_undecided.py (%d undecided diagrams before)' % below
+            r['undecided_before_index'] = str(below)
         else:
             r['undecided_before_index'] = str(rest)
             if not rest:
