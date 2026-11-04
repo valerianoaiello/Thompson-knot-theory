@@ -2,7 +2,7 @@
 
 Script `certify_indices.py` (exact or certified methods only, see its docstring).
 
-- exclusions (diagrams certified not to be the knot): {'crossings': 24253, 'hfk': 444, 'volume': 2470, 'canonical': 690}
+- exclusions (diagrams certified not to be the knot): {'crossings': 24257, 'hfk': 438, 'volume': 2467, 'canonical': 690, 'composite': 5}
 - witnesses (diagrams certified to be the knot): {'canonical': 6036, 'knotinfo': 7}
 - **contradictions with the table: 0**
 - not certified: 6; crashed tasks: 0

@@ -86,7 +86,7 @@ Checked on the final tables (`tests/check_index_inequalities.py`), for every kno
 
 **All the values of the four tables are certified** by exact or interval-arithmetic computations, with no
 contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.py`; results in
-`results/certified_<G>.md`, `results/certified_retry_<G>.md`, `results/certified_completeness.md`).
+`results/certified_<G>.md`, `results/certified_retry_<G>.md`, `results/certified_completeness_<G>.md`).
 - **Witnesses**: the witness diagram of size n is K. We show that the complement of its knot is homeomorphic
   to the complement of K; by the theorem of Gordon and Luecke, the two knots are then equal up to mirror image.
   The homeomorphism is found in one of three ways:
@@ -104,12 +104,23 @@ contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.p
 - **Exclusions** (no smaller diagram is K): every diagram of the HOMFLY class of K between its first appearance
   and the index is shown not to be K by its crossing number, by being a connected sum of non-trivial knots
   (K is prime), by knot Floer homology, by the verified volume, by the verified canonical triangulation, or
-  by an essential torus found by Regina. 27857 (F), 28392 (F₃), 390776 ($`\vec{F}`$) and 14265 ($`\vec{F}_3`$)
-  diagrams.
+  by an essential torus found by Regina. 27857 (F), 26847 (F₃, with the RIII–RII reduction), 390776
+  ($`\vec{F}`$) and 14265 ($`\vec{F}_3`$) diagrams.
 - **Completeness**: every knot with a known index has a certified witness, every knot whose index exceeds the
   first appearance of its HOMFLY class is in the complete check, and all the diagrams of these classes in the
   relevant range are excluded. The only non-certified ingredient is the exact enumeration of the diagrams and
   of their HOMFLY polynomials.
+
+### Second computation
+
+All four tables were computed a second time from scratch (2026-11-03/04) with `pipeline.py` and the current
+code: faster identification, crossing-number test first, exact tests only in `resolve_undecided.py`, all
+non-prime diagrams skipped, and the RIII–RII reduction for F₃. The indices, the lower bounds and the oriented
+values (K, Kr, Km, Kmr) agree with the first computation for every knot; some witnesses differ (37 for
+$`\vec{F}_3`$, 1 for $`\vec{F}`$, 51 for F₃, 2 for F) and are certified. For F₃ with n ≤ 9 the RIII–RII
+reduction gives the same 59076 HOMFLY classes at n = 9. The results in `results/` are those of the second
+computation. Running times on an 8-core Mac (2020): F (n ≤ 13) 1 h 18 min, F₃ (n ≤ 9) 1 h 42 min,
+$`\vec{F}`$ (n ≤ 17) 4 h 50 min, $`\vec{F}_3`$ (n ≤ 11) 2 h 13 min, certification included.
 
 ### Oriented indices
 
@@ -129,7 +140,9 @@ For an oriented knot K write $`K^r`$ for its reverse, $`K^m`$ for its mirror ima
   - 8_17, 9_32 and 9_33 have equal indices.
 - In $`\vec{F}_3`$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
   - 710 have both orientations realized with different indices;
-  - 236 have one orientation > 11;
+  - 236 have one orientation > 11; by the ternary reverse moves (paper, Theorem 3.2(vii)) the other
+    orientation has index exactly 13 for 212 of them (for 30, through another minimal diagram found by
+    `reverse_search_F3vec.py`) and 13 or 15 for the other 24 (`results/reverse_bound_F3vec.csv`);
   - the smallest example is **8_17**: $`\vec{F}_3`$-index 7 for K = $`K^{mr}`$ and 9 for $`K^r`$ = $`K^m`$. Its $`\vec{F}`$-index is 13 for both.
 
 All these results are **certified**: every exclusion was checked again with exact or interval-arithmetic
@@ -376,6 +389,7 @@ The reductions are not the same in the four groups:
 | `jones_span_bound.py` | comparison with the bound span V + 1 ≤ F-index ≤ $`\vec{F}`$-index |
 | `make_table.py`, `small_knots_table.py` | final tables |
 | `oriented_scan.py` | oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots |
+| `reverse_bound.py`, `reverse_bound_F3vec.py`, `reverse_search_F3vec.py` | index of the unrealized orientation by the reverse moves |
 | `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs $`K^r`$ in $`\vec{F}`$ |
 | `tests/` | the checks listed above |
 

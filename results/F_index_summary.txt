@@ -1,5 +1,5 @@
 F-index computed with tree diagrams up to n = 13
-1 worker crashes, 0 representatives skipped because they crash SnapPy/spherogram, 0 representatives with a get_knotinfo timeout (600 s)
+0 worker crashes, 0 representatives skipped because they crash SnapPy/spherogram, 0 representatives with a get_knotinfo timeout (600 s)
 complete check applied (results/complete_check_F.md): every diagram of the HOMFLY classes of the knots found late or not found was compared
 
 crossing number  3:    1 /    1 knots with known F-index
