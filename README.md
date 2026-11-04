@@ -206,6 +206,9 @@ python3 pipeline.py F3vec 11 --jobs 8      # enumerate, identify, complete check
 The scripts write to `results/` and `tmp_check/`: to keep existing results, run the pipeline in a separate
 checkout (`git worktree add ../F_index_rerun`, then `make` there); without `--force` it refuses to overwrite
 `results/<G>_index.csv`. Long runs: `caffeinate -i python3 pipeline.py ...` keeps the Mac awake.
+The progress files of a phase (in `tmp_check/` and `results/raw*/`) are reused only to resume that phase after
+an interruption; in every other case (a new run, `--from`, `--only`) they come from an earlier run, possibly
+with older code, and the pipeline moves them (never deletes them) to `tmp_check/old_<G>_<date-time>/`.
 
 The single phases:
 

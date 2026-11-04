@@ -24,8 +24,16 @@ given phase). The scripts overwrite results/: to keep the existing results, run 
 checkout, e.g.  git worktree add ../F_index_rerun  (then `make` there). Without --force the pipeline refuses to
 start when results/<G>_index.csv already exists and no phase has been recorded.
 Long runs: start them with  caffeinate -i python3 pipeline.py ...  so that the Mac does not sleep.
+
+Progress files.  Several phases resume from files in tmp_check/ (and run.py skips the n already in
+results/raw*/). Those files are reused only when the same phase was interrupted (the phase recorded as
+'started' and not 'done' in pipeline_<G>.json). In every other case (a new run, --from, --only, a phase
+already completed) they come from an earlier run, possibly with older code, and are moved, never deleted, to
+tmp_check/old_<G>_<date-time>/ before the phase starts: a resolve pass resumed from such a file once left
+35 diagrams undecided that the current code excludes.
 """
 import argparse
+import glob
 import json
 import os
 import subprocess
@@ -36,6 +44,33 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SAGE = os.environ.get('SAGE', '/Applications/SageMath-10-8.app/Contents/Frameworks/Sage.framework/Versions/Current/venv/bin/sage')
 PHASES = ['enumerate', 'identify', 'complete_check', 'resolve', 'apply', 'table', 'oriented', 'reverse_bound',
           'verify_oriented', 'certify', 'certify_retry', 'completeness']
+RAW = {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}
+# files a phase resumes from (relative to F_index/; {G} = group, {raw} = its raw directory)
+PROGRESS = {
+    'enumerate': ['results/{raw}/n*.tsv'],
+    'complete_check': ['tmp_check/targets_{G}.tsv', 'tmp_check/keys_{G}.txt', 'tmp_check/{G}_n*',
+                       'tmp_check/progress_{G}.jsonl'],
+    'resolve': ['tmp_check/resolve_{G}.jsonl'],
+    'oriented': ['tmp_check/oriented_{G}_c*.jsonl', 'tmp_check/oriented_{G}_c*_n*', 'tmp_check/keys_oriented_{G}_c*.txt'],
+    'verify_oriented': ['tmp_check/verify_{G}.jsonl'],
+    'certify': ['tmp_check/certify_{G}.jsonl'],
+    'certify_retry': ['tmp_check/certify_retry_{G}.jsonl'],
+}
+
+
+def progress_files(group, phase):
+    return sorted(f for pat in PROGRESS.get(phase, [])
+                  for f in glob.glob(os.path.join(HERE, pat.format(G=group, raw=RAW[group]))))
+
+
+def move_aside(group, phase, files, stamp):
+    """Moves the progress files of an earlier run to tmp_check/old_<G>_<stamp>/, keeping their paths."""
+    dest = os.path.join(HERE, 'tmp_check', 'old_%s_%s' % (group, stamp))
+    for f in files:
+        target = os.path.join(dest, os.path.relpath(f, HERE))
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        os.rename(f, target)
+    return dest
 
 
 def commands(group, nmax, jobs):
@@ -109,10 +144,24 @@ def main():
 
     say('pipeline %s, n <= %d, %d processes: %s' % (a.group, a.nmax, a.jobs, ', '.join(p for p, _ in phases) or 'nothing to do'))
     total = 0.0
+    stamp = time.strftime('%Y%m%d-%H%M%S')
     for name, cmd in phases:
         say('%s: %s' % (name, ' '.join(cmd)))
+        old = progress_files(a.group, name)
+        resumed = state.get('started') == name and name not in state['done']
+        if old and resumed:
+            say('%s: resuming the interrupted phase from %d progress files' % (name, len(old)))
+        elif old:
+            if a.dry_run:
+                say('%s: would move %d progress files of an earlier run aside' % (name, len(old)))
+            else:
+                say('%s: %d progress files of an earlier run moved to %s' % (
+                    name, len(old), os.path.relpath(move_aside(a.group, name, old, stamp), HERE)))
         if a.dry_run:
             continue
+        state['done'].pop(name, None)
+        state['started'] = name
+        json.dump(state, open(state_path, 'w'), indent=1)
         t0 = time.time()
         with open(os.path.join(logs, 'pipeline_%s_%s.out' % (a.group, name)), 'w') as out:
             rc = subprocess.call(cmd, cwd=HERE, env=env, stdout=out, stderr=subprocess.STDOUT)
@@ -122,6 +171,7 @@ def main():
             say('%s FAILED (exit code %d) after %.0f s; see results/logs/pipeline_%s_%s.out' % (name, rc, dt, a.group, name))
             sys.exit(rc)
         state['done'][name] = round(dt, 1)
+        state['started'] = None
         json.dump(state, open(state_path, 'w'), indent=1)
         say('%s done in %.0f s' % (name, dt))
     if not a.dry_run:
