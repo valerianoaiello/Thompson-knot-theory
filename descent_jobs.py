@@ -12,8 +12,9 @@ Every starting diagram built by a move is checked with SnapPy before it is used.
 With --more, jobs for the cases still open after a first round, starting from ALL the stored representatives of
 the knot (results/raw_<G>/n<n>.tsv, up to 50 per HOMFLY class, those that SnapPy identifies with the knot) and
 from the certified diagrams of the first round (results/descent_certified.csv): jobs_more.json.
-usage (from F_index/): sage -python descent_jobs.py [--more | --f3-13]
+usage (from F_index/): sage -python descent_jobs.py [--more | --f3-13 | --f3-13-more]
 --f3-13: F_3, the knots with 13 crossings not found with n <= 9, from their vec{F}_3 witness (jobs_F3c13.json).
+--f3-13-more: second round for those still open, from all their stored vec{F}_3 representatives (jobs_F3c13more.json).
 """
 import csv
 import json
@@ -145,9 +146,67 @@ def thirteen():
     print(len(jobs), 'jobs')
 
 
+def _check_reps(task):
+    """task = [group, knot, reps]: the representatives that SnapPy identifies with the knot."""
+    import snappy  # noqa: F401
+    import spherogram
+    from sage.all import KnotInfo
+    import complete_check as C
+    import descent_search as D
+    group, knot, reps = task
+    ref = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + knot).link().pd_code()]
+    Ek = spherogram.Link([[x - 1 for x in c] for c in ref]).exterior()
+    out = []
+    for top, bottom in reps:
+        pd = D.pd_code(group, D.tree(group, top), D.tree(group, bottom))
+        if pd is None:
+            continue
+        E = spherogram.Link([[x - 1 for x in c] for c in pd]).exterior()
+        try:
+            if C._geometric(E) and E.is_isometric_to(Ek):
+                out.append(top + ' | ' + bottom)
+        except Exception:
+            pass
+    return knot, out
+
+
+def thirteen_more():
+    """Second round for the F_3 knots with 13 crossings still open: all the stored vec{F}_3 representatives of
+    size 11 that are the knot as starts (the representatives file is read once, the checks run in parallel)."""
+    from oriented_index import homfly_key
+    from sage.all import KnotInfo
+    from identify_lib import RobustPool
+    T = {G: {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', '%s_index.csv' % G)))}
+         for G in ('F3', 'F3vec')}
+    knots = [k for k, r in T['F3'].items() if not r['F3_index'] and int(r['crossing_number']) == 13
+             and T['F3vec'][k]['F3vec_index'] == '11' and int(r['lower_bound']) <= 10]
+    keys = {}
+    for k in knots:
+        ref = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + k).link().pd_code()]
+        keys.setdefault(homfly_key(ref).strip(), []).append(k)
+    reps = {}
+    for line in open(os.path.join(HERE, 'results', RAW['F3vec'], 'n11.tsv')):
+        if line.startswith('#'):
+            continue
+        f = line.rstrip('\n').split('\t')
+        if f[0].strip() in keys:
+            reps[f[0].strip()] = [tuple(r.split('|')[:2]) for r in f[3].split(';') if r.split('|')[0]]
+    tasks = [['F3vec', k, reps.get(key, [])] for key, ks in keys.items() for k in ks]
+    jobs = []
+    with RobustPool(os.cpu_count()) as pool:
+        for k, starts in pool.map(_check_reps, tasks):
+            if starts:
+                jobs.append({'name': 'F3c13more', 'group': 'F3', 'knot': k, 'starts': starts, 'steps': 1})
+    jobs.sort(key=lambda j: j['knot'])
+    json.dump(jobs, open(os.path.join(HERE, 'tmp_check', 'descent', 'jobs_F3c13more.json'), 'w'), indent=1)
+    print(len(knots), 'knots,', len(jobs), 'jobs,', sum(len(j['starts']) for j in jobs), 'starts')
+
+
 def main():
     if '--more' in sys.argv:
         return more()
+    if '--f3-13-more' in sys.argv:
+        return thirteen_more()
     if '--f3-13' in sys.argv:
         return thirteen()
     from sage.all import KnotInfo
