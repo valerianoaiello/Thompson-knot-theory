@@ -34,27 +34,12 @@ import complete_check as C  # noqa: E402
 import certify_indices as CI  # noqa: E402
 from identify_lib import with_timeout  # noqa: E402
 
-_HFK = {}
 STEP = 100            # diagrams per task
 
 
 def leaves_to_n(group, leaves):
     """n of a tree diagram from the number of leaves of its trees (ternary trees: 2n - 1 leaves)."""
     return (leaves + 1) // 2 if group in ('F3', 'F3vec') else leaves
-
-
-def hfk(L):
-    r = L.knot_floer_homology()['ranks']
-    return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
-
-
-def _target_hfk(knot):
-    if knot not in _HFK:
-        import spherogram
-        from sage.all import KnotInfo
-        pd = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + knot).link().pd_code()]
-        _HFK[knot] = hfk(spherogram.Link([[x - 1 for x in c] for c in pd]))[0]
-    return _HFK[knot]
 
 
 def examine(task):
@@ -84,7 +69,7 @@ def examine(task):
             if len(L.crossings) < C.crossing_number(knot):
                 out['fewer crossings than the knot'] += 1
                 continue
-            if _target_hfk(knot) not in hfk(L):
+            if C.target_hfk(knot) not in C.hfk(L):
                 out['knot Floer homology differs'] += 1
                 continue
             E = L.exterior()

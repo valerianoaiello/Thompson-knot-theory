@@ -54,6 +54,24 @@ def crossing_number(knot):
     return _CROSSINGS[knot]
 
 
+_HFK = {}             # per process: knot -> knot Floer homology ranks (KnotInfo diagram)
+
+
+def hfk(L):
+    """Knot Floer homology ranks of L and of its mirror image (exact)."""
+    r = L.knot_floer_homology()['ranks']
+    return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
+
+
+def target_hfk(knot):
+    if knot not in _HFK:
+        import spherogram
+        from sage.all import KnotInfo
+        pd = [list(map(int, c)) for c in getattr(KnotInfo, 'K' + knot).link().pd_code()]
+        _HFK[knot] = hfk(spherogram.Link([[x - 1 for x in c] for c in pd]))[0]
+    return _HFK[knot]
+
+
 def _geometric(E, tries=50):  # a randomization costs ~0.1 ms, naming a diagram ~1 s
     for _ in range(tries):
         if E.solution_type() == 'all tetrahedra positively oriented':
@@ -109,15 +127,18 @@ def _compare(top, bottom, pd, knots):
         pd = F.pd_code(F.from_leaf_words(top.split(',')), F.from_leaf_words(bottom.split(',')))
     S = spherogram.Link([[x - 1 for x in c] for c in pd])
     S.simplify('global')
-    E = S.exterior()
-    geo = _geometric(E)
-    vol = float(E.volume()) if geo else None
+    E = geo = vol = None  # exterior and hyperbolic structure: computed only if the crossing test does not decide
     name = None  # exact name, computed only if needed
+    hf = None    # knot Floer homology of the diagram, computed only if needed
     res = {}
     for k in knots:
         if len(S.crossings) < crossing_number(k):
             res[k] = 'no'  # a diagram with fewer crossings than the crossing number of k (exact)
             continue
+        if E is None:
+            E = S.exterior()
+            geo = _geometric(E)
+            vol = float(E.volume()) if geo else None
         hyp, vk, Ek = _target(k)
         if geo and hyp:
             if abs(vol - vk) > VOLUME_EPS:
@@ -130,9 +151,18 @@ def _compare(top, bottom, pd, knots):
         elif geo:
             res[k] = 'no'  # hyperbolic diagram, non-hyperbolic target
         else:
-            # no hyperbolic structure after 50 tries: name the diagram (SnapPy, then get_knotinfo, exact up to
-            # 13 crossings). Leaving all of them to resolve_undecided.py is faster, but its torus test assumed
-            # a hyperbolic target and excluded a diagram of the satellite 13n_4587 (vec{F}_3, n = 11)
+            # no hyperbolic structure after 50 tries: first the knot Floer homology (exact, a few ms, for any
+            # target), then name the diagram (SnapPy, then get_knotinfo, exact up to 13 crossings; get_knotinfo
+            # can take 30 + 600 s). Leaving all of them to resolve_undecided.py is faster, but its torus test
+            # assumed a hyperbolic target and excluded a diagram of the satellite 13n_4587 (vec{F}_3, n = 11)
+            if hf is None:
+                try:
+                    hf = hfk(S)
+                except Exception:
+                    hf = ()
+            if hf and target_hfk(k) not in hf:
+                res[k] = 'no'
+                continue
             if name is None:
                 name = quick_name(S) or ''
             if name in ('', 'non-hyperbolic'):
