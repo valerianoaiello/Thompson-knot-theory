@@ -20,7 +20,8 @@ volume and isometry with K (unoriented: any orientation and mirror), or, with `w
 
 usage (from F_index/): sage -python descent_search.py TASKS.json [processes]
 TASKS.json: list of {"name", "group", "knot", "starts": ["top | bottom", ...], "steps", "want" (optional list
-of relations), "beam" (optional)}. Output: results/descent_search.csv (appended), log on stdout.
+of relations), "beam" (optional)}. Output: results/descent_search.csv (appended), log on stdout. The jobs done
+are recorded in tmp_check/descent/done_<TASKS>.txt and skipped when the same file is run again.
 """
 import csv
 import json
@@ -271,6 +272,9 @@ def main():
 
     def log(msg):
         print(time.strftime('%H:%M:%S'), msg, flush=True)
+    done_file = os.path.join(HERE, 'tmp_check', 'descent', 'done_%s.txt' % os.path.basename(sys.argv[1]).split('.')[0])
+    done = set(open(done_file).read().split()) if os.path.exists(done_file) else set()
+    jobs = [j for j in jobs if j['name'] + ':' + j['knot'] not in done]  # resumed after a restart
     with RobustPool(processes) as pool:
         for job in jobs:
             found = run(job, pool, log)
@@ -280,6 +284,8 @@ def main():
                     w.writeheader()
                     new = False
                 w.writerows(found)
+            with open(done_file, 'a') as f:
+                f.write(job['name'] + ':' + job['knot'] + '\n')
             best = [r for r in found if r['final'] == 'yes']
             log('%s %s: %s' % (job['name'], job['knot'], ('FOUND n = %d' % best[0]['n']) if best else
                                'nothing at the last step (deepest n reached: %s)' % (min((r['n'] for r in found), default='-'))))

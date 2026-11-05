@@ -12,7 +12,8 @@ Every starting diagram built by a move is checked with SnapPy before it is used.
 With --more, jobs for the cases still open after a first round, starting from ALL the stored representatives of
 the knot (results/raw_<G>/n<n>.tsv, up to 50 per HOMFLY class, those that SnapPy identifies with the knot) and
 from the certified diagrams of the first round (results/descent_certified.csv): jobs_more.json.
-usage (from F_index/): sage -python descent_jobs.py [--more]
+usage (from F_index/): sage -python descent_jobs.py [--more | --f3-13]
+--f3-13: F_3, the knots with 13 crossings not found with n <= 9, from their vec{F}_3 witness (jobs_F3c13.json).
 """
 import csv
 import json
@@ -130,9 +131,25 @@ def more():
         print(j['name'], j['knot'], len(j['starts']), 'starts,', j['steps'], 'steps')
 
 
+def thirteen():
+    """F_3, knots with 13 crossings not found with n <= 9 and with a vec{F}_3 witness: one step down from it."""
+    T = {G: {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', '%s_index.csv' % G)))}
+         for G in ('F3', 'F3vec')}
+    jobs = []
+    for k, r in T['F3'].items():
+        w = T['F3vec'][k]
+        if not r['F3_index'] and int(r['crossing_number']) == 13 and w['F3vec_index'] == '11' and int(r['lower_bound']) <= 10:
+            jobs.append({'name': 'F3c13', 'group': 'F3', 'knot': k, 'steps': 1,
+                         'starts': [w['top_tree'] + ' | ' + w['bottom_tree']]})
+    json.dump(jobs, open(os.path.join(HERE, 'tmp_check', 'descent', 'jobs_F3c13.json'), 'w'), indent=1)
+    print(len(jobs), 'jobs')
+
+
 def main():
     if '--more' in sys.argv:
         return more()
+    if '--f3-13' in sys.argv:
+        return thirteen()
     from sage.all import KnotInfo
     import ftrees as F
     import oriented as O
