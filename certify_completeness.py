@@ -50,8 +50,11 @@ def check(group):
     viol += sum(r['kind'] == 'violation' for r in retry.values())
 
     # 1. witnesses: rebuild the batches of the first pass (20, then 5, then 1 knot per task)
+    # witnesses found by the targeted searches (n beyond the enumeration) are certified by certify_descent.py
+    targeted = [(k, r['top_tree'], r['bottom_tree']) for k, r in table.items()
+                if r[col] and 'targeted search' in r['status']]
     wit = [(k, r['top_tree'], r['bottom_tree']) for k, r in table.items()
-           if r[col] and r['top_tree'] and int(r['crossing_number']) >= 3]
+           if r[col] and r['top_tree'] and int(r['crossing_number']) >= 3 and 'targeted search' not in r['status']]
     certified, rest = set(), list(wit)
     for size, name in ((20, 'witness'), (5, 'witness5')):
         left = []
@@ -71,6 +74,11 @@ def check(group):
     for (g, k, t, b), r in retry.items():
         if r['part'] == 'witnesses' and r['kind'] == 'ok':
             certified.add(k)
+    path = os.path.join(HERE, 'results', 'descent_certified.csv')
+    desc = {(r['knot'], r['diagram']) for r in csv.DictReader(open(path))
+            if r['group'] == group and r['certified'] == 'yes'} if os.path.exists(path) else set()
+    certified.update(k for k, t, b in targeted if (k, '%s | %s' % (t, b)) in desc)
+    wit += targeted
     missing_w = [k for k, _, _ in wit if k not in certified]
     if missing_w:
         problems.append('witnesses not certified: %s' % missing_w[:20])

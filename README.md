@@ -111,6 +111,18 @@ contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.p
   relevant range are excluded. The only non-certified ingredient is the exact enumeration of the diagrams and
   of their HOMFLY polynomials.
 
+### Targeted searches
+
+Single open cases beyond the enumeration (`descent_jobs.py`, `descent_search.py`, `certify_descent.py`,
+`apply_descent.py`): from known diagrams of a knot, delete s + 1 internal vertices and insert one in each tree
+(s = 1 in F and F₃, 2 in the oriented groups), keep the pairs in the group, filter by determinant, number of
+components and volume, and compare with the knot (SnapPy); every diagram found is certified
+(`results/descent_certified.csv`, 285 diagrams, all certified). Results: F₃-index 10 for 12a_868, 12a_875,
+12a_1019, 12a_1113, 12a_1209, 12a_1286 (the other 8 knots with 12 crossings not found with n ≤ 9 have
+F₃-index 10 or 11, by their $`\vec{F}_3`$ witness); $`\vec{F}_3`$-index 13 for 12a_1211, 13 or 15 for 12a_1249;
+F-index 14 or 15 for 11a_249; the other orientation of the 56 + 24 one-sided knots above. `apply_descent.py`
+writes them into the tables (status "targeted search").
+
 ### Second computation
 
 All four tables were computed a second time from scratch (2026-11-03/04) with `pipeline.py` and the current
@@ -136,13 +148,15 @@ For an oriented knot K write $`K^r`$ for its reverse, $`K^m`$ for its mirror ima
     15/17 for 10_93, 10_102, 11a_26, …;
   - 226 have one orientation with index 17 and the other not realized with n ≤ 17 (e.g. 10_95); by the
     moves in the proof of Theorem 4.2 of Aiello, Rev. Un. Mat. Argentina 69 (2026) (which gives $`{|\mathrm{ind}(K)-\mathrm{ind}(K^r)|\le 4}`$), the other orientation has index exactly 19 for 170 of
-    them and 19 or 21 for the other 56 (`results/reverse_bound_Fvec.csv`);
+    them; for the other 56 a targeted search (`descent_search.py`, see below) found a certified diagram with 19
+    leaves of the other orientation, so it is exactly 19 for all 226 (`results/reverse_bound_Fvec.csv`);
   - 8_17, 9_32 and 9_33 have equal indices.
 - In $`\vec{F}_3`$, n ≤ 11 (`results/oriented_index_F3vec.md`), 8121 knots:
   - 710 have both orientations realized with different indices;
   - 236 have one orientation > 11; by the ternary reverse moves (paper, Theorem 3.2(vii)) the other
     orientation has index exactly 13 for 212 of them (for 30, through another minimal diagram found by
-    `reverse_search_F3vec.py`) and 13 or 15 for the other 24 (`results/reverse_bound_F3vec.csv`);
+    `reverse_search_F3vec.py`), and for the other 24 by a certified diagram of size 13 found by a targeted
+    search: exactly 13 for all 236 (`results/reverse_bound_F3vec.csv`);
   - the smallest example is **8_17**: $`\vec{F}_3`$-index 7 for K = $`K^{mr}`$ and 9 for $`K^r`$ = $`K^m`$. Its $`\vec{F}`$-index is 13 for both.
 
 All these results are **certified**: every exclusion was checked again with exact or interval-arithmetic

@@ -1,5 +1,6 @@
 """
-Certified check of the diagrams found by descent_search.py (results/descent_search.csv, rows with final = yes).
+Certified check of the diagrams found by descent_search.py (results/descent_search.csv; the intermediate ones too,
+which give upper bounds).
 Unoriented searches (F, F_3, and vec{F}_3 for the table up to orientation): the PD code is recomputed
 independently (certify_indices.pd_of: ftrees for F, the C++ evaluator of bin/iota_knots for F_3; oriented.py for
 vec{F}_3) and certify_indices.is_K certifies that the diagram is the knot (verified canonical triangulations, or
@@ -46,7 +47,7 @@ def certify(row):
 def main():
     processes = int(sys.argv[1]) if len(sys.argv) > 1 else os.cpu_count()
     from identify_lib import RobustPool
-    rows = [r for r in csv.DictReader(open(os.path.join(HERE, 'results', 'descent_search.csv'))) if r['final'] == 'yes']
+    rows = list(csv.DictReader(open(os.path.join(HERE, 'results', 'descent_search.csv'))))  # final and intermediate
     out = []
     with RobustPool(processes) as pool:
         for row, ok, info in pool.map(certify, rows):
