@@ -117,9 +117,10 @@ Single open cases beyond the enumeration (`descent_jobs.py`, `descent_search.py`
 `apply_descent.py`): from known diagrams of a knot, delete s + 1 internal vertices and insert one in each tree
 (s = 1 in F and F₃, 2 in the oriented groups), keep the pairs in the group, filter by determinant, number of
 components and volume, and compare with the knot (SnapPy); every diagram found is certified
-(`results/descent_certified.csv`, 285 diagrams, all certified). Results: F₃-index 10 for 12a_868, 12a_875,
-12a_1019, 12a_1113, 12a_1209, 12a_1286 (the other 8 knots with 12 crossings not found with n ≤ 9 have
-F₃-index 10 or 11, by their $`\vec{F}_3`$ witness); $`\vec{F}_3`$-index 13 for 12a_1211, 13 or 15 for 12a_1249;
+(`results/descent_certified.csv`, 307 diagrams, all certified). Results: F₃-index 10 for 12 of the 14 knots
+with 12 crossings not found with n ≤ 9 (12a_868, 12a_875, 12a_928, 12a_1019, 12a_1020, 12a_1050, 12a_1113,
+12a_1152, 12a_1196, 12a_1209, 12a_1285, 12a_1286; 12a_883 and 12a_975 are 10 or 11, by their
+$`\vec{F}_3`$ witness); $`\vec{F}_3`$-index 13 for 12a_1211, 13 or 15 for 12a_1249;
 F-index 14 or 15 for 11a_249; the other orientation of the 56 + 24 one-sided knots above. `apply_descent.py`
 writes them into the tables (status "targeted search").
 
