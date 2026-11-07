@@ -21,7 +21,12 @@ volume and isometry with K (unoriented: any orientation and mirror), or, with `w
 usage (from F_index/): sage -python descent_search.py TASKS.json [processes]
 Environment variable DESCENT_OUT: write to that file instead (used to split the jobs between machines).
 TASKS.json: list of {"name", "group", "knot", "starts": ["top | bottom", ...], "steps", "want" (optional list
-of relations), "beam" (optional)}. Output: results/descent_search.csv (appended), log on stdout. The jobs done
+of relations), "beam" (optional), "up" (optional), "ks" (optional list: vertices removed at each step, 0 for
+a sideways step at the same size)}.
+Ascent ("up": m): each step inserts m vertices in each tree instead of deleting (extra deletions, then m + extra
+insertions). The starts may lie in a larger group with the same arity: e.g. F_3 diagrams of K as starts of a job
+in vec{F}_3, where only the pairs in vec{F}_3 are examined (an upper bound for the vec{F}_3-index from an
+F_3 diagram, in the spirit of the substitutions of Aiello, AGT 20 (2020) 429-438). Output: results/descent_search.csv (appended), log on stdout. The jobs done
 are recorded in tmp_check/descent/done_<TASKS>.txt and skipped when the same file is run again.
 """
 import csv
@@ -87,11 +92,12 @@ def insertions(t, arity):
 
 
 def neighbours(t, arity, k, extra):
-    """Trees with k fewer internal vertices: k + extra deletions, then extra insertions."""
+    """Trees with k fewer internal vertices (k < 0: -k more): max(k, 0) + extra deletions, then max(-k, 0) + extra
+    insertions."""
     level = {t}
-    for _ in range(k + extra):
+    for _ in range(max(k, 0) + extra):
         level = {u for s in level for u in deletions(s, arity)}
-    for _ in range(extra):
+    for _ in range(max(-k, 0) + extra):
         level = {u for s in level for u in insertions(s, arity)}
     return level
 
@@ -216,16 +222,28 @@ def check(task):
 # search
 # ---------------------------------------------------------------------------------------------
 
-def tasks_for(group, knot, want, det, diagrams, extra):
-    """Tasks covering all the pairs (T+', T-') one step below the given diagrams (T+' a neighbour of T+, T-'
-    of T-), CHUNK_TOPS tops per task."""
-    ar, k = ARITY[group], STEP[group]
+def tasks_for(group, knot, want, det, diagrams, extra, k):
+    """Tasks covering all the pairs (T+', T-') one step below (k > 0) or above (k < 0) the given diagrams (T+' a
+    neighbour of T+, T-' of T-), CHUNK_TOPS tops per task."""
+    ar = ARITY[group]
     out = []
     for d in diagrams:
         top, bottom = [x.strip() for x in d.split('|')]
-        P = sorted(','.join(words(group, t)) for t in neighbours(tree(group, top), ar, k, extra))
-        M = sorted(','.join(words(group, t)) for t in neighbours(tree(group, bottom), ar, k, extra))
-        out += [[group, knot, want, det, P[i:i + CHUNK_TOPS], M] for i in range(0, len(P), CHUNK_TOPS)]
+        if key(group, tree(group, top)) is None:
+            P = sorted(','.join(words(group, t)) for t in neighbours(tree(group, top), ar, k, extra))
+            M = sorted(','.join(words(group, t)) for t in neighbours(tree(group, bottom), ar, k, extra))
+            out += [[group, knot, want, det, P[i:i + CHUNK_TOPS], M] for i in range(0, len(P), CHUNK_TOPS)]
+            continue
+        # vec{F}, vec{F}_3: each task gets only the bottoms with the key of its tops (same pairs examined)
+        P, M = {}, {}
+        for t in neighbours(tree(group, top), ar, k, extra):
+            P.setdefault(key(group, t), []).append(','.join(words(group, t)))
+        for t in neighbours(tree(group, bottom), ar, k, extra):
+            M.setdefault(key(group, t), []).append(','.join(words(group, t)))
+        for kk in sorted(set(P) & set(M)):
+            p, m = sorted(P[kk]), sorted(M[kk])
+            step = max(1, CHUNK_TOPS * 20000 // max(len(m), 1))
+            out += [[group, knot, want, det, p[i:i + step], m] for i in range(0, len(p), step)]
     return out
 
 
@@ -242,10 +260,14 @@ def run(job, pool, log):
         assert determinant(*tait(group, tree(group, t), tree(group, b))) == det, (knot, d)
     found = []
     for step in range(1, job['steps'] + 1):
-        n = n0 - step * STEP[group]
+        if job.get('ks'):  # explicit vertices removed per step (0: sideways moves at the same size)
+            k = job['ks'][step - 1]
+        else:
+            k = -job['up'] if job.get('up') else STEP[group]
+        n = n - k if step > 1 else n0 - k
         t0 = time.time()
         last = step == job['steps']
-        tasks = tasks_for(group, knot, want if last else None, det, level, job.get('extra', 1))
+        tasks = tasks_for(group, knot, want if last else None, det, level, job.get('extra', 1), k)
         hits, counts = {}, {}
         for h, c in pool.map(check, tasks):
             for d, rel in h:

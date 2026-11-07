@@ -85,8 +85,12 @@ def check(group):
 
     # 2. knots with a gap between the HOMFLY-PT lower bound and the index are in the complete check
     cc = {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', 'complete_check_%s.csv' % group)))}
+    # in vec{F} and vec{F}_3 knots only occur for odd n (parity theorem): an even lower bound counts as the
+    # next odd n (e.g. a knot absent up to n = 11 with index 13 has no gap)
+    odd = group in ('Fvec', 'F3vec')
+    eff = lambda lb: lb + 1 if odd and lb % 2 == 0 else lb
     gap = [k for k, r in table.items() if r['lower_bound'] and k not in cc
-           and int(r['lower_bound']) < (int(r[col]) if r[col] else nmax + 1)]
+           and eff(int(r['lower_bound'])) < (int(r[col]) if r[col] else nmax + 1)]
     if gap:
         problems.append('knots with lower bound < index outside the complete check: %s' % gap[:20])
 
