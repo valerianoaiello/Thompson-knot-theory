@@ -15,6 +15,8 @@ from the certified diagrams of the first round (results/descent_certified.csv): 
 usage (from F_index/): sage -python descent_jobs.py [--more | --f3-13 | --f3-13-more]
 --f3-13: F_3, the knots with 13 crossings not found with n <= 9, from their vec{F}_3 witness (jobs_F3c13.json).
 --f3-13-more: second round for those still open, from all their stored vec{F}_3 representatives (jobs_F3c13more.json).
+  Add --max-starts N to leave out the witness (already used by --f3-13) and keep at most N starts per knot
+  (N = 5 in the round of 2026-11-05; without it the round would take ~47 h on the Mac).
 """
 import csv
 import json
@@ -170,9 +172,12 @@ def _check_reps(task):
     return knot, out
 
 
-def thirteen_more():
+def thirteen_more(max_starts=None):
     """Second round for the F_3 knots with 13 crossings still open: all the stored vec{F}_3 representatives of
-    size 11 that are the knot as starts (the representatives file is read once, the checks run in parallel)."""
+    size 11 that are the knot as starts (the representatives file is read once, the checks run in parallel).
+    With max_starts: the vec{F}_3 witness (the start of the first round) is left out and at most max_starts
+    starts are kept per knot, the first ones in the order of the representatives file; knots left without
+    starts are dropped. The round of 2026-11-05 used max_starts = 5 (1032 jobs, 4531 starts)."""
     from oriented_index import homfly_key
     from sage.all import KnotInfo
     from identify_lib import RobustPool
@@ -195,6 +200,9 @@ def thirteen_more():
     jobs = []
     with RobustPool(os.cpu_count()) as pool:
         for k, starts in pool.map(_check_reps, tasks):
+            if max_starts is not None:
+                w = T['F3vec'][k]
+                starts = [d for d in starts if d != w['top_tree'] + ' | ' + w['bottom_tree']][:max_starts]
             if starts:
                 jobs.append({'name': 'F3c13more', 'group': 'F3', 'knot': k, 'starts': starts, 'steps': 1})
     jobs.sort(key=lambda j: j['knot'])
@@ -206,7 +214,8 @@ def main():
     if '--more' in sys.argv:
         return more()
     if '--f3-13-more' in sys.argv:
-        return thirteen_more()
+        m = sys.argv.index('--max-starts') + 1 if '--max-starts' in sys.argv else None
+        return thirteen_more(int(sys.argv[m]) if m else None)
     if '--f3-13' in sys.argv:
         return thirteen()
     from sage.all import KnotInfo
