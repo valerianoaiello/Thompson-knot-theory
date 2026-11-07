@@ -19,6 +19,7 @@ volume and isometry with K (unoriented: any orientation and mirror), or, with `w
 (relation_to, e.g. {'reverse', 'mirror'} for the reverse of K up to the inverse rule).
 
 usage (from F_index/): sage -python descent_search.py TASKS.json [processes]
+Environment variable DESCENT_OUT: write to that file instead (used to split the jobs between machines).
 TASKS.json: list of {"name", "group", "knot", "starts": ["top | bottom", ...], "steps", "want" (optional list
 of relations), "beam" (optional)}. Output: results/descent_search.csv (appended), log on stdout. The jobs done
 are recorded in tmp_check/descent/done_<TASKS>.txt and skipped when the same file is run again.
@@ -266,7 +267,8 @@ def main():
     jobs = json.load(open(sys.argv[1]))
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
     from identify_lib import RobustPool
-    out = os.path.join(HERE, 'results', 'descent_search.csv')
+    # DESCENT_OUT: another output file (e.g. one per machine when the jobs are split; append it to the main file)
+    out = os.environ.get('DESCENT_OUT') or os.path.join(HERE, 'results', 'descent_search.csv')
     fields = ['name', 'group', 'knot', 'n', 'diagram', 'relation', 'final']
     new = not os.path.exists(out)
 

@@ -25,3 +25,6 @@ tmp_check/
 # instructions for Claude Code, kept locally only
 CLAUDE.md
 .DS_Store
+
+# personal guide for the department server, kept locally only
+server/README.md
