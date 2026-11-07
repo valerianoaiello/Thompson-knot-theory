@@ -17,6 +17,9 @@ usage (from F_index/): sage -python descent_jobs.py [--more | --f3-13 | --f3-13-
 --f3-13-more: second round for those still open, from all their stored vec{F}_3 representatives (jobs_F3c13more.json).
   Add --max-starts N to leave out the witness (already used by --f3-13) and keep at most N starts per knot
   (N = 5 in the round of 2026-11-05; without it the round would take ~47 h on the Mac).
+  --name NAME writes jobs_NAME.json (default F3c13more; it overwrites an existing file); --exclude-jobs F1,F2 leaves
+  out the witness and the starts already used in those job files (third round: --name F3c13third
+  --exclude-jobs tmp_check/descent/jobs_F3c13more.json).
 """
 import csv
 import json
@@ -172,12 +175,17 @@ def _check_reps(task):
     return knot, out
 
 
-def thirteen_more(max_starts=None):
+def thirteen_more(max_starts=None, name='F3c13more', exclude=()):
     """Second round for the F_3 knots with 13 crossings still open: all the stored vec{F}_3 representatives of
     size 11 that are the knot as starts (the representatives file is read once, the checks run in parallel).
     With max_starts: the vec{F}_3 witness (the start of the first round) is left out and at most max_starts
     starts are kept per knot, the first ones in the order of the representatives file; knots left without
-    starts are dropped. The round of 2026-11-05 used max_starts = 5 (1032 jobs, 4531 starts)."""
+    starts are dropped. The round of 2026-11-05 used max_starts = 5 (1032 jobs, 4531 starts).
+    exclude: job files of earlier rounds; their starts and the witness are left out (third round of 2026-11-07:
+    name 'F3c13third', exclude the second round). The jobs are written to tmp_check/descent/jobs_<name>.json."""
+    used = set()
+    for f in exclude:
+        used.update((j['knot'], d) for j in json.load(open(f)) for d in j['starts'])
     from oriented_index import homfly_key
     from sage.all import KnotInfo
     from identify_lib import RobustPool
@@ -200,13 +208,14 @@ def thirteen_more(max_starts=None):
     jobs = []
     with RobustPool(os.cpu_count()) as pool:
         for k, starts in pool.map(_check_reps, tasks):
-            if max_starts is not None:
+            if max_starts is not None or exclude:
                 w = T['F3vec'][k]
-                starts = [d for d in starts if d != w['top_tree'] + ' | ' + w['bottom_tree']][:max_starts]
+                starts = [d for d in starts if d != w['top_tree'] + ' | ' + w['bottom_tree'] and (k, d) not in used]
+                starts = starts[:max_starts]
             if starts:
-                jobs.append({'name': 'F3c13more', 'group': 'F3', 'knot': k, 'starts': starts, 'steps': 1})
+                jobs.append({'name': name, 'group': 'F3', 'knot': k, 'starts': starts, 'steps': 1})
     jobs.sort(key=lambda j: j['knot'])
-    json.dump(jobs, open(os.path.join(HERE, 'tmp_check', 'descent', 'jobs_F3c13more.json'), 'w'), indent=1)
+    json.dump(jobs, open(os.path.join(HERE, 'tmp_check', 'descent', 'jobs_%s.json' % name), 'w'), indent=1)
     print(len(knots), 'knots,', len(jobs), 'jobs,', sum(len(j['starts']) for j in jobs), 'starts')
 
 
@@ -215,7 +224,9 @@ def main():
         return more()
     if '--f3-13-more' in sys.argv:
         m = sys.argv.index('--max-starts') + 1 if '--max-starts' in sys.argv else None
-        return thirteen_more(int(sys.argv[m]) if m else None)
+        a = sys.argv
+        return thirteen_more(int(a[m]) if m else None, a[a.index('--name') + 1] if '--name' in a else 'F3c13more',
+                             a[a.index('--exclude-jobs') + 1].split(',') if '--exclude-jobs' in a else ())
     if '--f3-13' in sys.argv:
         return thirteen()
     from sage.all import KnotInfo
