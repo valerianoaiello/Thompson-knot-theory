@@ -54,12 +54,12 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 
 ### Computed ranges
 
-| index | all tree diagrams up to | known for |
+| index | all tree diagrams up to | known for (with the targeted searches below) |
 |---|---|---|
-| F | n = 13 | all knots with ≤ 10 crossings; 550 of 552 with 11; 1348 of 2176 with 12; 3902 of 9988 with 13 |
-| F₃ | n = 9 | all knots with ≤ 11 crossings; 2162 of 2176 with 12; 8357 of 9988 with 13 |
+| F | n = 13 | all knots with ≤ 11 crossings; 1348 of 2176 with 12; 3902 of 9988 with 13 |
+| F₃ | n = 9 | all knots with ≤ 12 crossings; 9001 of 9988 with 13 |
 | $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
-| $`\vec{F}_3`$ | n = 11 | all knots with ≤ 11 crossings; 2173 of 2176 with 12; 9734 of 9988 with 13 |
+| $`\vec{F}_3`$ | n = 11 | all knots with ≤ 12 crossings; 9734 of 9988 with 13 |
 
 **Where to find the values** (a guide to all the files is in [`results/README.md`](results/README.md)):
 - the final tables, with a representative of every knot in normal form and as a tree diagram:
