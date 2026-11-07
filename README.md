@@ -126,12 +126,14 @@ found with n ≤ 9 that have a $`\vec{F}_3`$ witness at 11 (307 starting from th
 --f3-13`; 337 more in a second round from at most 5 other stored diagrams, `descent_jobs.py --f3-13-more
 --max-starts 5`); $`\vec{F}_3`$-index 13 for 12a_1211, 12a_1249 (deeper search) and 12a_1202 (an ascent: from its
 F₃ diagrams of size 9, four vertices inserted in each tree, `"up": 4` in the job, pairs in $`\vec{F}_3`$), so the
-$`\vec{F}_3`$-index of every knot with ≤ 12 crossings is known; F-index 14 for 11a_249 and 11a_352 (deeper search),
+$`\vec{F}_3`$-index of every knot with ≤ 12 crossings is known, in both orientations (the non-invertible 12a_1211
+and 12a_1249 are 13 in both: for 12a_1211 the other orientation by the move with two new vertices, size 15, and one
+step of the search, `"want"` in the job); F-index 14 for 11a_249 and 11a_352 (deeper search),
 so the F-index of every knot with ≤ 11 crossings is known; the other orientation of the 56 + 24 one-sided knots
 above. `apply_descent.py` writes them into the tables (status "targeted search").
 
-Knots without any diagram in a group: `alexander.py KNOT [--tries T]` turns Aiello's Alexander theorem for
-$`\vec{F}`$ (AGT 20 (2020) 429–438) into an algorithm (a special diagram of the knot by random Reidemeister
+Knots without any diagram in a group: `alexander.py KNOT [--tries T]` turns the Alexander theorem for
+$`\vec{F}`$ (reference 1 below, AGT 20 (2020) 429–438) into an algorithm (a special diagram of the knot by random Reidemeister
 moves, Jones' standard form, the substitutions of the paper, the trees, ι), every step checked with SnapPy;
 `greedy_descent.py` then lowers the size (deletions of 2, 4, ..., 12 vertices per tree, the larger ones inside
 windows of consecutive leaves). For 12a_1202 this gave diagrams of size 139 and 103 in $`\vec{F}_3`$
@@ -324,7 +326,7 @@ The reductions are not the same in the four groups:
 | (T₊, T₋) ↦ (T₋, T₊), i.e. g ↦ g⁻¹ (mirror image; for the oriented groups the mirror reverse) | yes | yes | yes | yes |
 | (T₊, T₋) ↦ (σT₊, σT₋), the vertical reflection (mirror image) | yes | yes | **no** (does not preserve $`\vec{F}`$) | **no** (does not preserve $`\vec{F}_3`$: it swaps black and white regions) |
 | skip non-prime diagrams (a non-root subtree of T₊ and one of T₋ cover the same leaves) | yes | yes | yes | yes (see below) |
-| skip the diagrams with an admissible RIII–RII reduction (paper, Section 3) | – | yes | – | – |
+| skip the diagrams with an admissible RIII–RII reduction (see below) | – | yes | – | – |
 | keep only knots (one component) | yes | yes | yes (odd n only) | yes (odd n only) |
 
 - **Symmetries.** One representative per orbit is kept. The oriented scan accounts for g⁻¹ through the
@@ -346,8 +348,9 @@ The reductions are not the same in the four groups:
     skipping them halves the pairs of trees whose link is built and reduces the enumeration for n = 11
     from 47 to 32 minutes, with the same 710,516 HOMFLY-PT classes.
   - Composite knots can still arise from prime diagrams, e.g. the granny and square knots at n = 9 in F.
-- **RIII–RII reductions (F₃).** A ternary diagram whose signed Tait trees admit the RIII–RII reduction of the
-  paper (Section 3) gives the same link as a diagram of size n − 1, so it is skipped (`THOMPSON_NO_RIII_RII=1`
+- **RIII–RII reductions (F₃).** A ternary diagram whose signed Tait graph admits a Reidemeister III move
+  followed by the cancellation of a pair of edges (a local RIII–RII reduction) gives the same link as a diagram
+  of size n − 1, so it is skipped (`THOMPSON_NO_RIII_RII=1`
   disables it). For n = 8 this skips 27% of the knot diagrams; the first n of every HOMFLY class is unchanged.
   It does not apply to $`\vec{F}_3`$ (the reduced Tait graph is not 2-colourable) nor to F.
 - **HOMFLY.** It is computed after a Reidemeister I and II simplification, with a cache on the simplified

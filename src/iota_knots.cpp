@@ -238,7 +238,7 @@ static Tree build_tree(const std::string &ternary_shape) {
 }
 
 
-/* RIII-RII reduction (paper, Section 3): the signed Tait tree of one ternary tree, as a key. For every internal
+/* RIII-RII reduction (a Reidemeister III move followed by the cancellation of a pair of Tait edges): the signed Tait tree of one ternary tree, as a key. For every internal
  * vertex starting at leaf a, the edge joins the black regions u < w (the even gaps among a, a + s0, a + s0 + s1,
  * a + s0 + s1 + s2, halved) and has p = +1 if a is even, -1 otherwise (its sign is p on the top tree and -p on
  * the bottom one). */

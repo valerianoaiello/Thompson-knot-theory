@@ -26,6 +26,16 @@ def target(group, knot):
     return _TARGET[group][knot]
 
 
+def claimed(relation):
+    """Names (K, Kr, Km, Kmr) of the relations of oriented.relation_to listed in a row ('mirror reverse same')."""
+    out = set()
+    if 'mirror reverse' in relation:
+        out.add('Kmr')
+        relation = relation.replace('mirror reverse', '')
+    out.update({'same': 'K', 'reverse': 'Kr', 'mirror': 'Km'}[w] for w in relation.split())
+    return out
+
+
 def certify(row):
     import certify_indices as CI
     import verify_oriented as V
@@ -39,7 +49,11 @@ def certify(row):
         kind, info = V.relation(V.oriented_pd(group, top, bottom), knot, need_volume=False)
         if kind != 'rel':
             return row, False, '%s %s' % (kind, info)
-        return row, bool(info & target(group, knot)), 'canonical: ' + ' '.join(sorted(info))
+        try:
+            want = target(group, knot)
+        except KeyError:  # a knot outside reverse_bound_<G>.csv: the orientations claimed by the search
+            want = claimed(row['relation'])
+        return row, bool(info & want), 'canonical: ' + ' '.join(sorted(info))
     except Exception as e:
         return row, False, 'error %s' % str(e)[:80]
 
