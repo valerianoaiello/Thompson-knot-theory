@@ -57,7 +57,7 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 | index | all tree diagrams up to | known for (with the targeted searches below) |
 |---|---|---|
 | F | n = 13 | all knots with ≤ 11 crossings; 1348 of 2176 with 12; 3902 of 9988 with 13 |
-| F₃ | n = 9 | all knots with ≤ 12 crossings; 9001 of 9988 with 13 |
+| F₃ | n = 9 | all knots with ≤ 12 crossings; 9254 of 9988 with 13 |
 | $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
 | $`\vec{F}_3`$ | n = 11 | all knots with ≤ 12 crossings; 9734 of 9988 with 13 |
 
@@ -117,14 +117,15 @@ Single open cases beyond the enumeration (`descent_jobs.py`, `descent_search.py`
 `apply_descent.py`): from known diagrams of a knot, delete s + 1 internal vertices and insert one in each tree
 (s = 1 in F and F₃, 2 in the oriented groups), keep the pairs in the group, filter by determinant, number of
 components and volume, and compare with the knot (SnapPy); every diagram found is certified
-(`results/descent_certified.csv`, 2018 diagrams, all certified). Where nothing is found, a deeper search deletes
+(`results/descent_certified.csv`, 4569 diagrams, all certified). Where nothing is found, a deeper search deletes
 s + 2 vertices and inserts two (`"extra": 2` in the job). Results: F₃-index 10 for all the 14 knots with 12
 crossings not found with n ≤ 9 (12a_868, 12a_875, 12a_883, 12a_928, 12a_975, 12a_1019, 12a_1020, 12a_1050,
 12a_1113, 12a_1152, 12a_1196, 12a_1209, 12a_1285, 12a_1286; 12a_883 and 12a_975 by the deeper search), so the
-F₃-index of every knot with ≤ 12 crossings is known; F₃-index 10 for 644 of the 1467 knots with 13 crossings not
+F₃-index of every knot with ≤ 12 crossings is known; F₃-index 10 for 897 of the 1467 knots with 13 crossings not
 found with n ≤ 9 that have a $`\vec{F}_3`$ witness at 11 (307 starting from the witness, `descent_jobs.py
 --f3-13`; 337 more in a second round from at most 5 other stored diagrams, `descent_jobs.py --f3-13-more
---max-starts 5`); $`\vec{F}_3`$-index 13 for 12a_1211, 12a_1249 (deeper search) and 12a_1202 (an ascent: from its
+--max-starts 5`; 253 more in a third round from all the remaining ones, `--name F3c13third --exclude-jobs ...`,
+on the department server; the other 570 are 10 or 11); $`\vec{F}_3`$-index 13 for 12a_1211, 12a_1249 (deeper search) and 12a_1202 (an ascent: from its
 F₃ diagrams of size 9, four vertices inserted in each tree, `"up": 4` in the job, pairs in $`\vec{F}_3`$), so the
 $`\vec{F}_3`$-index of every knot with ≤ 12 crossings is known, in both orientations (the non-invertible 12a_1211
 and 12a_1249 are 13 in both: for 12a_1211 the other orientation by the move with two new vertices, size 15, and one
