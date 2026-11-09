@@ -84,7 +84,7 @@ def commands(group, nmax, jobs):
         'apply': sp + ['scripts/apply_complete_check.py', group],
         'table': py + ['scripts/make_table.py', group],
         'oriented': sp + ['scripts/oriented_scan.py', group, j, '13'],
-        'reverse_bound': py + ['reverse_bound_F3vec.py'],
+        'reverse_bound': py + ['scripts/reverse_bound_F3vec.py'],
         'verify_oriented': sp + ['scripts/verify_oriented.py', group, j],
         'certify': sp + ['scripts/certify_indices.py', group, j],
         'certify_retry': sp + ['scripts/certify_retry.py', group, j],
