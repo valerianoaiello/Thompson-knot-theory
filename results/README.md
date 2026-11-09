@@ -44,4 +44,6 @@ How to read the tables:
 | `sweeney_corrections.md` | comparison with D. Sweeney's table |
 | `logs/` | logs of the runs |
 
-The other files are older intermediate results, kept for reference.
+`archive/` holds older intermediate results, kept for reference only: an early cross-check of the ι
+construction (`cross_check_iota_construction/`), the F table with n ≤ 10 (`table_n10/`), the first oriented scan
+of the knots with 10 crossings, and the logs of two interrupted runs.

@@ -1,5 +1,7 @@
-# Build the fast enumerator, linking libhomfly from the SageMath installation.
-SAGE_LOCAL ?= /Applications/SageMath-10-8.app/Contents/Frameworks/Sage.framework/Versions/Current/local
+# Build the fast enumerators, linking libhomfly from the SageMath installation.
+# SAGE_LOCAL is the directory with include/homfly.h and lib/libhomfly.*; by default it is asked to Sage
+# (`sage` on the PATH). Override it with `make SAGE_LOCAL=/path/to/sage/local` if needed.
+SAGE_LOCAL ?= $(shell sage -c "import os, sage.env; print(os.path.realpath(sage.env.SAGE_LOCAL))" 2>/dev/null)
 CXX ?= clang++
 CXXFLAGS ?= -O3 -march=native -std=c++17 -Wall
 

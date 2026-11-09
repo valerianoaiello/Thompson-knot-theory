@@ -239,12 +239,13 @@ in Jones' normalization, which counts internal vertices, 8 and 5 (`borromean.py`
 ## Installation
 
 Requirements: a C++17 compiler, [SageMath](https://www.sagemath.org) (≥ 10, which provides libhomfly) and,
-in Sage's Python, the packages `database_knotinfo` and `snappy`:
+in Sage's Python, the packages of `requirements.txt` (`database_knotinfo`, `snappy`; `regina` only for the
+certification):
 
 ```bash
-sage -pip install database_knotinfo snappy
-make                                    # builds bin/fknots and bin/iota_knots
-make SAGE_LOCAL=/path/to/sage/local     # if Sage is not in the default location (see the Makefile)
+sage -pip install -r requirements.txt   # snappy (with spherogram), database_knotinfo, regina
+make                                    # builds bin/fknots and bin/iota_knots (asks Sage for SAGE_LOCAL)
+make SAGE_LOCAL=/path/to/sage/local     # if `sage` is not on the PATH (see the Makefile)
 ```
 
 `SAGE_LOCAL` is the directory containing `include/homfly.h` and `lib/libhomfly`. The figures of knot diagrams
@@ -253,6 +254,16 @@ in the paper are drawn with [Thompson_utilities](https://github.com/valerianoaie
 ## Usage
 
 Run everything from the repository root. `sage` is SageMath's executable.
+
+Quick start (a few minutes): build, enumerate $`\vec{F}`$ up to 11 leaves, run the main tests.
+
+```bash
+make
+python3 run.py 11 --group Fvec          # -> results/raw_Fvec/n<n>.tsv (HOMFLY-PT classes and representatives)
+python3 tests/check_parity.py           # parity theorem
+sage tests/check_cpp.sage               # C++ vs Python vs Sage; Example 2.3 of the paper gives 4_1
+sage tests/check_vecF.sage              # vec{F}
+```
 
 The whole computation of one index, phase after phase, is run by `pipeline.py`, which times every phase
 (`results/logs/pipeline_<G>.log`) and resumes after the last completed phase:
@@ -286,7 +297,7 @@ sage -python certify_retry.py <G> [procs] [timeout]    # second pass on what the
 sage -python certify_completeness.py [<G>]             # every value certified?
 sage -python jones_span_bound.py                       # comparison with the Jones span bound
 python3 make_table.py <G>                              # final table -> results/<G>_index_table.md
-python3 small_knots_table.py                           # all four indices, knots with <= 9 crossings
+python3 small_knots_table.py [9|10]                    # all four indices, knots with <= 9 (10) crossings
 sage -python oriented_scan.py Fvec|F3vec [procs] [maxc]  # oriented indices of the non-invertible knots
 ```
 
@@ -294,7 +305,7 @@ Notes:
 - `run.py` skips the values of n already computed, so a run can be resumed or extended.
 - `complete_check.py`, `resolve_undecided.py` and `oriented_scan.py` keep their progress in `tmp_check/` and
   resume after an interruption.
-- `identify.sage` needs `sage -pip install database_knotinfo snappy`.
+- `identify.sage` needs the packages of `requirements.txt`.
 - `identify.sage` does not name the HOMFLY classes of no table knot (`unidentified_classes*.csv`), which are not
   needed for the tables; `NAME_REPS=1 sage identify.sage ...` names them.
 - The raw data (`results/raw*/`, several GB) and `tmp_check/` are not in git.
@@ -438,6 +449,14 @@ The reductions are not the same in the four groups:
 | `oriented_scan.py` | oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots |
 | `reverse_bound.py`, `reverse_bound_F3vec.py`, `reverse_search_F3vec.py` | index of the unrealized orientation by the reverse moves |
 | `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs $`K^r`$ in $`\vec{F}`$ |
+| `verify_oriented.py` | certified verification of the results on K vs $`K^r`$ |
+| `descent_jobs.py`, `descent_search.py`, `certify_descent.py`, `apply_descent.py` | targeted searches beyond the enumeration: jobs, local search, certification, update of the tables |
+| `alexander.py`, `greedy_descent.py` | a first diagram of a knot in $`\vec{F}`$ or $`\vec{F}_3`$ (Alexander-type theorem as an algorithm) and its greedy descent |
+| `fvec_targeted_check.py`, `fvec_beyond17.py` | $`\vec{F}`$ at n = 19: identification of the stored diagrams, HOMFLY-PT classes, certification of the witnesses with 19 and 21 leaves |
+| `server/` | SLURM scripts for a department server: targeted enumeration (`fvec_targeted.sbatch`), descent queue (`alternate_descent.py`, `descent_queue.*`, `vecF_pipeline.*`), splitting of search jobs (`split_jobs.py`) |
+| `borromean.py`, `certify_borromean.py` | F- and F₃-index of the Borromean rings, and their certification |
+| `index_bounds.py`, `connected_sums.py` | comparison with braid index, arc index, crossing number, genus; connected sums |
+| `mutant_candidates.py`, `mutants_literature.py` | mutant pairs distinguished by the indices |
 | `tests/` | the checks listed above |
 
 ## Data

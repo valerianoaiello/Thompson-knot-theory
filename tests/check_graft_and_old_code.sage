@@ -5,7 +5,7 @@
 #    tree diagram R (>= 2 leaves) gives a non-prime diagram whose knot is the connected sum, i.e.
 #    HOMFLY(graft) = HOMFLY(R) * HOMFLY(S). This justifies skipping non-prime diagrams.
 # 2) Agreement (up to mirror image) with the author's earlier ternary code on iota(g) (directory
-#    $THOMPSON_OLD_CODE, default ../vecchio codice; skipped if absent).
+#    $THOMPSON_OLD_CODE, default ../old_code; skipped if absent).
 #    Note: on about 5% of the diagrams the old code returns the mirror image of the knot of the
 #    other diagrams (it uses the same crossing rule, but some PD orientations are wrong; checked
 #    by hand on top = 0,1,20,21,220,221,222, bottom = 00,010,011,012,02,1,2, a right-handed
@@ -59,7 +59,7 @@ print('grafting gives the connected sum on %d random knot diagrams: ok' % tested
 
 
 # 2) old code, through Jones' map iota: F -> F_3 (every caret gets a middle leaf)
-OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join('..', 'vecchio codice'))
+OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join('..', 'old_code'))
 
 
 def iota_words(t, prefix=''):

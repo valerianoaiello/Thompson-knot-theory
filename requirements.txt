@@ -1,0 +1,4 @@
+# Python packages needed in SageMath's Python:   sage -pip install -r requirements.txt
+snappy>=3.2            # includes spherogram, knot Floer homology, verified computations
+database_knotinfo
+regina>=7.3            # certification only (essential tori)

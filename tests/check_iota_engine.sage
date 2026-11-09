@@ -16,7 +16,7 @@ HERE = os.getcwd()
 IOTA = os.path.join(HERE, 'bin', 'iota_knots')
 FKNOTS = os.path.join(HERE, 'bin', 'fknots')
 # the author's earlier Python implementation (optional; its location can be set with THOMPSON_OLD_CODE)
-OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join(HERE, '..', 'vecchio codice'))
+OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join(HERE, '..', 'old_code'))
 
 random.seed(int(2026))
 failures = 0

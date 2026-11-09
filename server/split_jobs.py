@@ -1,5 +1,5 @@
 """
-Splits a job file of descent_search.py between the Mac and the server (see server/README.md). The jobs already
+Splits a job file of descent_search.py between two machines (e.g. a laptop and a SLURM server). The jobs already
 done (tmp_check/descent/done_<name>.txt) are left out.
 usage (from F_index/): python3 server/split_jobs.py tmp_check/descent/jobs_<name>.json [fraction for the Mac, default 0.33]
 -> tmp_check/descent/jobs_<name>_mac.json and jobs_<name>_server.json

@@ -4,7 +4,7 @@ of components congruent to n mod 2 (so knots only occur for odd n).
 
 usage (from F_index/):   python3 tests/check_parity.py [nmax]      (default 9; plain Python, parallel)
 
-Proof being checked (see CLAUDE.md):
+Proof being checked (see results/parity_theorem.md):
   (a) Gamma = Gamma(T+, T-) is a connected plane graph with n vertices and 2(n-1) edges (each tree gives a
       spanning tree), hence n faces by Euler's formula.
   (b) c(L) = dim ker over GF(2) of the Laplacian of Gamma, and also of its dual Gamma* (Rosenstiehl-Read:
