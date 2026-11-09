@@ -184,7 +184,7 @@ def main():
         return all(name in found[k] and found[k][name][0] < n for name in ('K', 'Kr'))
 
     with RobustPool(processes) as pool, open(progress, 'a') as prog:
-        for n in range(min(t['lb'] for t in targets.values()), nmax + 1, 2):
+        for n in range(min((t['lb'] for t in targets.values()), default=nmax + 1), nmax + 1, 2):
             d = os.path.join(tdir, 'oriented_%s_n%d' % (tag, n))
             live_keys = {t['key'] for k, t in targets.items() if t['lb'] <= n and not complete(k, n)}
             if not live_keys:
@@ -270,7 +270,9 @@ def main():
                      'witness_Kr': '%s | %s' % w['Kr'][1:] if 'Kr' in w else ''})
     base = os.path.join(HERE, 'results', 'oriented_index_%s' % group + ('' if maxc == 13 else '_c%d' % maxc))
     with open(base + '.csv', 'w', newline='') as f:
-        wr = csv.DictWriter(f, fieldnames=list(rows[0]))
+        wr = csv.DictWriter(f, fieldnames=['knot', 'crossing_number', 'symmetry', 'first_n_homfly',
+                                           'unoriented_table_index', 'index_K', 'index_Kr', 'index_Km', 'index_Kmr',
+                                           'verdict', 'undecided_diagrams_before', 'witness_K', 'witness_Kr'])
         wr.writeheader()
         wr.writerows(rows)
     gname = {'Fvec': 'vec{F}', 'F3vec': 'vec{F}_3'}[group]
