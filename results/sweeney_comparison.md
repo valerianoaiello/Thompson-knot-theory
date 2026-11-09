@@ -1,4 +1,4 @@
-# Corrections to D. Sweeney's list of Thompson indices
+# Comparison with D. Sweeney's list of Thompson indices
 
 Source: https://github.com/sweeneyde/thompson_knots, file `unoriented_data/README.md`, commit `508ce32`
 (13 July 2021). It gives the Thompson index (F-index, number of leaves) of the prime knots with at most 10
@@ -9,13 +9,15 @@ Compared with `results/F_index.csv`: all tree diagrams up to n = 13 leaves, plus
 `results/complete_check_F.md`. The complete check compares every diagram of the HOMFLY classes involved,
 not only 50 representatives per class.
 
-**Result.** 245 of the 249 knot entries agree, including all 87 entries ">= 12". The other 4 are below:
-two values are wrong, and two knots share a line with another knot and get no value of their own.
+**Result.** Of the 249 prime knots with at most 10 crossings, 245 have the same value in both tables,
+including all 87 entries ">= 12". For two knots our value differs from his. Two knots get no value in his list:
+they share a line with another knot with the same HOMFLY polynomial, which the polynomial alone cannot
+separate, and only the other knot gets a value. These two are missing values, not errors.
 
-| knot | Sweeney | correct F-index | kind |
+| knot | Sweeney | F-index | kind |
 |---|---|---|---|
-| 10_45 | 11 | **13** | wrong value (a different knot with the same HOMFLY polynomial) |
-| 10_163 | 11 | **10** | wrong value (a 10-leaf diagram exists) |
+| 10_45 | 11 | **13** | different value (his diagram is a different knot with the same HOMFLY polynomial) |
+| 10_163 | 11 | **10** | different value (a 10-leaf diagram exists) |
 | 10_132 | in the line "5_1\|10_132 is 8 leaves. 5_1 is 8." | **9** | missing value |
 | 10_156 | in the line "8_16\|10_156 is 10 leaves. 8_16 is 10." | **10** | missing value |
 

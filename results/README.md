@@ -41,7 +41,7 @@ How to read the tables:
 | `Fvec_n19_classes.csv` | $`\vec{F}`$ at n = 19: number of knot diagrams in the HOMFLY-PT class of every knot not found with n ≤ 17 (0: index ≥ 21) |
 | `Fvec_beyond17_witnesses.csv`, `Fvec_beyond17_certified.md` | $`\vec{F}`$: the witnesses with 19 and 21 leaves and their certification |
 | `descent_certified.csv` | all the certified diagrams of the targeted searches |
-| `sweeney_corrections.md` | comparison with D. Sweeney's table |
+| `sweeney_comparison.md` | comparison with D. Sweeney's table (two values differ, two were missing) |
 | `logs/` | logs of the runs |
 
 `archive/` holds older intermediate results, kept for reference only: an early cross-check of the ι

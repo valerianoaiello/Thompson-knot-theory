@@ -6,7 +6,8 @@ usage (from F_index/):   sage -python tests/check_oriented3.py [cmax] [samples] 
 1. For every pair of ternary trees with c <= cmax internal vertices in vec{F}_3: the colours given by the
    weights c+- (vertex left of leaf 2v, even = +) are the 2-colouring of the Tait graph with vertex 0 = +
    (on both trees), and the orientation of the strands is coherent (asserted in oriented_components3).
-2. On `samples` hyperbolic knots of results/raw_F3vec/n9.tsv and n11.tsv (first representative of each
+2. On `samples` hyperbolic knots of results/raw_F3vec/n9.tsv and n11.tsv (if present: `python3 scripts/run.py 11
+   --group F3vec`) (first representative of each
    HOMFLY class, then the next ones):
    a. the oriented PD code is the knot of bin/iota_knots eval (same knot or its reverse, not the mirror:
       the C++ engine is an independent implementation of the crossings, without orientation);
@@ -37,7 +38,12 @@ def ternary_trees(c):
 
 
 def reps(path, limit):
-    """Representatives (top words, bottom words) of the classes of a raw file, round robin over classes."""
+    """Representatives (top words, bottom words) of the classes of a raw file, round robin over classes.
+    The raw files are not in git: if `path` is missing (run scripts/run.py first), nothing is returned."""
+    if not os.path.exists(path):
+        print('%s not found (generate it with scripts/run.py): its checks are skipped' % os.path.relpath(path, HERE),
+              flush=True)
+        return []
     classes = []
     for line in open(path):
         if line.startswith('#'):
