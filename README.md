@@ -58,7 +58,7 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 |---|---|---|
 | F | n = 13 | all knots with ≤ 11 crossings; 1348 of 2176 with 12; 3902 of 9988 with 13 |
 | F₃ | n = 9 | all knots with ≤ 12 crossings; 9254 of 9988 with 13 |
-| $`\vec{F}`$ | n = 17 | 4 of 7 knots with 7 crossings, 19 of 21 with 8, 30 of 49 with 9, 103 of 165 with 10, 278 of 552 with 11 |
+| $`\vec{F}`$ | n = 17 (n = 19: HOMFLY classes only) | all knots with ≤ 8 crossings; 36 of 49 with 9, 128 of 165 with 10, 278 of 552 with 11 |
 | $`\vec{F}_3`$ | n = 11 | all knots with ≤ 12 crossings; 9734 of 9988 with 13 |
 
 **Where to find the values** (a guide to all the files is in [`results/README.md`](results/README.md)):
@@ -69,7 +69,8 @@ indices of unoriented knots, the $`\vec{F}`$- and $`\vec{F}_3`$-indices of orien
 - the oriented indices (K, $`K^r`$, $`K^m`$, $`K^{mr}`$) of the non-invertible knots:
   [`results/oriented_index_Fvec.md`](results/oriented_index_Fvec.md),
   [`results/oriented_index_F3vec.md`](results/oriented_index_F3vec.md);
-- knots with ≤ 9 crossings, all four indices side by side: [`results/Fvec_index_upto9.md`](results/Fvec_index_upto9.md).
+- knots with ≤ 9 (resp. ≤ 10) crossings, all four indices side by side: [`results/Fvec_index_upto9.md`](results/Fvec_index_upto9.md),
+  [`results/Fvec_index_upto10.md`](results/Fvec_index_upto10.md).
 
 The files `results/<G>_index.csv` are working files (one row per KnotInfo knot, also those not found, with the
 exact lower bound): they have no normal forms.
@@ -139,6 +140,20 @@ moves, Jones' standard form, the substitutions of the paper, the trees, ι), eve
 `greedy_descent.py` then lowers the size (deletions of 2, 4, ..., 12 vertices per tree, the larger ones inside
 windows of consecutive leaves). For 12a_1202 this gave diagrams of size 139 and 103 in $`\vec{F}_3`$
 (`results/alexander/12a_1202.json`, not certified); its index 13 came from the ascent above.
+
+**$`\vec{F}`$ beyond n = 17.** `bin/fknots 19 -1 12 OUT -1 vec @KEYS` (`server/fvec_targeted.sbatch`, about 9 h
+and 61 GB on 12 cores) enumerates all the knot diagrams of $`\vec{F}`$ with 19 leaves: it writes every HOMFLY class
+with its number of diagrams (160,473 classes, 2,987,074,567 knot diagrams; two runs gave identical lists), and the
+diagrams themselves only for the classes in KEYS (those of the open knots with ≤ 10 crossings). `fvec_beyond17.py
+classes` gives `results/Fvec_n19_classes.csv`: for 6,908 of the knots not found with n ≤ 17 the class is absent at
+n = 19, so their index is ≥ 21 (lower bound 20 in `Fvec_index.csv`, by parity). The diagrams found with 19 leaves
+give index 19 for 30 knots (7_3, 7_5, 9_11, 9_20, 9_36, 9_49 and 24 knots with 10 crossings). For knots whose class
+is absent at 19, `server/alternate_descent.py` (the construction of `alexander.py`, then `greedy_descent.py` and one
+step of `descent_search.py` alternately; `server/descent_queue.sh` tries other constructions) found diagrams with 21
+leaves, hence index exactly 21, for 7_1, 8_15, 8_19, 9_2, 9_5 and 10_25. All 36 witnesses are certified
+(`fvec_beyond17.py certify`, `results/Fvec_beyond17_certified.md`). For the 13 knots with 9 crossings and the 37
+with 10 crossings still open the index is ≥ 21; the descent reached 23 for 9_7, 9_18, 9_23, 10_6 and 10_14 (not
+certified, and not tried further).
 
 ### Second computation
 
