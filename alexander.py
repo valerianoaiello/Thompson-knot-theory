@@ -40,6 +40,19 @@ import oriented as O
 # standard graphs -> oriented PD codes (ftrees.medial_of_graph with nested parallel arcs)
 # ---------------------------------------------------------------------------------------------
 
+def relation(pd, ref, knot):
+    """oriented.relation_to for hyperbolic knots; for the others (torus knots, invertible) the recognition in
+    KnotInfo of descent_search.same_by_knotinfo, as {'same', 'reverse', 'mirror', 'mirror reverse'}."""
+    import snappy  # noqa: F401
+    import spherogram
+    import complete_check as C
+    import descent_search as D
+    if C._geometric(spherogram.Link([[x - 1 for x in c] for c in ref]).exterior()):
+        return O.relation_to(pd, ref)
+    S = spherogram.Link([[int(x) - 1 for x in c] for c in pd])
+    return {'same', 'reverse', 'mirror', 'mirror reverse'} if D.same_by_knotinfo(S, knot) else set()
+
+
 def rotation(n, edges):
     """Counterclockwise order of the edges at each vertex, starting from East (see ftrees._ccw_rotation);
     ties (parallel arcs on the same side) by nesting, earlier edges inner."""
@@ -538,7 +551,7 @@ def main():
         for flip in (1, -1):
             E = sorted(((u, w, flip * s, x) for u, w, s, x in edges), key=lambda t: (t[0], t[1], t[2]))
             C = colours(n, E)
-            rel = O.relation_to(oriented_pd(n, E, C), ref)
+            rel = relation(oriented_pd(n, E, C), ref, knot)
             if not rel:
                 continue
             res = thompson_graph(n, E, C, log=lambda m: None)
@@ -547,25 +560,28 @@ def main():
                                            res[0]), flush=True)
             if best is None or res[0] < best[0][0]:
                 best = (res, S, (n, E, C), rel)
-                save(knot, ref, best, '--check' in args)
+                save(knot, ref, best, '--check' in args,
+                     args[args.index('--out') + 1] if '--out' in args else knot)
     print('best: %d leaves' % best[0][0])
 
 
-def save(knot, ref, best, check=False):
-    """Trees of the best construction, checked with SnapPy, written to tmp_check/alexander/<knot>.json."""
+def save(knot, ref, best, check=False, stem=None):
+    """Trees of the best construction, checked with SnapPy, written to tmp_check/alexander/<stem>.json
+    (stem = knot by default; --out STEM keeps an earlier construction of the same knot)."""
+    stem = stem or knot
     import json
     import os
     (n, edges, col), S, (n0, edges0, col0), rel = best
     if check:
         def chk(n, edges, col, case):
-            r = O.relation_to(oriented_pd(n, edges, col), ref)
+            r = relation(oriented_pd(n, edges, col), ref, knot)
             assert r == rel, (case, r)
         thompson_graph(n0, edges0, col0, chk, log=lambda m: None)
     tp, tm = trees(n, edges)
     assert O.tait_colours(tp, tm) is not None
-    r = O.relation_to(O.oriented_pd_code(tp, tm), ref)
+    r = relation(O.oriented_pd_code(tp, tm), ref, knot)
     t3, b3 = O.iota(tp), O.iota(tm)
-    r3 = O.relation_to(O.oriented_pd_code3(t3, b3), ref)
+    r3 = relation(O.oriented_pd_code3(t3, b3), ref, knot)
     assert r and r3
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tmp_check', 'alexander')
     os.makedirs(out, exist_ok=True)
@@ -573,9 +589,9 @@ def save(knot, ref, best, check=False):
                'Fvec': ','.join(F.leaf_words(tp)) + ' | ' + ','.join(F.leaf_words(tm)),
                'F3vec': ','.join(O.ternary_words(t3)) + ' | ' + ','.join(O.ternary_words(b3)),
                'relation': sorted(r), 'relation_F3vec': sorted(r3)},
-              open(os.path.join(out, knot + '.json'), 'w'))
+              open(os.path.join(out, stem + '.json'), 'w'))
     print('  saved: vec{F} element with %d leaves (relation %s; in vec{F}_3: %s) -> tmp_check/alexander/%s.json'
-          % (n, sorted(r), sorted(r3), knot), flush=True)
+          % (n, sorted(r), sorted(r3), stem), flush=True)
 
 if __name__ == '__main__':
     main()

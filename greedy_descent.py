@@ -20,7 +20,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import descent_search as D  # noqa: E402
 
-GROUP = 'F3vec'
+GROUP = 'F3vec'  # --group Fvec: binary trees of vec{F} (the 'Fvec' diagram of START.json)
 BATCH = 64
 KS = (2, 4, 6, 8, 10, 12)  # deletions per tree tried at each step (> 2: inside windows)
 MAX_SET = 20000  # windows with more candidate trees than this are skipped
@@ -52,18 +52,19 @@ def window_pairs(tp, tm, k, width):
     """Pairs (T+', T-') in the group, k deletions in each tree, all inside one window of `width` consecutive
     leaves (the same window in both trees); the window shrinks by 2 leaves after each deletion."""
     L = len(D.words(GROUP, tp))
+    lv = D.ARITY[GROUP] - 1  # leaves removed by one deletion
     out = set()
-    for lo in range(0, max(1, L - width + 1), 2):
+    for lo in range(0, max(1, L - width + 1), lv):
         P, M = {tp}, {tm}
         hi = lo + width - 1
         for j in range(k):
-            P = {u for s in P for u in deletions_in(s, lo, hi - 2 * j)}
-            M = {u for s in M for u in deletions_in(s, lo, hi - 2 * j)}
+            P = {u for s in P for u in deletions_in(s, lo, hi - lv * j)}
+            M = {u for s in M for u in deletions_in(s, lo, hi - lv * j)}
             if len(P) > MAX_SET or len(M) > MAX_SET:
                 break
         if len(P) > MAX_SET or len(M) > MAX_SET or not P or not M:
             continue
-        if len(D.words(GROUP, next(iter(P)))) != L - 2 * k:
+        if len(D.words(GROUP, next(iter(P)))) != L - lv * k:
             continue
         kp, km = {}, {}
         for t in P:
@@ -76,11 +77,12 @@ def window_pairs(tp, tm, k, width):
 
 
 def test(task):
-    """task = (knot, det, [(top, bottom), ...]): the first pair giving the knot, or None; and counts."""
+    """task = (group, knot, det, [(top, bottom), ...]): the first pair giving the knot, or None; and counts."""
     import snappy  # noqa: F401
     import spherogram
     import complete_check as C
-    knot, det, pairs = task
+    global GROUP
+    GROUP, knot, det, pairs = task  # the group travels with the task (worker processes do not see --group)
     ref, vk, Ek, _ = D._ref(knot)
     counts = {'pairs': 0, 'det': 0, 'snappy': 0}
     for top, bottom in pairs:
@@ -93,6 +95,11 @@ def test(task):
         if pd is None:
             continue
         S = spherogram.Link([[x - 1 for x in c] for c in pd])
+        if vk is None:  # non-hyperbolic knot (torus knots): KnotInfo recognition
+            counts['snappy'] += 1
+            if D.same_by_knotinfo(S, knot):
+                return (top, bottom), counts
+            continue
         S.simplify('global')
         if len(S.crossings) == 0:
             continue
@@ -107,7 +114,10 @@ def test(task):
 
 
 def main():
+    global GROUP
     args = sys.argv[1:]
+    if '--group' in args:
+        GROUP = args[args.index('--group') + 1]
     start = json.load(open(args[0]))
     procs = int(args[1]) if len(args) > 1 and not args[1].startswith('--') else 4
     n_min = int(args[args.index('--n-min') + 1]) if '--n-min' in args else 15
@@ -132,7 +142,7 @@ def main():
     with RobustPool(procs) as pool:
         while True:
             tp, tm = D.tree(GROUP, top), D.tree(GROUP, bottom)
-            n = (len(top.split(',')) + 1) // 2
+            n = (len(top.split(',')) + 1) // 2 if D.ARITY[GROUP] == 3 else len(top.split(','))
             if n <= n_min:
                 log('reached n = %d' % n)
                 break
@@ -144,15 +154,15 @@ def main():
                     continue
                 if k == 2:
                     P, M = {}, {}
-                    for t in D.neighbours(tp, 3, 2, 0):
+                    for t in D.neighbours(tp, D.ARITY[GROUP], 2, 0):
                         P.setdefault(D.key(GROUP, t), []).append(','.join(D.words(GROUP, t)))
-                    for t in D.neighbours(tm, 3, 2, 0):
+                    for t in D.neighbours(tm, D.ARITY[GROUP], 2, 0):
                         M.setdefault(D.key(GROUP, t), []).append(','.join(D.words(GROUP, t)))
                     pairs = [(a, b) for kk in P.keys() & M.keys() for a in P[kk] for b in M[kk]]
                 else:
-                    pairs = window_pairs(tp, tm, k, 4 * k + 8)
+                    pairs = window_pairs(tp, tm, k, 4 * k + 8 if D.ARITY[GROUP] == 3 else 2 * k + 6)
                 rnd.shuffle(pairs)
-                tasks = [(knot, det, pairs[i:i + BATCH]) for i in range(0, len(pairs), BATCH)]
+                tasks = [(GROUP, knot, det, pairs[i:i + BATCH]) for i in range(0, len(pairs), BATCH)]
                 for w in range(0, len(tasks), 2 * procs):  # waves, so that a hit stops the step
                     for h, c in pool.map(test, tasks[w:w + 2 * procs]):
                         for x, v in c.items():

@@ -73,7 +73,9 @@ def main():
         fo.write('# vec{F}-index of the knots with at most %d crossings\n\n' % cmax)
         fo.write('All tree diagrams of vec{F} with n <= %d leaves (knots only occur for odd n: results/parity_theorem.md): %d of the %d knots '
                  'have a known vec{F}-index; for the others "≥" is a lower bound (no diagram with fewer leaves has '
-                 'their HOMFLY polynomial). Knots up to mirror image (and, for invertible knots, the orientation '
+                 'their HOMFLY polynomial; at n = 19 only the HOMFLY classes were enumerated: '
+                 'results/Fvec_n19_classes.csv). Indices 19 and 21 beyond the enumeration come from certified '
+                 'witnesses (results/Fvec_beyond17_certified.md). Knots up to mirror image (and, for invertible knots, the orientation '
                  'does not matter: L(g^-1) is the mirror image of the reverse of L(g)). For the non-invertible '
                  'knots the index of K (orientation of KnotInfo) and of its reverse Kr is given. F-index and '
                  'F₃-index and F⃗₃-index (oriented subgroup of F₃) for comparison. The representative is an element of vec{F} realizing the index.\n\n'

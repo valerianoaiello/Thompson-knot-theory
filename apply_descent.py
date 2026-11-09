@@ -7,6 +7,8 @@ the files below; it is idempotent.
    gets index n if n is its lower bound (the next n allowed in the group: knots only occur for odd n in
    vec{F} and vec{F}_3), status 'identified (targeted search, n beyond the enumeration)'; otherwise its status
    records the upper bound.
+   In vec{F}, a knot whose HOMFLY-PT class has no diagram with 19 leaves (results/Fvec_n19_classes.csv,
+   fvec_beyond17.py) gets lower bound 20 first.
 2. results/reverse_bound_<G>.csv (vec{F}, vec{F}_3): a knot whose other orientation was 'a-b' gets index_other
    = n when a certified diagram of size n = a realizes the other orientation (column other_orientation_diagram).
 usage (from F_index/): python3 apply_descent.py
@@ -45,6 +47,15 @@ def main():
         path = os.path.join(HERE, 'results', '%s_index.csv' % G)
         table = list(csv.DictReader(open(path)))
         col, changed = G + '_index', []
+        n19 = os.path.join(HERE, 'results', 'Fvec_n19_classes.csv')
+        if G == 'Fvec' and os.path.exists(n19):
+            # fvec_beyond17.py: no knot diagram with 19 leaves in the HOMFLY-PT class -> lower bound 20 (index >= 21)
+            absent = {x['knot'] for x in csv.DictReader(open(n19)) if x['diagrams_at_19'] == '0'}
+            raised = 0
+            for r in table:
+                if r['knot'] in absent and r['lower_bound'] == '18':
+                    r['lower_bound'], raised = '20', raised + 1
+            print(G, 'lower bound 18 -> 20 (class absent at n = 19):', raised)
         for r in table:
             if (G, r['knot']) not in unoriented or r[col] and 'targeted search' not in r['status']:
                 continue

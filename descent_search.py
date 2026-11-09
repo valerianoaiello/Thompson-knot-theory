@@ -175,6 +175,22 @@ def _ref(knot):
     return _REF[knot]
 
 
+def same_by_knotinfo(S, knot):
+    """For a knot whose complement is not hyperbolic (torus knots): the diagram S (spherogram), simplified, is
+    recognized in KnotInfo (Sage's get_knotinfo) as `knot`, up to mirror image. The same test certifies such
+    witnesses in certify_indices.py."""
+    try:
+        S = S.copy()
+        S.simplify('global')
+        if len(S.crossings) > 13:
+            return False
+        r = S.sage_link().get_knotinfo()
+        names = [str(x) for x in (r if isinstance(r, tuple) else (r,))]
+        return any(x.endswith("'K%s']" % knot) or x == 'K' + knot for x in names)
+    except Exception:
+        return False
+
+
 def check(task):
     """task = [group, knot, want, det, tops, bottoms]: the pairs (top, bottom) in the group (equal keys) that
     give the knot (and, with want, an oriented type in want), with their relations; counts of the filters."""
@@ -201,8 +217,14 @@ def check(task):
             continue
         counts['knot'] += 1
         S = spherogram.Link([[x - 1 for x in c] for c in pd])
+        if vk is None:  # non-hyperbolic knot (torus knots): KnotInfo recognition instead of volume and isometry
+            if same_by_knotinfo(S, knot):
+                counts['volume'] += 1
+                counts['snappy'] += 1
+                hits.append((d, ['isometric']))
+            continue
         E = S.exterior()
-        if vk is None or not C._geometric(E) or abs(float(E.volume()) - vk) > C.VOLUME_EPS:
+        if not C._geometric(E) or abs(float(E.volume()) - vk) > C.VOLUME_EPS:
             continue
         counts['volume'] += 1
         try:

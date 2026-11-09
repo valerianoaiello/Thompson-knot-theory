@@ -11,6 +11,7 @@
 //   4. compute the HOMFLY polynomial with libhomfly and group the diagrams by HOMFLY up to mirror.
 //
 // usage: fknots n shard nshards out.tsv [max_reps] [vec|all] [only_key]
+// Environment THOMPSON_DETS="d1,d2,...": keep only the diagrams whose knot determinant is in the list.
 // With shard = -1 the trees are built once and nshards worker processes are forked (they share the trees,
 // copy-on-write); worker s writes out.tsv.<s>. This is what run.py uses (memory: n = 17 has 35M trees).
 // With only_key, representatives are stored only for the HOMFLY class with that key (the other classes
@@ -34,6 +35,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <sstream>
 #include <string>
 #include <fstream>
 #include <sys/wait.h>
@@ -46,7 +48,7 @@ extern "C" {
 #include "homfly.h"
 }
 
-static const int MAXN = 18;
+static const int MAXN = 19;  // n = 19: the bit sets still fit in 6 words
 static const int NW = (MAXN * MAXN + 63) / 64;  // 64-bit words for the set of leaf intervals
 
 struct Tree {
@@ -344,6 +346,73 @@ struct ClassInfo {
     std::vector<Rep> reps;
 };
 
+
+// ---------------------------------------------------------------------------------------------
+// Optional determinant filter (environment variable THOMPSON_DETS="d1,d2,...", e.g. for a targeted
+// enumeration of a few knots): a diagram is kept only if the determinant of its knot, |det| of the
+// reduced signed Laplacian of the Tait graph (upper edges +1, lower edges -1), is one of the given values.
+// The determinant is computed modulo the prime 2^61 - 1, so the filter never drops a diagram whose
+// determinant is in the list (a different determinant could pass with negligible probability; such
+// diagrams are only examined further, never lost).
+static const unsigned long long DET_P = (1ULL << 61) - 1;
+static unsigned long long mulmod(unsigned long long a, unsigned long long b) {
+    unsigned __int128 r = (unsigned __int128)a * b;
+    unsigned long long lo = (unsigned long long)(r & DET_P), hi = (unsigned long long)(r >> 61);
+    unsigned long long x = lo + hi;
+    return x >= DET_P ? x - DET_P : x;
+}
+static unsigned long long powmod(unsigned long long a, unsigned long long e) {
+    unsigned long long r = 1;
+    while (e) {
+        if (e & 1) r = mulmod(r, a);
+        a = mulmod(a, a);
+        e >>= 1;
+    }
+    return r;
+}
+static unsigned long long det_mod(int n, const Tree &tp, const Tree &tm) {
+    int m = n - 1;  // reduced Laplacian: vertex 0 removed
+    static unsigned long long A[MAXN][MAXN];
+    for (int a = 0; a < m; a++)
+        for (int b = 0; b < m; b++) A[a][b] = 0;
+    auto add = [&](int u, int w, long long sgn) {
+        unsigned long long sp = sgn > 0 ? 1 : DET_P - 1, sn = sgn > 0 ? DET_P - 1 : 1;
+        if (u > 0) A[u - 1][u - 1] = (A[u - 1][u - 1] + sp) % DET_P;
+        if (w > 0) A[w - 1][w - 1] = (A[w - 1][w - 1] + sp) % DET_P;
+        if (u > 0 && w > 0) {
+            A[u - 1][w - 1] = (A[u - 1][w - 1] + sn) % DET_P;
+            A[w - 1][u - 1] = (A[w - 1][u - 1] + sn) % DET_P;
+        }
+    };
+    for (int j = 1; j < n; j++) {
+        add(tp.parent[j], j, +1);
+        add(tm.parent[j], j, -1);
+    }
+    unsigned long long det = 1;
+    for (int c = 0; c < m; c++) {
+        int piv = -1;
+        for (int r = c; r < m; r++)
+            if (A[r][c]) {
+                piv = r;
+                break;
+            }
+        if (piv < 0) return 0;
+        if (piv != c) {
+            for (int k = 0; k < m; k++) std::swap(A[piv][k], A[c][k]);
+            det = DET_P - det;
+        }
+        det = mulmod(det, A[c][c]);
+        unsigned long long inv = powmod(A[c][c], DET_P - 2);
+        for (int r = c + 1; r < m; r++) {
+            if (!A[r][c]) continue;
+            unsigned long long f = mulmod(A[r][c], inv);
+            for (int k = c; k < m; k++) A[r][k] = (A[r][k] + DET_P - mulmod(f, A[c][k])) % DET_P;
+        }
+    }
+    return det;
+}
+static std::unordered_set<unsigned long long> det_targets;  // empty: no filter
+
 static int run_shard(int n, int shard, int nshards, const char *outpath, int max_reps, bool vec,
                      const std::unordered_set<std::string> &only_keys, const std::vector<Tree> &T,
                      const std::unordered_map<uint32_t, std::vector<int>> &same_parity) {
@@ -385,6 +454,7 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
             for (int w = 0; w < NW; w++) common |= T[i].bits[w] & T[j].bits[w];
             if (common) continue;
             prime++;
+            if (!det_targets.empty() && !det_targets.count(det_mod(n, T[i], T[j]))) continue;
             build_diagram(n, T[i], T[j], D);
             // invariants: the Tait graph has 2(n-1) edges, so its corners (sum of the degrees) are 4(n-1)
             if (D.E != 2 * (n - 1) || D.ncorners != 2 * D.E) failed_checks++;
@@ -461,6 +531,17 @@ int main(int argc, char **argv) {
         } else {
             only_keys.insert(a);
         }
+    }
+    if (const char *dets = getenv("THOMPSON_DETS")) {
+        std::string d = dets, tok;
+        std::stringstream ss(d);
+        while (std::getline(ss, tok, ','))
+            if (!tok.empty()) {
+                unsigned long long v = strtoull(tok.c_str(), nullptr, 10) % DET_P;
+                det_targets.insert(v);
+                det_targets.insert((DET_P - v) % DET_P);  // the sign of the determinant is not fixed
+            }
+        fprintf(stderr, "fknots: determinant filter on %s\n", dets);
     }
     if (n < 2 || n > MAXN) {
         fprintf(stderr, "n must be in [2, %d]\n", MAXN);
