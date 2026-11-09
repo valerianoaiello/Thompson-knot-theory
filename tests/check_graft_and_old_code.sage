@@ -11,7 +11,7 @@
 #    by hand on top = 0,1,20,21,220,221,222, bottom = 00,010,011,012,02,1,2, a right-handed
 #    trefoil). Mirror images do not change the F-index.
 import os, random, sys
-sys.path.insert(0, '.')
+sys.path.insert(0, 'scripts')
 import ftrees as F
 
 random.seed(int(2026))

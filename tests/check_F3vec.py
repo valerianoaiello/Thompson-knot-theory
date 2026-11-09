@@ -24,7 +24,7 @@ import tempfile
 from multiprocessing import Pool
 
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, 'scripts'))
 import ftrees as F  # noqa: E402
 
 BIN = os.path.join(HERE, 'bin', 'iota_knots')

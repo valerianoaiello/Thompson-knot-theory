@@ -22,7 +22,7 @@ import subprocess
 import sys
 
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, 'scripts'))
 import ftrees as F  # noqa: E402
 import oriented as O  # noqa: E402
 

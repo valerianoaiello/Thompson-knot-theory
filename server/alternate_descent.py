@@ -48,13 +48,13 @@ def main():
     os.makedirs(alex, exist_ok=True)
     os.makedirs(desc, exist_ok=True)
     if not os.path.exists(os.path.join(alex, '%s.json' % k)):
-        run(PY + ['alexander.py', knot, '--seed', seed, '--minutes', '3', '--tries', '4', '--out', k],
+        run(PY + ['scripts/alexander.py', knot, '--seed', seed, '--minutes', '3', '--tries', '4', '--out', k],
             os.path.join(HERE, 'tmp_check', 'alexander_%s.log' % k))
     if not os.path.exists(os.path.join(alex, '%s.json' % k)):
         print(k, 'no construction', flush=True)
         return
     while True:
-        run(PY + ['greedy_descent.py', os.path.join('tmp_check', 'alexander', '%s.json' % k), procs, '--group', group,
+        run(PY + ['scripts/greedy_descent.py', os.path.join('tmp_check', 'alexander', '%s.json' % k), procs, '--group', group,
                   '--n-min', str(n_min)], os.path.join(alex, '%s_greedy.log' % k))
         n, d = last_level(k, group)
         print(k, 'greedy at', n, flush=True)
@@ -68,7 +68,7 @@ def main():
             out = os.path.join(desc, 'out_%s.csv' % name)
             json.dump([dict(name=name, group=group, knot=knot, starts=[d], steps=1, extra=extra)], open(jobs, 'w'))
             env = dict(os.environ, DESCENT_OUT=out)
-            run(PY + ['descent_search.py', jobs, procs], os.path.join(desc, '%s.log' % name), env)
+            run(PY + ['scripts/descent_search.py', jobs, procs], os.path.join(desc, '%s.log' % name), env)
             hits = [r for r in csv.DictReader(open(out))] if os.path.exists(out) else []
             print(k, 'exhaustive from', n, 'extra', extra, ':', len(hits), 'diagrams', flush=True)
             if hits:

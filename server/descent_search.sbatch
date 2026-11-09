@@ -14,5 +14,5 @@ export PATH=$ENV/bin:$PATH
 cd "$SLURM_SUBMIT_DIR"
 J=$1
 export DESCENT_OUT=$PWD/tmp_check/descent/out_$(basename $J .json).csv
-python descent_search.py $J "${SLURM_CPUS_PER_TASK:-12}"
+python scripts/descent_search.py $J "${SLURM_CPUS_PER_TASK:-12}"
 echo "all done ($J)"

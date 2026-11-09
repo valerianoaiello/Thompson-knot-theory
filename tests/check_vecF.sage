@@ -10,7 +10,7 @@
 # 4) Every stored representative is in vec{F} and has the HOMFLY polynomial (up to mirror) of its class.
 # 5) Knots appear only for odd n (the number of components of L(g), g in vec{F}, has the parity of n).
 import os, subprocess, sys, tempfile
-sys.path.insert(0, '.')
+sys.path.insert(0, 'scripts')
 import ftrees as F
 
 R = LaurentPolynomialRing(ZZ, 'L,M')

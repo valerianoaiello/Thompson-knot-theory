@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, 'scripts'))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import ftrees as F  # noqa: E402
 from check_F3vec import in_vec, iota, words  # noqa: E402

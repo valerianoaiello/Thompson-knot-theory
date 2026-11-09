@@ -259,7 +259,7 @@ Quick start (a few minutes): build, enumerate $`\vec{F}`$ up to 11 leaves, run t
 
 ```bash
 make
-python3 run.py 11 --group Fvec          # -> results/raw_Fvec/n<n>.tsv (HOMFLY-PT classes and representatives)
+python3 scripts/run.py 11 --group Fvec          # -> results/raw_Fvec/n<n>.tsv (HOMFLY-PT classes and representatives)
 python3 tests/check_parity.py           # parity theorem
 sage tests/check_cpp.sage               # C++ vs Python vs Sage; Example 2.3 of the paper gives 4_1
 sage tests/check_vecF.sage              # vec{F}
@@ -269,13 +269,13 @@ The whole computation of one index, phase after phase, is run by `pipeline.py`, 
 (`results/logs/pipeline_<G>.log`) and resumes after the last completed phase:
 
 ```bash
-python3 pipeline.py F3vec 11 --jobs 8      # enumerate, identify, complete check, resolve, apply, table,
+python3 scripts/pipeline.py F3vec 11 --jobs 8      # enumerate, identify, complete check, resolve, apply, table,
                                            # oriented scan, reverse bound, verify, certify (dry run: --dry-run)
 ```
 
 The scripts write to `results/` and `tmp_check/`: to keep existing results, run the pipeline in a separate
 checkout (`git worktree add ../F_index_rerun`, then `make` there); without `--force` it refuses to overwrite
-`results/<G>_index.csv`. Long runs: `caffeinate -i python3 pipeline.py ...` keeps the Mac awake.
+`results/<G>_index.csv`. Long runs: `caffeinate -i python3 scripts/pipeline.py ...` keeps the Mac awake.
 The progress files of a phase (in `tmp_check/` and `results/raw*/`) are reused only to resume that phase after
 an interruption; in every other case (a new run, `--from`, `--only`) they come from an earlier run, possibly
 with older code, and the pipeline moves them (never deletes them) to `tmp_check/old_<G>_<date-time>/`.
@@ -284,21 +284,21 @@ The single phases:
 
 ```bash
 make                                  # bin/fknots, bin/iota_knots (link SageMath's libhomfly; set SAGE_LOCAL)
-python3 run.py 13                     # F: enumerate n = 2..13 in parallel  -> results/raw/n<n>.tsv
-python3 run.py 9  --group F3          # F₃                                   -> results/raw_F3/
-python3 run.py 17 --group Fvec        # vec{F}                               -> results/raw_Fvec/
-python3 run.py 11 --group F3vec       # vec{F}₃                              -> results/raw_F3vec/
-sage identify.sage 13 [F|F3|Fvec|F3vec]                # identify the knots  -> results/<G>_index.csv
-sage -python complete_check.py <G>                     # all diagrams of the classes found late / not found
-sage -python resolve_undecided.py <G>                  # second pass on the undecided diagrams
-sage -python apply_complete_check.py <G>               # apply the complete check to <G>_index.csv
-sage -python certify_indices.py <G> [procs]            # certified verification of the table
-sage -python certify_retry.py <G> [procs] [timeout]    # second pass on what the first one left open
-sage -python certify_completeness.py [<G>]             # every value certified?
-sage -python jones_span_bound.py                       # comparison with the Jones span bound
-python3 make_table.py <G>                              # final table -> results/<G>_index_table.md
-python3 small_knots_table.py [9|10]                    # all four indices, knots with <= 9 (10) crossings
-sage -python oriented_scan.py Fvec|F3vec [procs] [maxc]  # oriented indices of the non-invertible knots
+python3 scripts/run.py 13                     # F: enumerate n = 2..13 in parallel  -> results/raw/n<n>.tsv
+python3 scripts/run.py 9  --group F3          # F₃                                   -> results/raw_F3/
+python3 scripts/run.py 17 --group Fvec        # vec{F}                               -> results/raw_Fvec/
+python3 scripts/run.py 11 --group F3vec       # vec{F}₃                              -> results/raw_F3vec/
+sage scripts/identify.sage 13 [F|F3|Fvec|F3vec]                # identify the knots  -> results/<G>_index.csv
+sage -python scripts/complete_check.py <G>                     # all diagrams of the classes found late / not found
+sage -python scripts/resolve_undecided.py <G>                  # second pass on the undecided diagrams
+sage -python scripts/apply_complete_check.py <G>               # apply the complete check to <G>_index.csv
+sage -python scripts/certify_indices.py <G> [procs]            # certified verification of the table
+sage -python scripts/certify_retry.py <G> [procs] [timeout]    # second pass on what the first one left open
+sage -python scripts/certify_completeness.py [<G>]             # every value certified?
+sage -python scripts/jones_span_bound.py                       # comparison with the Jones span bound
+python3 scripts/make_table.py <G>                              # final table -> results/<G>_index_table.md
+python3 scripts/small_knots_table.py [9|10]                    # all four indices, knots with <= 9 (10) crossings
+sage -python scripts/oriented_scan.py Fvec|F3vec [procs] [maxc]  # oriented indices of the non-invertible knots
 ```
 
 Notes:
@@ -307,7 +307,7 @@ Notes:
   resume after an interruption.
 - `identify.sage` needs the packages of `requirements.txt`.
 - `identify.sage` does not name the HOMFLY classes of no table knot (`unidentified_classes*.csv`), which are not
-  needed for the tables; `NAME_REPS=1 sage identify.sage ...` names them.
+  needed for the tables; `NAME_REPS=1 sage scripts/identify.sage ...` names them.
 - The raw data (`results/raw*/`, several GB) and `tmp_check/` are not in git.
 
 Running times on an 8-core Mac (2020), $`\vec{F}_3`$ with n ≤ 9: the whole pipeline takes about 31 minutes
@@ -428,9 +428,14 @@ The reductions are not the same in the four groups:
   $`\vec{F}_3`$, with y₂ₘ = ι(xₘ); see `make_table.py`). Every normal form is checked: for F by multiplying
   the generators, for F₃ by comparing the piecewise linear maps of [0, 1] (exact arithmetic).
 - `results/knots_beyond_table*.csv`: knots with 14–15 crossings recognized by SnapPy (upper bounds).
-- `results/unidentified_classes*.csv`: HOMFLY classes of no prime knot with ≤ 13 crossings.
+- `results/unidentified_classes*.csv`: HOMFLY classes of no prime knot with ≤ 13 crossings (written by `identify.sage`;
+  not in git because of their size, published with the data on Zenodo).
 
 ## Files
+
+Layout: `src/` (C++ enumerators), `scripts/` (all the Python and Sage scripts, run from the repository root as
+`python3 scripts/NAME.py` or `sage -python scripts/NAME.py`), `tests/`, `server/` (SLURM scripts), `results/`.
+The scripts are listed below by name.
 
 | file | content |
 |---|---|

@@ -129,7 +129,7 @@ else:
     print('2) old code not found in %s: skipped' % OLD)
 
 # 3) Example 2.3 ------------------------------------------------------------------------------
-sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, 'scripts'))
 import ftrees as FT
 # x0 x2^2 x5 x6 (x4 x6 x7)^-1 = x0 x2 x2 x5 x6 x7^-1 x6^-1 x4^-1, sent to F_3 by iota inside bin/iota_knots
 g = FT.word(0, 2, 2, 5, 6, -7, -6, -4)

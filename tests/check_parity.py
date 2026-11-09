@@ -19,7 +19,7 @@ import os
 import sys
 from multiprocessing import Pool
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scripts'))
 import ftrees as F  # noqa: E402
 
 

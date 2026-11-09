@@ -1,7 +1,7 @@
 # Cross-check of bin/fknots against the reference implementation ftrees.py and Sage.
 # Run from F_index/:   sage tests/check_cpp.sage
 import os, subprocess, sys, tempfile
-sys.path.insert(0, '.')
+sys.path.insert(0, 'scripts')
 import ftrees as F
 
 R = LaurentPolynomialRing(ZZ, 'L,M')

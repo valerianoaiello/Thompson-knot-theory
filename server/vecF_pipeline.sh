@@ -12,10 +12,10 @@ NMIN=${3:-19}
 PY=${PY:-python}
 mkdir -p tmp_check/alexander tmp_check/descent
 if [ ! -f tmp_check/alexander/$K.json ]; then
-  $PY alexander.py $K --seed 50 --minutes 3 --tries 4 > tmp_check/alexander_$K.log 2>&1
+  $PY scripts/alexander.py $K --seed 50 --minutes 3 --tries 4 > tmp_check/alexander_$K.log 2>&1
 fi
 if [ ! -f tmp_check/alexander/$K.json ]; then echo "$K: no construction"; exit 1; fi
-$PY greedy_descent.py tmp_check/alexander/$K.json $P --group Fvec --n-min $NMIN > tmp_check/alexander/${K}_greedy.log 2>&1
+$PY scripts/greedy_descent.py tmp_check/alexander/$K.json $P --group Fvec --n-min $NMIN > tmp_check/alexander/${K}_greedy.log 2>&1
 $PY - "$K" "$NMIN" <<'EOF'
 import json, sys
 k, nmin = sys.argv[1], int(sys.argv[2])
@@ -29,6 +29,6 @@ json.dump([dict(name='vecF_%s_from%d' % (k, n), group='Fvec', knot=k, starts=[d]
                 extra=1, beam=50)], open('tmp_check/descent/jobs_vecF_%s_last.json' % k, 'w'))
 print(k, 'greedy reached', n)
 EOF
-DESCENT_OUT=tmp_check/descent/out_vecF_${K}_last.csv $PY descent_search.py tmp_check/descent/jobs_vecF_${K}_last.json $P \
+DESCENT_OUT=tmp_check/descent/out_vecF_${K}_last.csv $PY scripts/descent_search.py tmp_check/descent/jobs_vecF_${K}_last.json $P \
   > tmp_check/descent/vecF_${K}_last.log 2>&1
 echo "$K: $(grep -E ': FOUND|nothing at' tmp_check/descent/vecF_${K}_last.log | tail -1)"

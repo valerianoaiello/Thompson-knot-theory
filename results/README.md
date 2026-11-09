@@ -31,7 +31,7 @@ How to read the tables:
 | `<G>_index.csv` | one row for every KnotInfo knot, also those not found: index, exact lower bound (first n of the HOMFLY-PT class), status, witness (leaf addresses), HOMFLY-PT polynomial. Read by the other scripts; no normal forms |
 | `<G>_index_summary.txt` | number of knots with known index, by crossing number |
 | `knots_beyond_table*.csv` | knots with 14 or 15 crossings recognized by SnapPy (upper bounds) |
-| `unidentified_classes*.csv` | HOMFLY-PT classes of no prime knot with at most 13 crossings |
+| `unidentified_classes*.csv` | HOMFLY-PT classes of no prime knot with at most 13 crossings (written by `identify.sage`; not in git, published on Zenodo with the data) |
 | `complete_check_<G>.md` / `.csv` | the complete check (all diagrams of the relevant HOMFLY-PT classes) |
 | `certified_<G>.md`, `certified_retry_<G>.md`, `certified_completeness.md` | the certified verification of all the tables |
 | `oriented_verified_<G>.md` | the certified verification of the oriented results |
