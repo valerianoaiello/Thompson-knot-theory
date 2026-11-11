@@ -483,7 +483,7 @@ no prime knot with ≤ 13 crossings (`unidentified_classes*.csv`, not in git bec
 
 If you use this code or these data, please cite the repository (see `CITATION.cff`), the data archive
 ([doi:10.5281/zenodo.24082869](https://doi.org/10.5281/zenodo.24082869)) and the paper *Thompson indices of knots and
-the invertibility problem* by V. Aiello (in preparation).
+the invertibility problem* by V. Aiello, ArXiv:2611.13208 (https://arxiv.org/abs/2611.13208).
 
 ## License
 
