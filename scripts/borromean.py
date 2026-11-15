@@ -8,8 +8,12 @@ All the tree diagrams (no reduction) of size n are given to bin/iota_knots eval,
 components and a PD code. A diagram can give the Borromean rings only if:
   1. its link has 3 components;
   2. all the pairwise linking numbers vanish (those of the Borromean rings do);
-  3. its HOMFLY-PT polynomial equals that of the Borromean rings up to mirror image (with vanishing linking
-     numbers the HOMFLY-PT polynomial does not depend on the orientations of the components);
+  3. its HOMFLY-PT polynomial, for the orientation of the PD code, equals that of the Borromean rings up to
+     mirror image. This is a necessary condition for any orientation, because the HOMFLY-PT polynomial of the
+     Borromean rings does not depend on the orientations of the components: it is invariant under the reversal
+     of all the components, and a symmetry of the rings (three ellipses in the coordinate planes, rotation by pi
+     about a coordinate axis) reverses two of them (for a general link with vanishing linking numbers the
+     polynomial does depend on the orientations, e.g. L9a38 and L9a42);
   4. its exterior is isometric to that of L6a4 (SnapPy) by an isometry taking meridians to meridians on every
      cusp; such an isometry extends to a homeomorphism of S^3 taking one link to the other, so the diagram is
      the Borromean rings (up to mirror image).
@@ -144,7 +148,10 @@ def main():
     ref_hm = ref.sage_link().mirror_image().homfly_polynomial()
     lines = ['# F-index and F_3-index of the Borromean rings (L6a4)', '',
              'Script `borromean.py`: all the tree diagrams of size n (no reduction), filtered by number of components '
-             '(3), linking numbers (all 0), HOMFLY-PT polynomial up to mirror image, then SnapPy isometry with L6a4. '
+             '(3), linking numbers (all 0), HOMFLY-PT polynomial up to mirror image (for the Borromean rings it '
+             'does not depend on the orientations of the components: it is invariant under the reversal of all of '
+             'them, and a rotation by pi about a coordinate axis, for the rings drawn as three ellipses in the '
+             'coordinate planes, reverses two of them), then SnapPy isometry with L6a4. '
              'n = number of leaves for F, number of internal vertices + 1 for F_3 (Jones counts internal vertices, '
              'i.e. n - 1).', '']
     result = {}

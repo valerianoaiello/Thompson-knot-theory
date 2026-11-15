@@ -1,6 +1,6 @@
 # F-index and F_3-index of the Borromean rings (L6a4)
 
-Jones' problem (On the construction of knots and links from Thompson's groups, 2019, Section 7): "calculate the F3 and F2 indices of the Borromean rings". Script `borromean.py`: all the tree diagrams of size n (no reduction), filtered by number of components (3), linking numbers (all 0), HOMFLY-PT polynomial up to mirror image (independent of the orientations when the linking numbers vanish), then a SnapPy isometry with L6a4 taking meridians to meridians (which extends to a homeomorphism of S^3 taking one link to the other). n = number of leaves for F, number of internal vertices + 1 for F_3; Jones counts internal vertices, i.e. n - 1.
+Jones' problem (On the construction of knots and links from Thompson's groups, 2019, Section 7): "calculate the F3 and F2 indices of the Borromean rings". Script `borromean.py`: all the tree diagrams of size n (no reduction), filtered by number of components (3), linking numbers (all 0), HOMFLY-PT polynomial up to mirror image (for the Borromean rings it does not depend on the orientations of the components: it is invariant under the reversal of all of them, and a rotation by pi about a coordinate axis, for the rings drawn as three ellipses in the coordinate planes, reverses two of them), then a SnapPy isometry with L6a4 taking meridians to meridians (which extends to a homeomorphism of S^3 taking one link to the other). n = number of leaves for F, number of internal vertices + 1 for F_3; Jones counts internal vertices, i.e. n - 1.
 
 ## F
 
