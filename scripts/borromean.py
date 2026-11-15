@@ -2,7 +2,7 @@
 F-index and F_3-index of the Borromean rings (L6a4), Jones' problem in "On the construction of knots and links
 from Thompson's groups" (2019), Section 7: "calculate the F3 and F2 indices of the Borromean rings".
 
-usage (from F_index/):   sage -python scripts/borromean.py [nmax_F] [nmax_F3]      (defaults 10 and 7)
+usage (from F_index/):   sage -python scripts/borromean.py [nmax_F] [nmax_F3]      (defaults 8 and 6)
 
 All the tree diagrams (no reduction) of size n are given to bin/iota_knots eval, which returns the number of
 components and a PD code. A diagram can give the Borromean rings only if:
@@ -18,7 +18,10 @@ components and a PD code. A diagram can give the Borromean rings only if:
      cusp; such an isometry extends to a homeomorphism of S^3 taking one link to the other, so the diagram is
      the Borromean rings (up to mirror image).
 The first n at which a diagram passes 1-3 is a lower bound, the first n at which one passes 4 is the index.
-Output: results/borromean.md.
+Output: results/borromean.md. With the defaults F is enumerated up to n = 8, where no diagram passes 1-3; the line
+for n = 9 and the F-index are a fixed text (SWEENEY below), not computed here: the diagrams with 9 leaves are
+those of D. Sweeney, and certify_borromean.py enumerates and certifies n = 9. With nmax_F >= 9 the script
+enumerates n = 9 itself (about 2 million pairs of trees) and writes its own counts instead.
 """
 import itertools
 import os
@@ -136,50 +139,80 @@ def three_component_diagrams(group, n):
     return m * m, three, three - lk, three - lk - hom, [x for r in res for x in r[0]]
 
 
+INTRO = ('Jones\' problem (On the construction of knots and links from Thompson\'s groups, 2019, Section 7): '
+         '"calculate the F3 and F2 indices of the Borromean rings". Script `borromean.py`: all the tree diagrams of '
+         'size n (no reduction), filtered by number of components (3), linking numbers (all 0), HOMFLY-PT polynomial '
+         'up to mirror image (for the Borromean rings it does not depend on the orientations of the components: it '
+         'is invariant under the reversal of all of them, and a rotation by pi about a coordinate axis, for the '
+         'rings drawn as three ellipses in the coordinate planes, reverses two of them), then a SnapPy isometry with '
+         'L6a4 taking meridians to meridians (which extends to a homeomorphism of S^3 taking one link to the other). '
+         'n = number of leaves for F, number of internal vertices + 1 for F_3; Jones counts internal vertices, '
+         'i.e. n - 1.')
+# Not computed by this script: with the default nmax_F = 8 the enumeration of F stops before the index, and the
+# diagrams with 9 leaves are those of Sweeney's list, checked by the same test (and certified, together with the
+# enumeration of n = 9, by certify_borromean.py: results/borromean_certified.md).
+SWEENEY = ('- F, n = 9: the 64 diagrams with 9 leaves of D. Sweeney (github.com/sweeneyde/thompson_knots, folder '
+           'Borromean/) are all certified to be the Borromean rings by the same test (e.g. '
+           '`(((((oo)(oo))o)(o(oo)))o) / (o(((oo)(o((oo)o)))(oo)))` in Sweeney\'s notation).')
+SWEENEY_INDEX = ('**F-index of the Borromean rings: 9 leaves** (8 internal vertices in Jones\' convention), in '
+                 'agreement with Sweeney.')
+
+
+def row_line(group, row):
+    n, total, three, lk0, hom, borromean, witness = row
+    return ('- %s, n = %d: %d diagrams, %d with 3 components, %d with vanishing linking numbers, '
+            '%d with the HOMFLY-PT polynomial of L6a4, **%d Borromean rings**%s' % (
+                group, n, total, three, lk0, hom, borromean, (' (e.g. `%s | %s`)' % witness) if witness else ''))
+
+
+def report(rows):
+    """The text of results/borromean.md. rows[group] = list of (n, diagrams, with 3 components, with vanishing
+    linking numbers, with the HOMFLY-PT polynomial of L6a4, Borromean rings, witness or None), for increasing n,
+    the last one being the first n with Borromean rings, if any."""
+    lines = ['# F-index and F_3-index of the Borromean rings (L6a4)', '', INTRO, '', '## F', '']
+    lines += [row_line('F', r) for r in rows['F']]
+    last = rows['F'][-1] if rows['F'] else None
+    if last and last[5]:
+        lines += ['', '**F-index of the Borromean rings: %d leaves** (%d internal vertices in Jones\' convention); '
+                  '%d binary tree diagrams with %d leaves give them.' % (last[0], last[0] - 1, last[5], last[0])]
+    elif last and last[0] == 8:
+        lines += [SWEENEY, '', SWEENEY_INDEX]
+    else:
+        lines += ['', 'F: not found up to n = %s.' % (last[0] if last else 1)]
+    lines += ['', '## F_3', '']
+    lines += [row_line('F3', r) for r in rows['F3']]
+    last = rows['F3'][-1] if rows['F3'] else None
+    if last and last[5]:
+        lines += ['', '**F_3-index of the Borromean rings: n = %d** (%d internal vertices in Jones\' convention); '
+                  '%d ternary tree diagrams with n = %d give them.' % (last[0], last[0] - 1, last[5], last[0])]
+    else:
+        lines += ['', 'F_3: not found up to n = %s.' % (last[0] if last else 1)]
+    return '\n'.join(lines) + '\n'
+
+
 def main():
-    import json
-    import snappy
+    import snappy  # noqa: F401
     import spherogram
-    from sage.all import Link
-    nmax = {'F': int(sys.argv[1]) if len(sys.argv) > 1 else 10, 'F3': int(sys.argv[2]) if len(sys.argv) > 2 else 7}
-    ref = spherogram.Link('L6a4')
-    ref_E = ref.exterior()
-    ref_h = ref.sage_link().homfly_polynomial()
-    ref_hm = ref.sage_link().mirror_image().homfly_polynomial()
-    lines = ['# F-index and F_3-index of the Borromean rings (L6a4)', '',
-             'Script `borromean.py`: all the tree diagrams of size n (no reduction), filtered by number of components '
-             '(3), linking numbers (all 0), HOMFLY-PT polynomial up to mirror image (for the Borromean rings it '
-             'does not depend on the orientations of the components: it is invariant under the reversal of all of '
-             'them, and a rotation by pi about a coordinate axis, for the rings drawn as three ellipses in the '
-             'coordinate planes, reverses two of them), then SnapPy isometry with L6a4. '
-             'n = number of leaves for F, number of internal vertices + 1 for F_3 (Jones counts internal vertices, '
-             'i.e. n - 1).', '']
-    result = {}
+    nmax = {'F': int(sys.argv[1]) if len(sys.argv) > 1 else 8, 'F3': int(sys.argv[2]) if len(sys.argv) > 2 else 6}
+    ref_E = spherogram.Link('L6a4').exterior()
+    rows = {'F': [], 'F3': []}
     for group in ('F', 'F3'):
-        for n in range(2, nmax[group] + 1) if nmax[group] else []:
+        for n in range(2, nmax[group] + 1):
             total, three, lk0, hom, cands = three_component_diagrams(group, n)
-            stats = dict(three=three, lk0=lk0, homfly=hom, borromean=0)
-            witness = None
+            borromean, witness = 0, None
             for a, b, pd in cands:
                 L = spherogram.Link([[x - 1 for x in c] for c in pd])
                 isos = L.exterior().is_isometric_to(ref_E, return_isometries=True) or []
                 if any(all(int(m[1, 0]) == 0 and abs(int(m[0, 0])) == 1 for m in iso.cusp_maps()) for iso in isos):
-                    stats['borromean'] += 1
+                    borromean += 1
                     witness = witness or (a, b)
-            lines.append('- %s, n = %d: %d diagrams, %d with 3 components, %d with vanishing linking numbers, '
-                         '%d with the HOMFLY-PT polynomial of L6a4, **%d Borromean rings**%s' % (
-                             group, n, total, stats['three'], stats['lk0'], stats['homfly'], stats['borromean'],
-                             (' (e.g. `%s | %s`)' % witness) if witness else ''))
-            print(lines[-1], flush=True)
-            if stats['borromean']:
-                result[group] = (n, witness)
+            rows[group].append((n, total, three, lk0, hom, borromean, witness))
+            print(row_line(group, rows[group][-1]), flush=True)
+            if borromean:
                 break
-    lines += ['', 'F-index of the Borromean rings: %s leaves (Jones: %s internal vertices).' % (
-        result['F'][0], result['F'][0] - 1) if 'F' in result else 'F: not found',
-              'F_3-index of the Borromean rings: n = %s (Jones: %s internal vertices).' % (
-        result['F3'][0], result['F3'][0] - 1) if 'F3' in result else 'F_3: not found']
-    open(os.path.join(HERE, 'results', 'borromean.md'), 'w').write('\n'.join(lines) + '\n')
-    print('\n'.join(lines[-2:]))
+    text = report(rows)
+    open(os.path.join(HERE, 'results', 'borromean.md'), 'w').write(text)
+    print('\n'.join(text.splitlines()[-1:]))
 
 
 if __name__ == '__main__':
