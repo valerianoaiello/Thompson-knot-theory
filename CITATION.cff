@@ -13,3 +13,14 @@ keywords:
   - knot theory
   - Jones construction
   - knot invertibility
+preferred-citation:
+  type: article
+  title: "Thompson indices of knots and the invertibility problem"
+  authors:
+    - family-names: Aiello
+      given-names: Valeriano
+  year: 2026
+  identifiers:
+    - type: other
+      value: "arXiv:2611.13208"
+  url: "https://arxiv.org/abs/2611.13208"
