@@ -194,7 +194,9 @@ For an oriented knot K write $`K^r`$ for its reverse, $`K^m`$ for its mirror ima
 
 All these results are **certified**: every exclusion was checked again with exact or interval-arithmetic
 methods (knot Floer homology, verified volumes, verified canonical triangulations), see `verify_oriented.py`
-and `results/oriented_verified_Fvec.md`, `results/oriented_verified_F3vec.md`.
+and `results/oriented_verified_Fvec.md`, `results/oriented_verified_F3vec.md`. The witnesses of both orientations
+of the Kinoshita–Terasaka knot 11n_42 in $`\vec{F}`$ (15 leaves each; paper, theorem on mutants) are certified by
+`certify_oriented_witnesses.py Fvec 11n_42` (`results/oriented_witnesses_certified_Fvec.md`).
 
 ### Mutants
 
@@ -459,6 +461,7 @@ The scripts are listed below by name.
 | `reverse_bound.py`, `reverse_bound_F3vec.py`, `reverse_search_F3vec.py` | index of the unrealized orientation by the reverse moves |
 | `reverse_scan.py`, `oriented_index.py`, `verify_reverse.py`, `reverse_examples.py` | earlier tools for K vs $`K^r`$ in $`\vec{F}`$ |
 | `verify_oriented.py` | certified verification of the results on K vs $`K^r`$ |
+| `certify_oriented_witnesses.py` | certified orientation of the witnesses of K and $`K^r`$ of given knots (also when the two indices are equal) |
 | `descent_jobs.py`, `descent_search.py`, `certify_descent.py`, `apply_descent.py` | targeted searches beyond the enumeration: jobs, local search, certification, update of the tables |
 | `alexander.py`, `greedy_descent.py` | a first diagram of a knot in $`\vec{F}`$ or $`\vec{F}_3`$ (Alexander-type theorem as an algorithm) and its greedy descent |
 | `fvec_targeted_check.py`, `fvec_beyond17.py` | $`\vec{F}`$ at n = 19: identification of the stored diagrams, HOMFLY-PT classes, certification of the witnesses with 19 and 21 leaves |
