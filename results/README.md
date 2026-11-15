@@ -35,12 +35,18 @@ How to read the tables:
 | `complete_check_<G>.md` / `.csv` | the complete check (all diagrams of the relevant HOMFLY-PT classes) |
 | `certified_<G>.md`, `certified_retry_<G>.md`, `certified_completeness.md` | the certified verification of all the tables |
 | `oriented_verified_<G>.md` | the certified verification of the oriented results |
+| `oriented_witnesses_certified_Fvec.md` | certified orientation of both witnesses of 11n_42 in $`\vec{F}`$ (equal indices, 15) |
+| `reverse_scan.md` / `.csv`, `reverse_examples.md` / `.csv`, `reverse_search_F3vec.csv` | first scans of K versus $`K^r`$ and examples of the reverse moves |
 | `jones_span_bound.md` / `.csv`, `index_bounds.md` | comparison with the Jones polynomial, braid index, crossing number, genus |
 | `mutants.md`, `mutants_literature.csv`, `mutant_candidates.csv` | mutant knots |
 | `reverse_bound_Fvec.csv`, `reverse_bound_F3vec.csv`, `inverse_rule.md`, `parity_theorem.md` | K versus $`K^r`$ in $`\vec{F}`$ and $`\vec{F}_3`$ (value of the unrealized orientation from the reverse moves); the rule for $`g^{-1}`$; the parity theorem |
 | `Fvec_n19_classes.csv` | $`\vec{F}`$ at n = 19: number of knot diagrams in the HOMFLY-PT class of every knot not found with n ≤ 17 (0: index ≥ 21) |
 | `Fvec_beyond17_witnesses.csv`, `Fvec_beyond17_certified.md` | $`\vec{F}`$: the witnesses with 19 and 21 leaves and their certification |
 | `descent_certified.csv` | all the certified diagrams of the targeted searches |
+| `descent_search.csv` | all the hits of the targeted searches, before certification |
+| `borromean_certified.md` | certified identification of the Borromean rings (F, n = 9; F₃, n = 6) |
+| `dropped_representatives*.txt` | representatives that the identification could not examine because SnapPy crashed (none in the current results) |
+| `rolfsen_to_knotinfo.json` | translation of SnapPy's Rolfsen names into KnotInfo names |
 | `sweeney_comparison.md` | comparison with D. Sweeney's table (two values differ, two were missing) |
 | `logs/` | logs of the runs |
 

@@ -105,7 +105,7 @@ contradiction (`certify_indices.py`, `certify_retry.py`, `certify_completeness.p
 - **Exclusions** (no smaller diagram is K): every diagram of the HOMFLY class of K between its first appearance
   and the index is shown not to be K by its crossing number, by being a connected sum of non-trivial knots
   (K is prime), by knot Floer homology, by the verified volume, by the verified canonical triangulation, or
-  by an essential torus found by Regina. 27857 (F), 26847 (F₃, with the RIII–RII reduction), 390776
+  by an essential torus found by Regina (implemented, but never needed in the final run). 27857 (F), 26847 (F₃, with the RIII–RII reduction), 390776
   ($`\vec{F}`$) and 14265 ($`\vec{F}_3`$) diagrams.
 - **Completeness**: every knot with a known index has a certified witness, every knot whose index exceeds the
   first appearance of its HOMFLY class is in the complete check, and all the diagrams of these classes in the
@@ -211,7 +211,7 @@ knot 11n_42 (15), whatever the orientations (`results/mutants.md`).
 `results/index_bounds.md` (script `index_bounds.py`):
 - **Braid index.** Luo–Wan (arXiv:2408.10875, Theorem 1.15) prove braid ≤ F-index. On the data, braid < index
   holds for all four indices, with no equality for any non-trivial knot; for F₃ six knots have index = braid + 1.
-- **Crossing number.** Golan–Sapir (arXiv:1501.00724, Lemma 6.11) prove F-index ≤ 12c; on the data F-index ≤ c + 3.
+- **Crossing number.** Golan–Sapir (arXiv:1501.00724, Lemma 6.12) prove F-index ≤ 12c; on the data F-index ≤ c + 3.
   The trivial bound c ≤ 2(index − 1) is attained by 105 knots for F₃ and 3 for $`\vec{F}_3`$, never for F or $`\vec{F}`$.
 
 ### The Borromean rings
