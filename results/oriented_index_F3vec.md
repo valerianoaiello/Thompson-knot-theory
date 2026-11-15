@@ -1,6 +1,6 @@
 # Oriented vec{F}_3-index of the non-invertible knots
 
-Non-invertible knots of KnotInfo with <= 13 crossings whose HOMFLY class appears at n <= 11; every tree diagram of vec{F}_3 of those classes with n <= 11 was compared with the oriented KnotInfo diagram K (oriented_scan.py). K = KnotInfo orientation, Kr = reverse, Km = mirror image, Kmr = both. index(K) = index(Kmr) and index(Kr) = index(Km) (L(g^-1) is the mirror image of the reverse of L(g)); for invertible knots all four values equal the index of results/F3vec_index.csv.
+Non-invertible knots of KnotInfo with <= 13 crossings realized with n <= 11 in at least one orientation; every tree diagram of vec{F}_3 of their HOMFLY classes with n <= 11 was compared with the oriented KnotInfo diagram K (oriented_scan.py). K = KnotInfo orientation, Kr = reverse, Km = mirror image, Kmr = both. index(K) = index(Kmr) and index(Kr) = index(Km) (L(g^-1) is the mirror image of the reverse of L(g)); for invertible knots all four values equal the index of results/F3vec_index.csv.
 
 Rule for g^-1 checked directly on 15314 diagrams: ok. Chunks skipped because they crash SnapPy: 0. min(index K, index Kr) differs from the unoriented table for: none.
 

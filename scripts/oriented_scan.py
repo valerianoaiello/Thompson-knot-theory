@@ -13,8 +13,10 @@ unoriented knot up to mirror image in results/<G>_index.csv. For a non-invertibl
 min(index(K), index(Kr)); this script computes both.
 
 Targets: the non-invertible knots of KnotInfo (symmetry type chiral, negative or positive amphicheiral) with
-at most max_crossings crossings whose HOMFLY class appears at some n <= n_max (lower bound of
-results/<G>_index.csv). Every diagram of their HOMFLY classes is enumerated (all-diagram mode of the
+at most max_crossings crossings whose lower bound in results/<G>_index.csv is at most n_max. After the complete
+check these are the knots realized with n <= n_max in at least one orientation: a knot whose HOMFLY class
+appears but which is not realized (e.g. 11n_34 in vec{F}) has lower bound n_max + 1 and is not a target.
+Every diagram of their HOMFLY classes is enumerated (all-diagram mode of the
 enumerators, in tmp_check/, as complete_check.py) and n by n every diagram g is compared with the oriented
 KnotInfo diagram of K: hyperbolic volume, then SnapPy isometries and their action on (meridian, longitude)
 (oriented.relation_to). g realizes K, Kr, Km or Kmr, and g^-1 the corresponding Kmr, Km, Kr, K; the rule is
@@ -283,8 +285,8 @@ def main():
             inconsistent.append(r['knot'])
     with open(base + '.md', 'w') as f:
         f.write('# Oriented %s-index of the non-invertible knots\n\n' % gname)
-        f.write('Non-invertible knots of KnotInfo with <= %d crossings whose HOMFLY class appears at n <= %d; every '
-                'tree diagram of %s of those classes with n <= %d was compared with the oriented KnotInfo diagram K '
+        f.write('Non-invertible knots of KnotInfo with <= %d crossings realized with n <= %d in at least one '
+                'orientation; every tree diagram of %s of their HOMFLY classes with n <= %d was compared with the oriented KnotInfo diagram K '
                 '(oriented_scan.py). K = KnotInfo orientation, Kr = reverse, Km = mirror image, Kmr = both. '
                 'index(K) = index(Kmr) and index(Kr) = index(Km) (L(g^-1) is the mirror image of the reverse '
                 'of L(g)); for invertible knots all four values equal the index of results/%s_index.csv.\n\n'
