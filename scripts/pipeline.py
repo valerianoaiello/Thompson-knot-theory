@@ -59,6 +59,12 @@ PROGRESS = {
 
 
 def progress_files(group, phase):
+    """Progress files left in the repository for a phase.
+
+    Input:  group, one of F, F3, Fvec, F3vec; phase, a name in PHASES.
+    Output: the sorted list of the existing files matching the patterns of PROGRESS[phase] (empty if the
+            phase has none).
+    """
     return sorted(f for pat in PROGRESS.get(phase, [])
                   for f in glob.glob(os.path.join(HERE, pat.format(G=group, raw=RAW[group]))))
 
@@ -74,6 +80,12 @@ def move_aside(group, phase, files, stamp):
 
 
 def commands(group, nmax, jobs):
+    """The phases to run for a group, with their command lines.
+
+    Input:  group; nmax, the largest size to enumerate; jobs, the number of processes.
+    Output: the list of pairs (phase, command) in the order of PHASES, without the oriented phases for F
+            and F3 and without reverse_bound except for F3vec.
+    """
     py, sp = [sys.executable], [SAGE, '-python']
     j = str(jobs)
     cmd = {
@@ -99,6 +111,13 @@ def commands(group, nmax, jobs):
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: reads the state results/logs/pipeline_<G>.json, chooses the phases to run (all those not yet
+            done, or those given by --from / --only), moves aside the progress files of earlier runs, runs
+            the phases one after the other (output in results/logs/pipeline_<G>_<phase>.out) and records the
+            time of each phase in the state file. Stops at the first phase that fails.
+    """
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('group', choices=['F', 'F3', 'Fvec', 'F3vec'])
     ap.add_argument('nmax', type=int)
@@ -137,6 +156,7 @@ def main():
     log = open(os.path.join(logs, 'pipeline_%s.log' % a.group), 'a')
 
     def say(msg):
+        """Print msg with the date and time and append it to the log file."""
         line = '%s  %s' % (time.strftime('%Y-%m-%d %H:%M:%S'), msg)
         print(line, flush=True)
         log.write(line + '\n')

@@ -94,6 +94,13 @@ def oriented_pd_code(tp, tm):
 
 
 def _pd_of_components(edges, comps):
+    """PD code (Sage's convention) of a link given by its walked components.
+
+    Input:  edges, the Tait edges (u, w, sign) (crossing number x is edges[x]); comps, the components as
+            lists of (crossing, entry slot, corner), each walked along its orientation.
+    Output: the list of the crossings [i, j, k, l], strands numbered along the walk; [] if there are no
+            edges. Same construction as ftrees.pd_code_of_graph.
+    """
     if not edges:
         return []
     label, nxt = {}, 1
@@ -131,6 +138,7 @@ def _pd_of_components(edges, comps):
 def ternary_from_words(words):
     """Ternary tree with the given leaf addresses (digits 0, 1, 2), from left to right."""
     def rec(ws, depth):
+        """Tree of the addresses ws, all of which agree up to position depth (a leaf if only one is left)."""
         if ws == [''] or (len(ws) == 1 and len(ws[0]) == depth):
             return None
         return tuple(rec([w for w in ws if w[depth] == d], depth + 1) for d in '012')
@@ -139,12 +147,18 @@ def ternary_from_words(words):
 
 
 def ternary_words(t, prefix=''):
+    """Addresses of the leaves of a ternary tree.
+
+    Input:  t, a ternary tree (None or (left, middle, right)); prefix, used by the recursion (leave it empty).
+    Output: the list of the leaf addresses in 0, 1, 2 from left to right; a single leaf gets '0'.
+    """
     if t is None:
         return [prefix or '0']
     return [w for i, s in enumerate(t) for w in ternary_words(s, prefix + str(i))]
 
 
 def ternary_leaves(t):
+    """Number of leaves of a ternary tree t (2c + 1 if t has c internal vertices)."""
     return 1 if t is None else sum(ternary_leaves(s) for s in t)
 
 
@@ -163,6 +177,7 @@ def tait_graph3(tp, tm):
     out = []
 
     def rec(t, a, sign):
+        """Add the edges of the subtree t, whose leftmost leaf is leaf number a, with the given sign."""
         if t is None:
             return
         sizes = [ternary_leaves(x) for x in t]
@@ -190,6 +205,13 @@ def tait_colours3(tp, tm):
 
 
 def oriented_components3(tp, tm):
+    """Like oriented_components, for an element of vec{F}_3.
+
+    Input:  tp, tm, ternary trees with the same number of leaves.
+    Output: (edges, comps): edges is the list of (u, w, sign) with the crossing type of tait_graph3, comps
+            the components walked along the orientation given by the colours. Raises ValueError if (T+, T-)
+            is not in vec{F}_3; the asserts check that the weights give the 2-colouring of the Tait graph.
+    """
     col = tait_colours3(tp, tm)
     if col is None:
         raise ValueError('not in vec{F}_3')

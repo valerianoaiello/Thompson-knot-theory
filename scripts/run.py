@@ -34,6 +34,11 @@ RAWS = {'F': os.path.join(HERE, 'results', 'raw'),
 
 
 def catalan(m):
+    """Catalan number.
+
+    Input:  m, an int >= 0.
+    Output: C_m = binom(2m, m) / (m + 1), the number of binary trees with m internal vertices.
+    """
     return comb(2 * m, m) // (m + 1)
 
 
@@ -44,6 +49,16 @@ def n_trees(group, n):
 
 
 def run_n(group, n, jobs, reps):
+    """Enumerate all the tree diagrams of size n of a group and write results/raw<suffix>/n<n>.tsv.
+
+    Input:  group, one of F, Fvec, F3, F3vec; n, the size; jobs, the number of parallel processes;
+            reps, the number of representatives kept per HOMFLY class.
+    Effect: runs bin/fknots (F, Fvec: one call that forks `jobs` workers) or bin/iota_knots (F3, F3vec:
+            `jobs` separate calls), merges the shards (adds the counts, keeps the smallest number of
+            crossings and the `reps` representatives with fewest crossings of every class) and writes the
+            merged file (first as n<n>.tsv.part, renamed when complete).
+    Output: (stats, number of classes), where stats adds up the counters of the headers of the shards.
+    """
     tmp = tempfile.mkdtemp(prefix='fknots_%s_n%d_' % (group, n))
     outs = [os.path.join(tmp, 'shard.tsv.%d' % s) for s in range(jobs)]
     if group in ('F', 'Fvec'):
@@ -92,6 +107,11 @@ def run_n(group, n, jobs, reps):
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: runs run_n for every n from --nmin to NMAX whose raw file does not exist yet (or for every n
+            with --force) and prints a line per n.
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument('nmax', type=int)
     ap.add_argument('--group', choices=['F', 'F3', 'Fvec', 'F3vec'], default='F')

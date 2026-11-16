@@ -31,6 +31,12 @@ _REF = {}
 
 
 def oriented_pd(group, top, bottom):
+    """PD code of the oriented knot of a tree diagram.
+
+    Input:  group, Fvec or F3vec; top, bottom, the leaf addresses of the two trees, comma-separated.
+    Output: the PD code (Sage's convention) of L(top, bottom) with Jones' orientation
+            (oriented.oriented_pd_code for vec{F}, oriented_pd_code3 for vec{F}_3).
+    """
     import oriented as O
     if group == 'Fvec':
         import ftrees as F
@@ -39,6 +45,12 @@ def oriented_pd(group, top, bottom):
 
 
 def hfk(L):
+    """Knot Floer homology of a knot and of its mirror image.
+
+    Input:  L, a spherogram Link (a knot).
+    Output: (ranks of L, ranks of the mirror of L), each a frozenset of ((Alexander, Maslov), rank); two
+            knots with different pairs are different, even up to mirror image.
+    """
     r = L.knot_floer_homology()['ranks']
     return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
 
@@ -57,10 +69,12 @@ def verified(E, f, tries=20):
 
 
 def canonical(E):
+    """Verified canonical retriangulation of the manifold E (SnapPy, verified=True), with retries."""
     return verified(E, lambda X: X.canonical_retriangulation(verified=True))
 
 
 def volume(E):
+    """Verified hyperbolic volume of the manifold E: an interval containing the volume, with retries."""
     return verified(E, lambda X: X.volume(verified=True, bits_prec=100))
 
 
@@ -140,6 +154,12 @@ def check_chunk(task):
 
 
 def check_witness(task):
+    """Check that a witness realizes the orientation it is claimed to realize.
+
+    Input:  task = [group, knot, name, top, bottom]: the tree diagram (top, bottom) should realize the
+            orientation name ('K' or 'Kr') of knot.
+    Output: (knot, name, True if this is certified, (kind, info) returned by relation).
+    """
     group, knot, name, top, bottom = task
     try:
         kind, info = relation(oriented_pd(group, top, bottom), knot, need_volume=False)
@@ -149,6 +169,13 @@ def check_witness(task):
 
 
 def main():
+    """Command line entry point: sage -python scripts/verify_oriented.py GROUP [processes].
+
+    Effect: for every knot with index(K) != index(K^r) in results/oriented_index_<G>.csv, checks its
+            witnesses (check_witness) and every diagram of its HOMFLY class below the larger index
+            (check_chunk, in chunks of 200 diagrams), saving progress in tmp_check/verify_<G>.jsonl, and
+            writes the summary results/oriented_verified_<G>.md.
+    """
     from identify_lib import RobustPool
     from oriented_index import homfly_key
     from sage.all import KnotInfo

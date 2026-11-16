@@ -125,6 +125,8 @@ static std::string iota_shape(const std::string &s, size_t &pos) {
   return "N" + l + "L" + r;
 }
 
+/* Input:  s, the shape of a binary tree.
+ * Output: the shape of the ternary tree iota(s). */
 static std::string iota_shape(const std::string &s) {
   size_t pos = 0;
   return iota_shape(s, pos);
@@ -144,6 +146,8 @@ static std::string mirror_shape(const std::string &s, size_t &pos, int arity) {
   return r;
 }
 
+/* Input:  s, a shape; arity, 2 or 3.
+ * Output: the shape of the vertical reflection of s (children in reverse order at every vertex). */
 static std::string mirror_shape(const std::string &s, int arity) {
   size_t pos = 0;
   return mirror_shape(s, pos, arity);
@@ -161,6 +165,8 @@ static void shape_words(const std::string &s, size_t &pos, int arity, const std:
   for (int i = 0; i < arity; ++i) shape_words(s, pos, arity, prefix + char('0' + i), out);
 }
 
+/* Input:  s, a shape; arity, 2 or 3.
+ * Output: the leaf addresses of s separated by commas, e.g. "0,1,20,21,22" (the format of the output files). */
 static std::string shape_words(const std::string &s, int arity) {
   size_t pos = 0;
   std::vector<std::string> w;
@@ -192,6 +198,9 @@ static std::string shape_from_words(std::vector<std::string> words, int arity) {
   return r;
 }
 
+/* Recursive step of build_tree: reads the subtree starting at s[pos] and appends its internal vertices to t,
+ * recording children and leaf intervals; next_leaf is the number of the next leaf met.
+ * Output: the index of the node (>= 0), or -(leaf + 1) if the subtree is a leaf. */
 static int build_node(const std::string &s, size_t &pos, Tree &t, int &next_leaf) {
   if (s[pos] == 'L') {
     ++pos;
@@ -248,6 +257,8 @@ struct TaitEdge {
   bool operator==(const TaitEdge &o) const { return u == o.u && w == o.w && p == o.p; }
 };
 
+/* Input:  t, a ternary tree.
+ * Output: the sorted list of its Tait edges (u, w, p), one per internal vertex (see the comment above). */
 static std::vector<TaitEdge> tait_tree(const Tree &t) {
   std::vector<TaitEdge> out;
   for (int v = 0; v < t.c; ++v) {
@@ -266,6 +277,8 @@ static std::vector<TaitEdge> tait_tree(const Tree &t) {
   return out;
 }
 
+/* Input:  e, a sorted list of Tait edges.
+ * Output: a string that identifies the list (three characters per edge), used as a key in a hash set. */
 static std::string tait_key(const std::vector<TaitEdge> &e) {
   std::string k;
   for (auto &x : e) {
@@ -344,6 +357,9 @@ static void leaf_weight_mask(const std::string &s, size_t &pos, int weight, int 
   leaf_weight_mask(s, pos, weight + (odd_word ? 1 : 0), middles, leaf, mask);  // right
 }
 
+/* Input:  s, a ternary shape.
+ * Output: the mask whose bit i is the parity of the weight of leaf 2i; (T+, T-) is in vec{F}_3 iff the two
+ *         masks are equal. */
 static uint32_t leaf_weight_mask(const std::string &s) {
   size_t pos = 0;
   int leaf = 0;
@@ -370,11 +386,15 @@ static bool is_prime_pair(const Tree &a, const Tree &b, bool even_start_only = f
  * Link diagram of a tree diagram
  * ------------------------------------------------------------------------- */
 
+/* One passage of the walk along the knot through a crossing. */
 struct Visit {
   int x;      // crossing
   bool over;  // passing over
 };
 
+/* The link diagram of (T+, T-): the crossings are the 2c internal vertices (top tree first), each with four
+ * ports 4 * crossing + slot (slot 0 = parent, 1 = left, 2 = middle, 3 = right); for a knot also its oriented
+ * Gauss code. */
 struct Diagram {
   int ncross = 0;
   int ncomp = 0;
@@ -495,11 +515,17 @@ static std::string pd_code(const Diagram &d, int c) {
  * Simplification of Gauss codes (Reidemeister I and generalised II)
  * ------------------------------------------------------------------------- */
 
+/* Input:  g, a Gauss code; pos, positions in g.  Effect: removes those positions from g. */
 static void erase_positions(std::vector<Visit> &g, std::vector<int> pos) {
   std::sort(pos.rbegin(), pos.rend());
   for (int p : pos) g.erase(g.begin() + p);
 }
 
+/* Input:  g, the oriented Gauss code of a knot; sign, the signs of the crossings.
+ * Effect: simplifies g in place until no move applies:
+ *   Reidemeister I: a crossing met twice in a row is removed;
+ *   Reidemeister II: two crossings a, b of opposite signs met consecutively both over (or both under), whose
+ *   other two passages are also consecutive, are removed. */
 static void simplify(std::vector<Visit> &g, const std::vector<int> &sign) {
   bool changed = true;
   while (changed && !g.empty()) {
@@ -606,6 +632,7 @@ static std::string canonical_gauss(const std::vector<Visit> &g, const std::vecto
   return best;
 }
 
+/* Input:  s, a C string.  Output: s without its leading spaces (libhomfly's output starts with a space). */
 static std::string clean(const char *s) {
   std::string r(s);
   size_t a = r.find_first_not_of(' ');
@@ -616,6 +643,8 @@ static std::string clean(const char *s) {
 static std::string UNKNOT_KEY;
 static const std::string UNKNOT_MIRROR_KEY = "1*L^0*M^0 ";
 
+/* Input:  g, the oriented Gauss code of a knot; sign, the signs of the crossings.
+ * Output: its HOMFLY polynomial as printed by libhomfly (not up to mirror; used by the eval mode). */
 static std::string compute_homfly(std::vector<Visit> g, const std::vector<int> &sign) {
   if (g.size() < 6) return UNKNOT_KEY;  // at most 2 crossings
   std::string in = homfly_input(g, sign);
@@ -666,6 +695,7 @@ static std::string gauss_string(const std::vector<Visit> &g, const std::vector<i
  * Modes
  * ------------------------------------------------------------------------- */
 
+/* Prints the usage and exits with code 1. */
 static void usage() {
   std::cerr << "usage:\n"
                "  iota_knots F|F3|F3vec n shard nshards out.tsv [max_reps] [only_key|@file]\n"
@@ -717,12 +747,22 @@ static int mode_eval() {
   return 0;
 }
 
+/* What is kept for a HOMFLY class: the number of diagrams in it, the smallest number of crossings of their
+ * simplified diagrams, and at most max_reps representatives "top_words|bottom_words|gauss_seq|gauss_signs". */
 struct ClassInfo {
   long long count = 0;
   int min_crossings = 1 << 30;  // after the Reidemeister I/II simplification
   std::vector<std::string> reps;
 };
 
+/* Input:  group, F, F3 or F3vec; n, the index (n - 1 internal vertices per tree); shard, nshards: this
+ *         process examines the pairs whose top tree has index shard, shard + nshards, ...; out, the output
+ *         file; max_reps, the representatives kept per class (< 0: write every diagram of the classes in
+ *         only_keys to out.all); only_keys, the HOMFLY classes whose representatives are kept (empty: all).
+ * Effect: generates all the trees, examines the pairs (T+, T-) (symmetries, primality, for F_3 the RIII-RII
+ *         reduction, one component), simplifies the Gauss code, computes the HOMFLY key and writes one line per
+ *         class to out, in the format of bin/fknots.
+ * Output: 0 on success, 1 if a file cannot be opened, 3 if some diagram violates a structural invariant. */
 static int mode_enum(const std::string &group, int n, int shard, int nshards, const std::string &out,
                      int max_reps, const std::unordered_set<std::string> &only_keys) {
   FILE *all = nullptr;
@@ -856,6 +896,8 @@ static int mode_enum(const std::string &group, int n, int shard, int nshards, co
   return 0;
 }
 
+/* Input:  the command line (see usage). Runs the eval mode or the enumeration (mode_enum).
+ * Output (exit code): 0 on success, 1 on a usage error, as returned by mode_enum otherwise. */
 int main(int argc, char **argv) {
   {
     char unknot[] = "1 2 0 1 0 -1 0 1";  // one-crossing diagram of the unknot

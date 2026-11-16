@@ -87,6 +87,7 @@ def base_name(k):
 
 
 class TimedOut(Exception):
+    """Raised by with_timeout(..., raise_timeout=True) when the call takes too long."""
     pass
 
 
@@ -116,6 +117,11 @@ def simplified(seq, hands):
 
 
 def sage_link(S):
+    """Sage Link of a spherogram link.
+
+    Input:  S, a spherogram Link.
+    Output: the Sage Link with the same PD code (spherogram numbers the strands from 0, Sage from 1).
+    """
     return Link([[int(x) + 1 for x in c] for c in S.PD_code()])  # spherogram is 0-based
 
 
@@ -189,6 +195,12 @@ def quick_name(S):
 
 
 def is_beyond(nm):
+    """Whether nm is the name of a prime knot with 14 or 15 crossings.
+
+    Input:  nm, a knot name or None.
+    Output: True if nm has the form 14a_k, 14n_k, 15a_k or 15n_k (names given by SnapPy to knots beyond
+            the KnotInfo table), False otherwise.
+    """
     return bool(nm) and re.fullmatch(r'1[45][an]_\d+', nm) is not None
 
 
@@ -265,6 +277,9 @@ class RobustPool:
     Dropped tasks are kept in self.dropped; more than max_dropped of them is an error."""
 
     def __init__(self, processes, max_dropped=100):
+        """Input:  processes, the number of worker processes; max_dropped, the largest number of tasks that
+                may be dropped (more is treated as an error).
+        """
         self.processes = processes
         self.max_dropped = max_dropped
         self.ex = None
@@ -272,14 +287,19 @@ class RobustPool:
         self.crashes = 0
 
     def __enter__(self):
+        """Start the pool (used as `with RobustPool(p) as pool:`); returns the pool itself."""
         self.ex = self._new(self.processes)
         return self
 
     def __exit__(self, *exc):
+        """Shut the pool down at the end of the `with` block, cancelling the tasks not yet started."""
         self.ex.shutdown(cancel_futures=True)
 
     @staticmethod
     def _new(processes):
+        """Input:  processes, a number of processes.
+        Output: a new ProcessPoolExecutor with that many 'spawn' processes.
+        """
         return ProcessPoolExecutor(processes, mp_context=mp.get_context('spawn'))
 
     def map(self, func, tasks, split=None, skip=None):
@@ -323,6 +343,14 @@ class RobustPool:
             self.ex = self._new(self.processes)
 
     def _isolated(self, func, tasks, split):
+        """Run tasks one at a time in a single fresh process.
+
+        Input:  func, the function to run; tasks, the suspect tasks; split, a function splitting a task into
+                smaller ones, or None.
+        Output: yields func(task) for every task that does not crash the process. A task that crashes it is
+                split and its pieces are put back at the front of the queue; if it cannot be split it is
+                appended to self.dropped.
+        """
         ex = self._new(1)
         queue = list(tasks)
         try:
@@ -356,10 +384,20 @@ def split_class(task):
 
 
 def name_class_task(task):
+    """Task of the pool that names an unidentified class.
+
+    Input:  task = (i, reps), the index of the class and some of its representatives.
+    Output: (i, name_class(reps)).
+    """
     return task[0], name_class(task[1])
 
 
 def split_name_task(task):
+    """Split a naming task into one task per representative (used by RobustPool after a crash).
+
+    Input:  task = (i, reps).
+    Output: the list of the tasks (i, [r]) for the first NAME_REPS representatives r.
+    """
     i, reps = task
     return [(i, reps[j:j + 1]) for j in range(min(len(reps), NAME_REPS))]
 
@@ -367,6 +405,15 @@ def split_name_task(task):
 # ---------------------------------------------------------------------------------------------
 
 def main(argv):
+    """Identify the knots of all the raw files of a group and write the result files.
+
+    Input:  argv = [max_crossing_number_in_output, group, processes], all optional (defaults 13, 'F',
+            number of CPUs); group is F, F3, Fvec or F3vec.
+    Effect: reads the KnotInfo table, then for n = 1, 2, ... the file results/raw<suffix>/n<n>.tsv,
+            identifies the representatives of every HOMFLY class whose knots are not yet identified, and
+            writes results/<group>_index.csv, <group>_index_summary.txt, unidentified_classes<suffix>.csv,
+            knots_beyond_table<suffix>.csv and dropped_representatives<suffix>.txt (see the module docstring).
+    """
     here = os.getcwd()
     max_c_out = int(argv[0]) if len(argv) > 0 else 13
     group = argv[1] if len(argv) > 1 else 'F'
@@ -403,6 +450,11 @@ def main(argv):
         beyond = {}              # knots with 14-15 crossings found by SnapPy -> (first n, top, bottom)
 
         def note_beyond(items, n):
+            """Record knots with 14-15 crossings met at n.
+
+            Input:  items, a list of (name, top, bottom); n, the current index.
+            Effect: keeps in beyond, for every name, the smallest n at which it was met and its tree diagram.
+            """
             for nm, top, bottom in items:
                 if nm not in beyond or beyond[nm][0] > n:
                     beyond[nm] = (n, top, bottom)
@@ -491,6 +543,11 @@ def main(argv):
                      'homfly_vz': str(h)})
 
     def sort_key(r):
+        """Key that sorts the rows in the order of KnotInfo.
+
+        Input:  r, a row (dict) with the field 'knot', e.g. '10_132' or '11a_7'.
+        Output: (crossing number, 0 for Rolfsen names / 1 for alternating / 2 for non-alternating, number).
+        """
         c, rest = r['knot'].split('_', 1)
         alt = 0 if rest[0].isdigit() else (1 if rest[0] == 'a' else 2)
         num = int(re.sub(r'\D', '', rest))
