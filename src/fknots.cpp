@@ -51,6 +51,8 @@ extern "C" {
 static const int MAXN = 19;  // n = 19: the bit sets still fit in 6 words
 static const int NW = (MAXN * MAXN + 63) / 64;  // 64-bit words for the set of leaf intervals
 
+// A binary tree with at most MAXN leaves, stored through the data the enumeration needs (the shape
+// itself is in Level: split/left/right).
 struct Tree {
     uint8_t parent[MAXN];          // Tait edge (parent[j], j) for j = 1..n-1
     std::array<uint64_t, NW> bits;  // leaf intervals [l, r] of the non-root internal vertices
@@ -60,6 +62,8 @@ struct Tree {
                                    // T+ and T- have the same parity (checked in tests/check_vecF.sage)
 };
 
+// All the binary trees with a given number m of leaves. Tree i of level m is (left[i], right[i]), where
+// left[i] is a tree of level split[i] and right[i] a tree of level m - split[i].
 struct Level {                     // all trees with a given number of leaves
     std::vector<Tree> trees;
     std::vector<int> split, left, right;  // tree i = (left[i], right[i]), left one with split[i] leaves
@@ -67,11 +71,20 @@ struct Level {                     // all trees with a given number of leaves
 
 static std::vector<Level> levels;
 
+// Input:  b, a set of leaf intervals stored as a bit set; l <= r, two leaves.
+// Effect: adds the interval [l, r] to b (bit number l * MAXN + r).
 static inline void set_bit(std::array<uint64_t, NW> &b, int l, int r) {
     int id = l * MAXN + r;
     b[id >> 6] |= uint64_t(1) << (id & 63);
 }
 
+// Input:  n, the number of leaves (2 <= n <= MAXN).
+// Effect: fills levels[1..n] with all the binary trees with 1, ..., n leaves (Catalan(m-1) trees at level
+//         m), in the order: first by the number k of leaves of the left subtree, then by the left subtree,
+//         then by the right one. For every tree it computes the Tait edges (parent), the leaf intervals of
+//         the non-root internal vertices (bits, used by the primality test), the parity of the leaves (for
+//         vec{F}) and the index of its reflection (flip). It is the analogue of ftrees.all_trees,
+//         gamma_parents and internal_intervals.
 static void build_levels(int n) {
     levels.assign(n + 1, Level());
     Tree leaf{};
@@ -118,6 +131,9 @@ static void build_levels(int n) {
     }
 }
 
+// Input:  m, a number of leaves; i, the index of a tree of level m; prefix, the address of its root.
+// Effect: appends to out the addresses of the leaves of tree i (0 = left, 1 = right), from left to right,
+//         each preceded by prefix (as ftrees.leaf_words).
 static void leaf_words(int m, int i, const std::string &prefix, std::vector<std::string> &out) {
     if (m == 1) {
         out.push_back(prefix);
@@ -129,6 +145,8 @@ static void leaf_words(int m, int i, const std::string &prefix, std::vector<std:
     leaf_words(m - k, L.right[i], prefix + "1", out);
 }
 
+// Input:  n, a number of leaves; i, the index of a tree of level n.
+// Output: the leaf addresses of tree i separated by commas, e.g. "00,01,1" (the format of the output files).
 static std::string words_string(int n, int i) {
     std::vector<std::string> w;
     leaf_words(n, i, "", w);
@@ -141,6 +159,9 @@ static std::string words_string(int n, int i) {
 // link diagram: medial graph of the Tait graph (see ftrees.medial_of_graph)
 // ---------------------------------------------------------------------------------------------
 
+// The link diagram L(T+, T-): its crossings are the Tait edges (first the n-1 edges of T+, then those of
+// T-), each with four slots 0 = SW, 1 = SE, 2 = NE, 3 = NW; its strands are the corners of the Tait graph
+// (see ftrees.medial_of_graph).
 struct Diagram {
     int n, E;                        // vertices of the Tait graph, crossings
     int eu[2 * MAXN], ew[2 * MAXN];  // endpoints of the Tait edges (eu < ew)
@@ -149,6 +170,10 @@ struct Diagram {
     int ncorners;
 };
 
+// Input:  n, the number of leaves; tp, tm, the top and bottom trees.
+// Effect: fills D with the link diagram L(tp, tm): the Tait edges, and for every corner (strand) its two
+//         ends (crossing, slot). The counterclockwise order of the edges at every vertex is written down
+//         directly, as in ftrees._ccw_rotation (arcs are nested semicircles).
 static void build_diagram(int n, const Tree &tp, const Tree &tm, Diagram &D) {
     D.n = n;
     D.E = 2 * (n - 1);
@@ -206,11 +231,16 @@ static int components(const Diagram &D, int *walk) {
 
 // Oriented Gauss code of a knot: the sequence of passages (crossing, over?) and the handedness of
 // each crossing.
+// seq: the passages through the crossings, in the order of the walk, as (crossing, true if over);
+// hand: the sign (+1 or -1) of every crossing.
 struct Gauss {
     std::vector<std::pair<int, bool>> seq;
     std::vector<int> hand;
 };
 
+// Input:  D, a diagram of a knot; walk, the list of (crossing * 4 + entry slot) filled by components.
+// Output: the oriented Gauss code of the knot, with the orientation of the walk. Over/under: at an edge of
+//         T+ the over strand is SW-NE (slots 0, 2), at an edge of T- it is SE-NW (slots 1, 3).
 static Gauss gauss_code(const Diagram &D, const int *walk) {
     int len = 2 * D.E;
     std::vector<int> under_in(D.E, -1), over_in(D.E, -1);
@@ -260,6 +290,9 @@ static void simplify(Gauss &G) {
 }
 
 // libhomfly input (see sage/libs/homfly.pyx); crossings must be renamed 0, 1, ..., m-1
+// Input:  G, an oriented Gauss code.
+// Output: the string libhomfly expects: "1 <length>", then every passage as "<crossing> <1 if over, -1 if
+//         under>", then every crossing as "<crossing> <sign>".
 static std::string homfly_input(const Gauss &G) {
     std::vector<int> name(G.hand.size(), -1);
     int m = 0;
@@ -276,6 +309,10 @@ static std::string homfly_input(const Gauss &G) {
 }
 
 // HOMFLY (variables M, L of libhomfly) as a canonical string, up to mirror (L -> L^-1)
+// Input:  gauss, a knot in the format of homfly_input.
+// Output: its HOMFLY polynomial, computed by libhomfly, as a string "coef*L^l*M^m " for every term; of the
+//         polynomial and its mirror (l -> -l) the smaller one (after sorting the terms) is chosen, so that a
+//         knot and its mirror image get the same key.
 static std::string homfly_key(const std::string &gauss) {
     std::vector<char> buf(gauss.begin(), gauss.end());
     buf.push_back('\0');
@@ -321,6 +358,9 @@ static std::string gauss_canonical(const Gauss &G) {
 
 // Simplified Gauss code in Sage's oriented_gauss_code format: passages as +-(crossing + 1)
 // (+ = over), then the sign of each crossing, both comma-separated.
+// Input:  G, an oriented Gauss code.
+// Output: the string "passages|signs" written in the output files; Sage's Link(oriented_gauss_code)
+//         rebuilds the knot from it.
 static std::string gauss_string(const Gauss &G) {
     std::vector<int> name(G.hand.size(), -1);
     int m = 0;
@@ -335,11 +375,14 @@ static std::string gauss_string(const Gauss &G) {
     return seq + "|" + hands;
 }
 
+// A representative stored for a HOMFLY class: the indices of its two trees and its simplified Gauss code.
 struct Rep {
     int top, bottom;
     std::string gauss;
 };
 
+// What is kept for a HOMFLY class: the number of diagrams in it, the smallest number of crossings of their
+// simplified diagrams, and at most max_reps representatives.
 struct ClassInfo {
     long long count = 0;
     int min_crossings = 1 << 30;  // after the Reidemeister I/II simplification
@@ -355,12 +398,14 @@ struct ClassInfo {
 // determinant is in the list (a different determinant could pass with negligible probability; such
 // diagrams are only examined further, never lost).
 static const unsigned long long DET_P = (1ULL << 61) - 1;
+// Input:  a, b < DET_P.  Output: a * b mod DET_P.
 static unsigned long long mulmod(unsigned long long a, unsigned long long b) {
     unsigned __int128 r = (unsigned __int128)a * b;
     unsigned long long lo = (unsigned long long)(r & DET_P), hi = (unsigned long long)(r >> 61);
     unsigned long long x = lo + hi;
     return x >= DET_P ? x - DET_P : x;
 }
+// Input:  a < DET_P, an exponent e.  Output: a^e mod DET_P (used for inverses: a^(DET_P - 2) = a^-1).
 static unsigned long long powmod(unsigned long long a, unsigned long long e) {
     unsigned long long r = 1;
     while (e) {
@@ -370,6 +415,9 @@ static unsigned long long powmod(unsigned long long a, unsigned long long e) {
     }
     return r;
 }
+// Input:  n, the number of leaves; tp, tm, the top and bottom trees.
+// Output: the determinant mod DET_P of the reduced signed Laplacian of the Tait graph Gamma(tp, tm) (row and
+//         column of vertex 0 removed), by Gaussian elimination; up to sign it is the determinant of the knot.
 static unsigned long long det_mod(int n, const Tree &tp, const Tree &tm) {
     int m = n - 1;  // reduced Laplacian: vertex 0 removed
     static unsigned long long A[MAXN][MAXN];
@@ -413,6 +461,12 @@ static unsigned long long det_mod(int n, const Tree &tp, const Tree &tm) {
 }
 static std::unordered_set<unsigned long long> det_targets;  // empty: no filter
 
+// Input:  n, the number of leaves; shard, nshards: this worker examines the pairs (T+, T-) with T+ of index
+//         shard, shard + nshards, ...; outpath, the output file; max_reps, the number of representatives kept
+//         per class; vec, true to keep only vec{F}; only_keys, the HOMFLY classes whose representatives are
+//         kept (empty: all); T, the trees with n leaves; same_parity, the trees grouped by parity (vec mode).
+// Effect: runs steps 1-4 of the header on its pairs and writes the classes to outpath (format in the header).
+// Output: 0 on success, 1 if a file cannot be opened, 3 if some diagram violates a structural invariant.
 static int run_shard(int n, int shard, int nshards, const char *outpath, int max_reps, bool vec,
                      const std::unordered_set<std::string> &only_keys, const std::vector<Tree> &T,
                      const std::unordered_map<uint32_t, std::vector<int>> &same_parity) {
@@ -511,9 +565,11 @@ static int run_shard(int n, int shard, int nshards, const char *outpath, int max
     return 0;
 }
 
+// Input:  the command line (see the header). Builds the trees with n leaves, then runs one shard, or with
+//         shard = -1 forks nshards workers. Output (exit code): 0 on success, 1 on failure.
 int main(int argc, char **argv) {
     if (argc < 5) {
-        fprintf(stderr, "usage: %s n shard nshards out.tsv [max_reps]\n", argv[0]);
+        fprintf(stderr, "usage: %s n shard nshards out.tsv [max_reps] [vec|all] [only_key|@keys_file]\n", argv[0]);
         return 1;
     }
     int n = atoi(argv[1]), shard = atoi(argv[2]), nshards = atoi(argv[3]);
