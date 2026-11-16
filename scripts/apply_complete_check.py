@@ -39,6 +39,13 @@ def crossings(group, top, bottom):
 
 
 def summary(group, rows, path):
+    """Rewrite the summary file of a group after the complete check.
+
+    Input:  group; rows, the rows of results/<G>_index.csv (crossing_number already an int); path, the
+            summary file results/<G>_index_summary.txt.
+    Effect: keeps the first two lines of the old summary, then writes, for every crossing number, how many
+            knots have a known index, and the index and witness of every identified knot with <= 10 crossings.
+    """
     old = open(path).read().splitlines() if os.path.exists(path) else []
     head = [line for line in old[:2] if line]
     lines = head + ['complete check applied (results/complete_check_%s.md): every diagram of the HOMFLY classes '
@@ -58,6 +65,11 @@ def summary(group, rows, path):
 
 
 def main():
+    """Command line entry point: sage -python scripts/apply_complete_check.py GROUP.
+
+    Effect: updates results/<G>_index.csv with the verdicts of results/complete_check_<G>.csv (see the
+            module docstring) and rewrites results/<G>_index_summary.txt.
+    """
     group = sys.argv[1]
     res = os.path.join(HERE, 'results')
     index_csv = os.path.join(res, group + '_index.csv')

@@ -20,6 +20,12 @@ PY = os.environ.get('PY', sys.executable).split()
 
 
 def last_level(k, group):
+    """The last diagram reached for a knot.
+
+    Input:  k, the stem of the files in tmp_check/alexander/; group, Fvec or F3vec.
+    Output: (n, diagram "top | bottom") of the last line of k_greedy.jsonl, or of the starting diagram
+            k.json if there is none yet.
+    """
     path = os.path.join(HERE, 'tmp_check', 'alexander', '%s_greedy.jsonl' % k)  # k = file stem
     steps = [json.loads(x) for x in open(path) if x.strip()] if os.path.exists(path) else []
     if steps:
@@ -31,11 +37,20 @@ def last_level(k, group):
 
 
 def run(cmd, log, env=None):
+    """Run the command cmd in the repository root with the environment env, appending its output to the
+    file log.
+    """
     with open(log, 'a') as f:
         subprocess.run(cmd, cwd=HERE, stdout=f, stderr=subprocess.STDOUT, env=env)
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: builds the starting diagram with alexander.py if needed, then alternates greedy_descent.py and
+            one level of descent_search.py (extra 1, then 2 if n <= 29) until n_min is reached or both fail;
+            every level found is appended to tmp_check/alexander/<k>_greedy.jsonl.
+    """
     args = sys.argv[1:]
     k = args[0]
     procs = args[1] if len(args) > 1 and not args[1].startswith('--') else '3'

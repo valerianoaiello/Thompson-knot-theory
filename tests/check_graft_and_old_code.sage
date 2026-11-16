@@ -26,10 +26,12 @@ def random_tree(n):
 
 
 def homfly(tp, tm):
+    """HOMFLY polynomial (variables L, M, normalization lm) of L(tp, tm), from the PD code of ftrees.py."""
     return Link(F.pd_code(tp, tm)).homfly_polynomial('L', 'M', 'lm')
 
 
 def mirror(p):
+    """The HOMFLY polynomial p of the mirror image (L -> L^-1)."""
     L, M = p.parent().gens()
     return p.subs(L=L**-1)
 
@@ -63,6 +65,7 @@ OLD = os.environ.get('THOMPSON_OLD_CODE', os.path.join('..', 'old_code'))
 
 
 def iota_words(t, prefix=''):
+    """Leaf addresses (digits 0, 1, 2) of the ternary tree iota(t) of the binary tree t."""
     if t is None:
         return [prefix or '0']
     return iota_words(t[0], prefix + '0') + [prefix + '1'] + iota_words(t[1], prefix + '2')

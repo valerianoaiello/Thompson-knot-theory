@@ -21,6 +21,14 @@ csv.field_size_limit(10**9)
 
 
 def main():
+    """Command line entry point: python3 scripts/reverse_bound_F3vec.py.
+
+    Effect: for every knot of results/oriented_index_F3vec.csv with exactly one orientation realized,
+            writes to results/reverse_bound_F3vec.csv the index of that orientation and the index of the
+            other one: exact (n + 2) if the witness, or another minimal diagram of
+            results/reverse_search_F3vec.csv, has ends of different colours, otherwise the two values
+            n + 2 or n + 4.
+    """
     search = {}
     path = os.path.join(HERE, 'results', 'reverse_search_F3vec.csv')
     if os.path.exists(path):

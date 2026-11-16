@@ -24,6 +24,11 @@ HERE = C.HERE
 
 
 def first_pass(group):
+    """Results of certify_indices.py for a group.
+
+    Input:  group.
+    Output: {JSON of the task: result} read from tmp_check/certify_<G>.jsonl.
+    """
     done = {}
     for line in open(os.path.join(HERE, 'tmp_check', 'certify_%s.jsonl' % group)):
         r = json.loads(line)
@@ -32,6 +37,12 @@ def first_pass(group):
 
 
 def second_pass(group):
+    """Results of certify_retry.py for a group.
+
+    Input:  group.
+    Output: {item (group, knot, top, bottom): result} read from tmp_check/certify_retry_<G>.jsonl
+            (empty if the file does not exist).
+    """
     out = {}
     path = os.path.join(HERE, 'tmp_check', 'certify_retry_%s.jsonl' % group)
     if os.path.exists(path):
@@ -42,6 +53,13 @@ def second_pass(group):
 
 
 def check(group):
+    """Checks 1-4 of the module docstring for a group.
+
+    Input:  group.
+    Output: (stats, problems, cmp): stats, a dict of counts (witnesses, certified witnesses, knots of the
+            complete check, exclusion diagrams, contradictions); problems, the list of what is missing;
+            cmp, the knots with more excluded diagrams than diagrams compared by the complete check.
+    """
     table, keys, nmax = C.inputs(group)
     col = group + '_index'
     done, retry = first_pass(group), second_pass(group)
@@ -126,6 +144,11 @@ def check(group):
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_completeness.py [GROUP ...].
+
+    Effect: runs check for the given groups (all four by default) and writes
+            results/certified_completeness.md (or certified_completeness_<groups>.md).
+    """
     lines = ['# Completeness of the certified verification', '',
              'Script `certify_completeness.py` (see its docstring).', '']
     groups = sys.argv[1:] or ['F', 'F3', 'Fvec', 'F3vec']

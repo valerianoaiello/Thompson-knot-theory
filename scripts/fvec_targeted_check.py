@@ -19,6 +19,12 @@ sys.path.insert(0, os.path.join(HERE, 'scripts'))
 
 
 def task(args):
+    """Compare a list of diagrams of vec{F} with a knot.
+
+    Input:  args = (knot, diagrams), diagrams a list of (top, bottom) leaf addresses.
+    Output: (knot, number of diagrams, list of the diagrams "top | bottom" that realize the knot: SnapPy
+            volume and isometry, or KnotInfo recognition for a non-hyperbolic knot).
+    """
     knot, diagrams = args
     import snappy  # noqa: F401
     import spherogram
@@ -45,6 +51,11 @@ def task(args):
 
 
 def main():
+    """Command line entry point: sage -python scripts/fvec_targeted_check.py DIR N TARGETS.json [processes].
+
+    Effect: groups the diagrams of DIR/n<N>.tsv.*.all by HOMFLY key, compares those of the class of every
+            target with it (task, 500 diagrams per task) and writes DIR/check_n<N>.csv.
+    """
     d, n, targets = sys.argv[1], int(sys.argv[2]), json.load(open(sys.argv[3]))
     procs = int(sys.argv[4]) if len(sys.argv) > 4 else os.cpu_count()
     knots_of = {}

@@ -46,6 +46,13 @@ _K = {}             # per process: knot -> data
 # ------------------------------------------------------------------------------------------------ helpers
 
 def verified(E, f, tries=20):
+    """f(E) for a verified computation, retried on randomized triangulations.
+
+    Input:  E, a SnapPy manifold (retriangulated in place on failure); f, a function of E; tries, the
+            number of attempts.
+    Output: the first value f(E) that does not raise; raises the last error if all the attempts fail
+            (e.g. a triangulation with a flat or negative shape).
+    """
     err = None
     for _ in range(tries):
         try:
@@ -57,14 +64,23 @@ def verified(E, f, tries=20):
 
 
 def volume(E):
+    """Verified hyperbolic volume of E: an interval (100 bits) certified to contain the volume."""
     return verified(E, lambda X: X.volume(verified=True, bits_prec=100))
 
 
 def canonical(E):
+    """Verified canonical retriangulation of E (SnapPy, verified=True); two knot complements are
+    isometric iff these triangulations are combinatorially isomorphic.
+    """
     return verified(E, lambda X: X.canonical_retriangulation(verified=True))
 
 
 def hfk(L):
+    """Knot Floer homology of a knot and of its mirror image.
+
+    Input:  L, a spherogram Link (a knot).
+    Output: (ranks of L, ranks of the mirror of L), each a frozenset of ((Alexander, Maslov), rank).
+    """
     r = L.knot_floer_homology()['ranks']
     return frozenset(r.items()), frozenset(((-a, -m), v) for (a, m), v in r.items())
 
@@ -76,6 +92,7 @@ def knot_pd(knot):
 
 
 def knot_exterior(knot):
+    """SnapPy exterior (complement) of the KnotInfo diagram of knot."""
     import snappy  # noqa: F401
     import spherogram
     return spherogram.Link([[x - 1 for x in c] for c in knot_pd(knot)]).exterior()
@@ -100,6 +117,13 @@ def knot_data(knot):
 
 
 def pd_of(group, top, bottom, pd_field=None):
+    """PD code of a tree diagram.
+
+    Input:  group; top, bottom, the leaf addresses of the two trees, comma-separated; pd_field, the PD code
+            as JSON if the line of the file already contains it (F_3 and vec{F}_3).
+    Output: the PD code (Sage's convention): from pd_field, from ftrees for F and vec{F}, from
+            bin/iota_knots eval for F_3 and vec{F}_3.
+    """
     if pd_field:
         return json.loads(pd_field)
     if group in ('F', 'Fvec'):
@@ -222,6 +246,7 @@ def is_K(pd, knot):
 # ------------------------------------------------------------------------------------------------ tasks
 
 class Timeout(Exception):
+    """Raised to stop a computation that takes too long (see timed)."""
     pass
 
 
@@ -244,6 +269,12 @@ def timed(f, *args):
 
 
 def exclusion_task(task):
+    """Task of part A: certify that the diagrams of a chunk are not the knot.
+
+    Input:  task = [group, knot, path, offset, count], count lines of path starting at byte offset.
+    Output: {'task', 'ok': {method: number of diagrams}, 'violations': [...], 'uncertified': [...]}, one
+            entry per diagram according to not_K (with the time limit of timed).
+    """
     group, knot, path, offset, count = task
     out = {'task': task, 'ok': {}, 'violations': [], 'uncertified': []}
     with open(path) as f:
@@ -265,6 +296,11 @@ def exclusion_task(task):
 
 
 def witness_task(task):
+    """Task of part B: certify that the witnesses are the knots they are said to be.
+
+    Input:  task = [group, items], items a list of (knot, top, bottom).
+    Output: a dict as in exclusion_task, one entry per witness according to is_K.
+    """
     group, items = task
     out = {'task': ['witness1', items[0][0]], 'ok': {}, 'violations': [], 'uncertified': []}
     for knot, top, bottom in items:
@@ -317,6 +353,12 @@ def exclusion_tasks(group, table, keys, nmax):
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_indices.py GROUP [processes].
+
+    Effect: runs the witness tasks (part B) and the exclusion tasks (part A) not yet in
+            tmp_check/certify_<G>.jsonl, appending their results there, and writes the summary
+            results/certified_<G>.md (counts by method, contradictions, diagrams not certified, crashes).
+    """
     from identify_lib import RobustPool
     group = sys.argv[1]
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()

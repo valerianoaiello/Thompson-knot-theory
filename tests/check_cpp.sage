@@ -9,6 +9,7 @@ Lv, Mv = R.gens()
 
 
 def key_from_cpp(s):
+    """The HOMFLY key written by the C++ enumerators ('c*L^a*M^b ...') as a polynomial of R (variables L, M)."""
     p = R(0)
     for term in s.split():
         c, l, m = term.split('*')
@@ -17,6 +18,7 @@ def key_from_cpp(s):
 
 
 def mirror(p):
+    """The HOMFLY polynomial of the mirror image (L -> L^-1)."""
     return p.subs(L=Lv**-1)
 
 

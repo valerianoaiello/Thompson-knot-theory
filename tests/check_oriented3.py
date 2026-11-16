@@ -31,6 +31,7 @@ BIN = os.path.join(HERE, 'bin', 'iota_knots')
 
 
 def ternary_trees(c):
+    """All ternary trees with c internal vertices (nested 3-tuples, a leaf is None)."""
     if c == 0:
         return [None]
     return [(l, m, r) for c1 in range(c) for c2 in range(c - c1)
@@ -59,6 +60,7 @@ def reps(path, limit):
 
 
 def hyperbolic(pd):
+    """True if SnapPy finds a hyperbolic structure on the complement of the link pd (5 tries)."""
     import snappy  # noqa: F401
     import spherogram
     E = spherogram.Link([[x - 1 for x in c] for c in pd]).exterior()
@@ -70,6 +72,10 @@ def hyperbolic(pd):
 
 
 def main():
+    """Command line entry point: sage -python tests/check_oriented3.py [cmax] [samples].
+
+    Effect: runs the checks listed in the module docstring and prints 'all checks passed' or the failures.
+    """
     cmax = int(sys.argv[1]) if len(sys.argv) > 1 else 4
     samples = int(sys.argv[2]) if len(sys.argv) > 2 else 300
     bad = 0

@@ -105,6 +105,9 @@ _COVERS = {}
 
 
 def _target_covers(knot):
+    """Cover data of the complement of knot (certify_indices.covers of its KnotInfo exterior), cached per
+    process.
+    """
     if knot not in _COVERS:
         _COVERS[knot] = CI.covers(CI.knot_exterior(knot))
     return _COVERS[knot]
@@ -126,6 +129,13 @@ def essential_torus_killable(E, timeout=120):
 
 
 def main():
+    """Command line entry point: sage -python scripts/resolve_undecided.py GROUP [processes].
+
+    Effect: examines again (examine) every chunk of tmp_check/progress_<G>.jsonl with undecided diagrams of
+            a knot below its index, saving progress in tmp_check/resolve_<G>.jsonl; updates
+            results/complete_check_<G>.csv (a new, smaller index if a diagram turns out to be the knot, the
+            number of diagrams still undecided otherwise) and appends a note to complete_check_<G>.md.
+    """
     group = sys.argv[1]
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
     from identify_lib import RobustPool

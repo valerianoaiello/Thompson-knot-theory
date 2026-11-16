@@ -27,10 +27,17 @@ ALTERNATING = {11: 367, 12: 1288, 13: 4878}
 
 
 def name(c, i):
+    """KnotInfo name of the KnotScape knot number i with c crossings (alternating knots first)."""
     return '%da_%d' % (c, i) if i <= ALTERNATING[c] else '%dn_%d' % (c, i - ALTERNATING[c])
 
 
 def read_groups(path):
+    """Groups of mutants of one of Stoimenow's files.
+
+    Input:  path, the file 12mut.out or 13mut.out.
+    Output: the list of the groups, each a list of (KnotInfo name, DT code) (groups are separated by blank
+            lines in the file).
+    """
     groups, cur = [], []
     for line in open(path):
         f = line.split()
@@ -86,6 +93,9 @@ def compare(pairs):
 
 
 def write(rows):
+    """Write rows to results/mutants_literature.csv and print, by crossing number, how many pairs there are
+    and how many of them an index distinguishes.
+    """
     with open(os.path.join(HERE, 'results', 'mutants_literature.csv'), 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
@@ -100,6 +110,12 @@ def write(rows):
 
 
 def main():
+    """Command line entry point (see the module docstring for the two usages).
+
+    Effect: reads Stoimenow's groups, checks the name conversions with SnapPy (check) and writes
+            results/mutants_literature.csv (compare, write); with --update recomputes the indices of the
+            pairs already in that file.
+    """
     if sys.argv[1] == '--update':
         old = list(csv.DictReader(open(os.path.join(HERE, 'results', 'mutants_literature.csv'))))
         write(compare([(r['group'], r['group_size'], r['knot_1'], r['knot_2'], r['name_check']) for r in old]))

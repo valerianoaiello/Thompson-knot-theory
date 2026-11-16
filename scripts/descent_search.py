@@ -48,12 +48,22 @@ CHUNK_TOPS = 20
 # ---------------------------------------------------------------------------------------------
 
 def words(group, t):
+    """Leaf addresses of a tree of the group.
+
+    Input:  group; t, a binary (F, vec{F}) or ternary (F_3, vec{F}_3) tree.
+    Output: the list of its leaf addresses (ftrees.leaf_words or oriented.ternary_words).
+    """
     import ftrees as F
     import oriented as O
     return F.leaf_words(t) if ARITY[group] == 2 else O.ternary_words(t)
 
 
 def tree(group, ws):
+    """Inverse of words.
+
+    Input:  group; ws, the leaf addresses, comma-separated.
+    Output: the binary or ternary tree with these addresses.
+    """
     import ftrees as F
     import oriented as O
     return F.from_leaf_words(ws.split(',')) if ARITY[group] == 2 else O.ternary_from_words(ws.split(','))
@@ -64,6 +74,7 @@ def deletions(t, arity):
     out = set()
 
     def rec(s):
+        """All the trees obtained from the subtree s by deleting one of its internal vertices."""
         if s is None:
             return []
         res = []
@@ -82,6 +93,7 @@ def insertions(t, arity):
     """Trees obtained from t by inserting one internal vertex: a subtree s (a leaf included) is replaced by a
     new vertex with s as one of its children and leaves as the others."""
     def rec(s):
+        """All the trees obtained from the subtree s by inserting one internal vertex (at s or inside it)."""
         res = [tuple(s if j == i else None for j in range(arity)) for i in range(arity)]
         if s is not None:
             for i, c in enumerate(s):
@@ -126,6 +138,12 @@ def tait(group, tp, tm):
 
 
 def determinant(n, edges):
+    """Determinant of a knot from its Tait graph.
+
+    Input:  n, the number of Tait vertices; edges, the Tait edges (u, w, side, crossing sign).
+    Output: |det| of the reduced signed Laplacian (row and column of vertex 0 removed), rounded to an int
+            (floating point: used only as a filter, every hit is checked with SnapPy); 1 if n = 1.
+    """
     import numpy as np
     L = np.zeros((n, n))
     for u, w, _, s in edges:
@@ -162,6 +180,11 @@ _REF = {}
 
 
 def _ref(knot):
+    """Data of the KnotInfo knot, cached per process.
+
+    Input:  knot, a KnotInfo name.
+    Output: (PD code, volume or None if no hyperbolic structure is found, SnapPy exterior, determinant).
+    """
     if knot not in _REF:
         import snappy  # noqa: F401
         import spherogram
@@ -270,6 +293,14 @@ def tasks_for(group, knot, want, det, diagrams, extra, k):
 
 
 def run(job, pool, log):
+    """Run one descent job.
+
+    Input:  job, a dict of the TASKS file (see the module docstring); pool, a RobustPool; log, a function
+            printing a message.
+    Output: the list of the rows of results/descent_search.csv found: at every step the diagrams one step
+            below (or above) the current ones that give the knot; the next step starts from at most `beam`
+            of them; the search stops at the first step with no hit. 'final' is 'yes' for the last step.
+    """
     group, knot, want = job['group'], job['knot'], job.get('want')
     beam = job.get('beam', 50)
     _, _, _, det = _ref(knot)
@@ -308,6 +339,11 @@ def run(job, pool, log):
 
 
 def main():
+    """Command line entry point: sage -python scripts/descent_search.py TASKS.json [processes].
+
+    Effect: runs the jobs not yet done (tmp_check/descent/done_<TASKS>.txt), appends the diagrams found to
+            results/descent_search.csv (or to $DESCENT_OUT) and logs the result of every job.
+    """
     jobs = json.load(open(sys.argv[1]))
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
     from identify_lib import RobustPool
@@ -317,6 +353,7 @@ def main():
     new = not os.path.exists(out)
 
     def log(msg):
+        """Print msg preceded by the time."""
         print(time.strftime('%H:%M:%S'), msg, flush=True)
     done_file = os.path.join(HERE, 'tmp_check', 'descent', 'done_%s.txt' % os.path.basename(sys.argv[1]).split('.')[0])
     done = set(open(done_file).read().split()) if os.path.exists(done_file) else set()

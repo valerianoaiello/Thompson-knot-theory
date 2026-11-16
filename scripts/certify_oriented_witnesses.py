@@ -24,6 +24,11 @@ import verify_oriented as V  # noqa: E402
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_oriented_witnesses.py GROUP KNOT [KNOT ...].
+
+    Effect: certifies with verify_oriented.relation which orientation every witness (K and Kr) of the given
+            knots realizes and writes results/oriented_witnesses_certified_<G>.md.
+    """
     group, knots = sys.argv[1], sys.argv[2:]
     rows = {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', 'oriented_index_%s.csv' % group)))}
     lines = ['# Certified orientation of the witnesses of K and K^r (%s)' % group, '',

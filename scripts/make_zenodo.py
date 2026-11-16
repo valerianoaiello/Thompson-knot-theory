@@ -34,6 +34,7 @@ RAW = {'F': 'raw', 'F3': 'raw_F3', 'Fvec': 'raw_Fvec', 'F3vec': 'raw_F3vec'}
 
 
 def _key(k):
+    """Input: k, a KnotInfo name.  Output: (k, HOMFLY key of its KnotInfo diagram), or (k, None) on failure."""
     import oriented_index as OI
     try:
         return k, OI.homfly_key(OI.reference_pd(k))
@@ -52,6 +53,13 @@ def witnesses(group, keys):
 
 
 def classes(group, keys, outdir, n19=None):
+    """Write the file classes/classes_<G>.tsv.gz of the archive.
+
+    Input:  group; keys, {knot: HOMFLY key}; outdir, the archive directory; n19, the directory of the summary
+            files of vec{F} at n = 19 (or None).
+    Effect: one line per HOMFLY class and n of results/raw<suffix>/ (and of n = 19 if given), with a
+            representative and the knots whose index is n with their witnesses (format in README below).
+    """
     W = witnesses(group, keys)
     path = os.path.join(outdir, 'classes', 'classes_%s.tsv.gz' % group)
     nclasses = 0
@@ -134,6 +142,11 @@ diagrams and one representative.
 
 
 def main():
+    """Command line entry point: sage -python scripts/make_zenodo.py OUTDIR [N19_DIR].
+
+    Effect: builds the Zenodo archive in OUTDIR: classes/classes_<G>.tsv.gz for the four groups,
+            unidentified/*.csv.gz, results.tar.gz (the files of results/ tracked by git) and README.md.
+    """
     outdir = sys.argv[1]
     n19 = sys.argv[2] if len(sys.argv) > 2 else None
     os.makedirs(os.path.join(outdir, 'classes'), exist_ok=True)

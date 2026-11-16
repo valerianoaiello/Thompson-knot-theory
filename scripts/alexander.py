@@ -104,6 +104,10 @@ def oriented_pd(n, edges, col):
 
 
 def colours(n, edges):
+    """Colours (+1 / -1, leftmost vertex +1) of the vertices of a standard graph, None if not bipartite.
+
+    Input:  n, the number of vertices; edges, the arcs (u, w, side, sign).
+    """
     return O.tait_colours_of_graph(n, [e[:3] for e in edges])
 
 
@@ -144,6 +148,12 @@ def checkerboard(L):
 
 
 def badness(L):
+    """How far the diagram L (spherogram) is from being special.
+
+    Input:  L, an oriented link diagram.
+    Output: the number of crossings whose entrance-exit corners have the less frequent of the two colours
+            (0 iff L is special).
+    """
     io = checkerboard(L)[3]
     return min(io.count(0), io.count(1))
 
@@ -184,6 +194,7 @@ def special_diagram(L0, seed=1, seconds=300, cap=24, log=print):
 def _face_cycles(L, faces):
     """For each face, the cyclic (clockwise) list of (corner, knot edge after it)."""
     def ekey(c, j):
+        """The knot edge leaving crossing c through slot j, as a key independent of the end it is seen from."""
         cs = c.crossing_strands()[j]
         o = cs.opposite()
         return frozenset([(id(c), j), (id(o.crossing), o.strand_index)])
@@ -230,6 +241,7 @@ def standard_graph(L):
     gaps = {f: [it[1] for it in rot[f] if it[0] == 'g'] for f in B}
 
     def crosses(ch, chords):
+        """True if the chord ch inside a white region crosses one of the chords already used."""
         w, a, b = ch
         a, b = min(a, b), max(a, b)
         for w2, c, d in chords:
@@ -246,6 +258,9 @@ def standard_graph(L):
 
     def dfs(path, chords, visited):
         # path: list of (vertex, entry gap, exit gap); the last one has exit gap set
+        """Depth-first search of the closed curve: extends path through the white regions without crossing
+        the chords already used; stores the first complete curve in best.
+        """
         nonlocal best
         if best is not None:
             return
@@ -334,22 +349,28 @@ class Graph:
     """Standard graph with named vertices (order = left to right) for the substitutions."""
 
     def __init__(self, n, edges, col):
+        """Input:  n, edges, col, a standard graph (vertices 0..n-1 on the line, arcs (u, w, side, sign),
+                colours of the vertices).
+        """
         self.order = list(range(n))
         self.col = {v: col[v] for v in range(n)}
         self.edges = [[u, w, s, x] for u, w, s, x in edges]
         self.next = n
 
     def new(self, c):
+        """A new vertex of colour c (not yet placed on the line); returns its name."""
         v = self.next
         self.next += 1
         self.col[v] = c
         return v
 
     def insert_before(self, w, vs):
+        """Place the new vertices vs on the line just before vertex w."""
         k = self.order.index(w)
         self.order[k:k] = vs
 
     def insert_after(self, v, vs):
+        """Place the new vertices vs on the line just after vertex v."""
         k = self.order.index(v) + 1
         self.order[k:k] = vs
 
@@ -379,13 +400,16 @@ class Graph:
         return len(self.order), edges, [self.col[v] for v in self.order]
 
     def incoming(self, w):
+        """The arcs that reach w from the left (their other endpoint lies to the left of w)."""
         p = {v: k for k, v in enumerate(self.order)}
         return [e for e in self.edges if (e[1] == w and p[e[0]] < p[w]) or (e[0] == w and p[e[1]] < p[w])]
 
     def left(self, w):
+        """The vertex immediately to the left of w on the line."""
         return self.order[self.order.index(w) - 1]
 
     def source(self, e, w):
+        """The endpoint of the arc e other than w."""
         return e[0] if e[1] == w else e[1]
 
 
@@ -515,6 +539,7 @@ def trees(n, edges):
         par[w] = u
 
     def build(par, off, m):
+        """The binary tree on the vertices off, ..., off + m - 1 whose Tait parents are given by par."""
         if m == 1:
             return None
         k = max(j - off for j in range(off + 1, off + m) if par[j] == off)
@@ -526,6 +551,12 @@ def trees(n, edges):
 
 
 def main():
+    """Command line entry point: sage -python scripts/alexander.py KNOT [--seed S] [--minutes M] [--tries T]
+    [--check] [--out STEM].
+
+    Effect: for every try, steps 1-4 of the module docstring (special diagram, standard graph and its
+            reflection, substitutions); the construction with fewest leaves is saved by save.
+    """
     import snappy  # noqa: F401
     import spherogram
     from sage.all import KnotInfo
@@ -574,6 +605,7 @@ def save(knot, ref, best, check=False, stem=None):
     (n, edges, col), S, (n0, edges0, col0), rel = best
     if check:
         def chk(n, edges, col, case):
+            """Check, after a substitution, that the oriented knot of the graph has not changed."""
             r = relation(oriented_pd(n, edges, col), ref, knot)
             assert r == rel, (case, r)
         thompson_graph(n0, edges0, col0, chk, log=lambda m: None)

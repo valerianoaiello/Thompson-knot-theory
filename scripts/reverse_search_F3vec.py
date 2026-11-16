@@ -82,6 +82,13 @@ def find(task):
 
 
 def main():
+    """Command line entry point: sage -python scripts/reverse_search_F3vec.py [processes].
+
+    Effect: for every knot of results/reverse_bound_F3vec.csv whose witness has ends of the same colour,
+            looks among all its minimal diagrams for one with ends of different colours that realizes the
+            same orientation (find), checks with SnapPy that the move with two new vertices gives the
+            reverse, and writes results/reverse_search_F3vec.csv.
+    """
     processes = int(sys.argv[1]) if len(sys.argv) > 1 else os.cpu_count()
     from sage.all import KnotInfo
     from identify_lib import RobustPool

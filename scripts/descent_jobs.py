@@ -40,6 +40,12 @@ def last_leaf(ws, sub):
 
 
 def move4_ternary(top, bottom):
+    """The move with four new vertices in vec{F}_3 (rev3 jobs).
+
+    Input:  top, bottom, the leaf addresses (comma-separated) of a diagram of vec{F}_3 of size n.
+    Output: the leaf addresses (top, bottom) of a diagram of size n + 4 obtained by adding four internal
+            vertices; it realizes the other orientation of the knot (checked with SnapPy in main).
+    """
     t, b = top.split(','), bottom.split(',')
     tp = ['00', '01'] + ['02' + w for w in last_leaf(t, '012')] + ['1', '20', '21', '22']
     tm = ['0', '1'] + ['2' + w for w in last_leaf(b, ['00', '01', '020', '021', '022', '1', '2'])]
@@ -47,6 +53,9 @@ def move4_ternary(top, bottom):
 
 
 def move4_binary(top, bottom):
+    """The move with four new vertices in vec{F} (rev jobs): as move4_ternary, for binary trees
+    (a diagram of size n + 4 from one of size n).
+    """
     t, b = top.split(','), bottom.split(',')
     tp = ['00'] + ['01' + w for w in last_leaf(t, '01')] + ['10', '11']
     tm = ['0'] + ['1' + w for w in last_leaf(b, ['00', '010', '011', '1'])]
@@ -90,6 +99,11 @@ def stored_starts(group, n, knot):
 
 
 def iota_start(d):
+    """The image under iota of a diagram of vec{F}, as a starting diagram of vec{F}_3.
+
+    Input:  d, a diagram "top | bottom" of binary trees (leaf addresses).
+    Output: the diagram "top | bottom" of the ternary trees iota(top), iota(bottom).
+    """
     import ftrees as F
     import oriented as O
     t, b = [F.from_leaf_words(x.strip().split(',')) for x in d.split('|')]
@@ -220,6 +234,11 @@ def thirteen_more(max_starts=None, name='F3c13more', exclude=()):
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: with --more, --f3-13 or --f3-13-more runs more, thirteen or thirteen_more; otherwise writes the
+            job files tmp_check/descent/jobs_<name>.json of the first round (F3, F, F3vec, rev3, rev).
+    """
     if '--more' in sys.argv:
         return more()
     if '--f3-13-more' in sys.argv:
@@ -238,12 +257,15 @@ def main():
     os.makedirs(d, exist_ok=True)
 
     def witness(G, k):
+        """The witness "top | bottom" of knot k in the table of group G."""
         return T[G][k]['top_tree'] + ' | ' + T[G][k]['bottom_tree']
 
     def open_cases(G, maxc):
+        """The knots of the table of group G with at most maxc crossings and no known index."""
         return [k for k, r in T[G].items() if not r[G + '_index'] and int(r['crossing_number']) <= maxc]
 
     def ref(k):
+        """PD code of the KnotInfo diagram of knot k."""
         return [list(map(int, c)) for c in getattr(KnotInfo, 'K' + k).link().pd_code()]
 
     jobs = {'F3': [], 'F': [], 'F3vec': [], 'rev3': [], 'rev': []}

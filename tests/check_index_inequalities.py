@@ -23,6 +23,7 @@ from check_F3vec import in_vec, iota, words  # noqa: E402
 
 
 def load(g):
+    """The index table of group g: {knot: (index or None, lower bound, row of results/<g>_index.csv)}."""
     out = {}
     for r in csv.DictReader(open(os.path.join(HERE, 'results', g + '_index.csv'))):
         out[r['knot']] = (int(r[g + '_index']) if r[g + '_index'] else None, int(r['lower_bound']), r)
@@ -30,6 +31,12 @@ def load(g):
 
 
 def same_homfly(task):
+    """Compare the knot of iota(witness) with the knot of the witness.
+
+    Input:  task = (i, number of components, PD code from bin/iota_knots eval, top, bottom).
+    Output: (i, True if iota(witness) is a knot with the HOMFLY polynomial, up to mirror image, of the PD
+            code of the witness computed by ftrees.py).
+    """
     from sage.all import Link
     i, comps, pd3, top, bottom = task
     if comps != '1':
@@ -40,6 +47,11 @@ def same_homfly(task):
 
 
 def main():
+    """Command line entry point: sage -python tests/check_index_inequalities.py.
+
+    Effect: checks the inequalities between the four tables and the iota of every vec{F} witness (see the
+            module docstring); prints the violations.
+    """
     t = {g: load(g) for g in ('F', 'F3', 'Fvec', 'F3vec')}
     bad = 0
     for small, big in (('F3', 'F'), ('F3', 'F3vec'), ('F3vec', 'Fvec'), ('F', 'Fvec')):

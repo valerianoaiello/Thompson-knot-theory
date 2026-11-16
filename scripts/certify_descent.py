@@ -37,6 +37,13 @@ def claimed(relation):
 
 
 def certify(row):
+    """Certify one diagram found by descent_search.py.
+
+    Input:  row, a row of results/descent_search.csv.
+    Output: (row, certified (bool), certificate (text)): for an unoriented search whether is_K certifies
+            that the diagram is the knot; for an oriented one whether verify_oriented.relation finds one of
+            the orientations searched.
+    """
     import certify_indices as CI
     import verify_oriented as V
     group, knot = row['group'], row['knot']
@@ -59,6 +66,11 @@ def certify(row):
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_descent.py [processes].
+
+    Effect: certifies every row of results/descent_search.csv and writes results/descent_certified.csv
+            (the same rows with the columns certified and certificate).
+    """
     processes = int(sys.argv[1]) if len(sys.argv) > 1 else os.cpu_count()
     from identify_lib import RobustPool
     rows = list(csv.DictReader(open(os.path.join(HERE, 'results', 'descent_search.csv'))))  # final and intermediate

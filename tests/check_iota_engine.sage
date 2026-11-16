@@ -23,6 +23,7 @@ failures = 0
 
 
 def check(cond, msg):
+    """Count and print a failure if cond is false."""
     global failures
     if not cond:
         failures += 1
@@ -43,10 +44,14 @@ def random_words(internal, arity):
 
 
 def fix(words):
+    """The leaf words of the trivial tree as bin/iota_knots expects them (['0'] instead of [''])."""
     return ['0'] if words == [''] else words
 
 
 def run_eval(lines):
+    """Run bin/iota_knots eval on the input lines ('F|F3 top bottom'); returns one dict per line (components,
+    pd, ogc, homfly, ...).
+    """
     p = subprocess.run([IOTA, 'eval'], input='\n'.join(lines) + '\n', capture_output=True,
                        text=True, check=True)
     return [dict(item.split('=', 1) for item in line.split('\t')) for line in p.stdout.strip().split('\n')]
@@ -68,11 +73,13 @@ def libhomfly_string(L):
 
 
 def link_from_ogc(ogc):
+    """Sage Link of an oriented Gauss code written by bin/iota_knots ('[[...],[...]]')."""
     ogc = sage_eval(ogc)
     return Link([]) if not ogc[0] else Link([[ogc[0]], ogc[1]])
 
 
 def homfly(L):
+    """HOMFLY polynomial of the Sage link L (variables L, M, normalization lm, as libhomfly)."""
     return L.homfly_polynomial('L', 'M', 'lm')
 
 
@@ -143,6 +150,7 @@ tmp = tempfile.mkdtemp()
 
 
 def load(path):
+    """Header statistics and {HOMFLY key: number of diagrams} of an output file of the enumerators."""
     lines = open(path).read().split('\n')
     head = dict(kv.split('=') for kv in lines[0][2:].split() if '=' in kv)
     return head, {l.split('\t')[0]: int(l.split('\t')[1]) for l in lines[1:] if l}

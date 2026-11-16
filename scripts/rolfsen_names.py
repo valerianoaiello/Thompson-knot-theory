@@ -16,6 +16,11 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repository
 
 
 def main():
+    """Command line entry point: sage -python scripts/rolfsen_names.py.
+
+    Effect: writes results/rolfsen_to_knotinfo.json (see the module docstring); raises ValueError if a
+            Rolfsen name would be given to two KnotInfo knots.
+    """
     import snappy  # noqa: F401
     import spherogram
     from sage.all import KnotInfo

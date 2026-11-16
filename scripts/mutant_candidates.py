@@ -21,6 +21,11 @@ GROUPS = ('F', 'F3', 'Fvec', 'F3vec')
 
 
 def volume(task):
+    """Hyperbolic volumes of KnotInfo knots.
+
+    Input:  task, a list of KnotInfo names.
+    Output: the list of (name, volume), the volume None if no hyperbolic structure is found in 10 tries.
+    """
     import snappy  # noqa: F401
     import spherogram
     from sage.all import KnotInfo
@@ -39,6 +44,12 @@ def volume(task):
 
 
 def main():
+    """Command line entry point: sage -python scripts/mutant_candidates.py [processes].
+
+    Effect: lists the pairs of knots with the same HOMFLY polynomial (up to mirror image) and the same
+            volume, with their four indices and the groups whose index distinguishes them, and writes
+            results/mutant_candidates.csv.
+    """
     from identify_lib import RobustPool
     processes = int(sys.argv[1]) if len(sys.argv) > 1 else os.cpu_count()
     tables = {g: {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', g + '_index.csv')))}
@@ -49,6 +60,9 @@ def main():
     v, z = R.gens()
 
     def canonical_vz(s):  # the mirror image replaces v by v^-1
+        """The HOMFLY polynomial s (string in v, z) up to mirror image: the smaller of the strings of the
+        polynomial and of its mirror image.
+        """
         h = sage_eval(s, locals={'v': v, 'z': z})
         return min(str(h), str(h.subs(v=v ** -1)))
 

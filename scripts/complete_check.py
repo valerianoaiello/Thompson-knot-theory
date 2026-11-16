@@ -48,6 +48,11 @@ _CROSSINGS = {}       # per process: knot -> crossing number (KnotInfo)
 
 
 def crossing_number(knot):
+    """Crossing number of a knot of the KnotInfo table (cached per process).
+
+    Input:  knot, a KnotInfo name such as '10_132' or '11n_34'.
+    Output: its crossing number, an int.
+    """
     if knot not in _CROSSINGS:
         from sage.all import KnotInfo
         _CROSSINGS[knot] = int(getattr(KnotInfo, 'K' + knot).crossing_number())
@@ -64,6 +69,11 @@ def hfk(L):
 
 
 def target_hfk(knot):
+    """Knot Floer homology ranks of the KnotInfo diagram of knot (cached per process).
+
+    Input:  knot, a KnotInfo name.
+    Output: the frozenset of ((Alexander, Maslov), rank) returned by hfk for that diagram (not its mirror).
+    """
     if knot not in _HFK:
         import spherogram
         from sage.all import KnotInfo
@@ -73,6 +83,11 @@ def target_hfk(knot):
 
 
 def _geometric(E, tries=50):  # a randomization costs ~0.1 ms, naming a diagram ~1 s
+    """Whether SnapPy finds a hyperbolic structure on E, retrying on random triangulations.
+
+    Input:  E, a SnapPy manifold (it is retriangulated in place); tries, the number of attempts.
+    Output: True if some triangulation has all tetrahedra positively oriented, False otherwise.
+    """
     for _ in range(tries):
         if E.solution_type() == 'all tetrahedra positively oriented':
             return True
@@ -81,6 +96,12 @@ def _geometric(E, tries=50):  # a randomization costs ~0.1 ms, naming a diagram 
 
 
 def _target(knot):
+    """Data of the KnotInfo knot used in the comparisons (cached per process).
+
+    Input:  knot, a KnotInfo name.
+    Output: (hyperbolic, volume, exterior): whether a hyperbolic structure was found, the volume (0.0 if
+            not) and the SnapPy exterior of the knot.
+    """
     if knot not in _TARGETS:
         import snappy  # noqa: F401
         import spherogram
@@ -216,6 +237,7 @@ def split_classes(d, keys):
     buf, size = {}, 0
 
     def flush():
+        """Append the buffered lines to the class files and empty the buffer."""
         for k, lines in buf.items():
             with open(paths[k], 'a') as f:
                 f.writelines(lines)
@@ -255,6 +277,13 @@ RAW = {'F': 'raw', 'Fvec': 'raw_Fvec', 'F3': 'raw_F3', 'F3vec': 'raw_F3vec'}
 
 
 def write_targets(group, path):
+    """Write the targets of the complete check.
+
+    Input:  group; path, the file to write (tmp_check/targets_<G>.tsv).
+    Effect: writes one line "knot, lower bound, index (or empty), HOMFLY key" for every knot of
+            results/<G>_index.csv that is not identified at its lower bound (index > lower bound, or the
+            HOMFLY class appears but the knot was not identified).
+    """
     from sage.all import KnotInfo
     from oriented_index import homfly_key
     col = group + '_index'
@@ -268,6 +297,13 @@ def write_targets(group, path):
 
 
 def enumerate_n(group, n, d, keys_file, processes):
+    """Write every diagram of size n of the target classes.
+
+    Input:  group; n, the size; d, the output directory tmp_check/<G>_n<n>; keys_file, the file of the
+            HOMFLY keys of the targets; processes, the number of processes.
+    Effect: runs bin/fknots or bin/iota_knots with max_reps = -1, which write the *.all files of d, and
+            creates d/done when they are complete. Exits if the enumeration fails.
+    """
     import subprocess
     os.makedirs(d, exist_ok=True)
     out = os.path.join(d, 's.tsv')
@@ -284,6 +320,10 @@ def enumerate_n(group, n, d, keys_file, processes):
 
 
 def main():
+    """Command line entry point: sage -python scripts/complete_check.py GROUP [processes].
+
+    Effect: steps 1-3 of the module docstring; writes results/complete_check_<G>.csv and .md.
+    """
     group = sys.argv[1]
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
     from identify_lib import RobustPool
@@ -322,6 +362,9 @@ def main():
     done = set()
 
     def record(r):
+        """Take into account the result r of a chunk (also when read back from the progress file):
+        the diagrams compared, the knots found (keeping the smallest n and a witness) and the undecided diagrams.
+        """
         done.add((r['n'], r['path'], r['offset']))
         for k in r['knots']:
             compared[k] += r['compared']
@@ -353,6 +396,7 @@ def main():
 
     def skip(t):
         # only the targets not yet found at a smaller or equal n
+        """Drop from task t the targets already found at n <= t[0]; True if none is left (the task is not run)."""
         t[4] = [k for k in t[4] if best[k] is None or t[0] < best[k]]
         return not t[4]
 
@@ -394,6 +438,7 @@ def main():
                      'top_tree': top, 'bottom_tree': bottom})
 
     def ckey(r):
+        """Key that sorts the rows by crossing number, then Rolfsen / alternating / non-alternating, then number."""
         c, rest = r['knot'].split('_')
         return (int(c.rstrip('an')), rest[0] if not rest[0].isdigit() else '', int(rest.lstrip('an')))
 

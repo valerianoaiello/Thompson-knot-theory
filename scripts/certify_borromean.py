@@ -21,6 +21,12 @@ import certify_indices as CI  # noqa: E402
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_borromean.py.
+
+    Effect: for F with n = 9 and F_3 with n = 6, certifies for every diagram that passes the three necessary
+            conditions whether it is the Borromean rings (verified canonical retriangulations, isomorphisms
+            taking meridians to meridians) and writes results/borromean_certified.md.
+    """
     import snappy  # noqa: F401
     import spherogram
     ref_can = CI.canonical(spherogram.Link('L6a4').exterior())

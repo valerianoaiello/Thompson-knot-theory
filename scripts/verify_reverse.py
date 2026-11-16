@@ -21,6 +21,12 @@ sys.path.insert(0, os.path.join(HERE, 'scripts'))
 
 
 def census_name(task):
+    """Name of the knot of an element of vec{F} in SnapPy's census.
+
+    Input:  task = (top, bottom), the leaf addresses of g.
+    Output: (top, bottom, oriented PD code of L(g), sorted list of the names returned by SnapPy's identify
+            for the simplified diagram, or ['error ...']).
+    """
     top, bottom = task
     import snappy  # noqa: F401
     import spherogram
@@ -38,12 +44,20 @@ def census_name(task):
 
 
 def relation(task):
+    """Input: task = (a, b), two oriented PD codes.  Output: sorted list of the relations of a to b
+    ('same', 'reverse', 'mirror', 'mirror reverse'; oriented.relation_to).
+    """
     import oriented as O
     a, b = task
     return sorted(O.relation_to(a, b))
 
 
 def main():
+    """Command line entry point: sage -python scripts/verify_reverse.py KNOT N [KNOT N ...].
+
+    Effect: for every KNOT and n, prints how many elements of its HOMFLY class are the knot (census), and the
+            relations of all of them to the first one: whether both K and Kr occur at n or only one of them.
+    """
     from sage.all import KnotInfo
     import snappy  # noqa: F401  (needed by spherogram for exteriors)
     import spherogram

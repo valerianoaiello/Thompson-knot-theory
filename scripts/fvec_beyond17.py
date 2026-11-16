@@ -30,15 +30,24 @@ csv.field_size_limit(10**9)
 
 
 def res(name):
+    """Path of the file name in results/."""
     return os.path.join(HERE, 'results', name)
 
 
 def _key(k):
+    """Input: k, a KnotInfo name.  Output: (k, HOMFLY key of its KnotInfo diagram, as written by fknots)."""
     import oriented_index as OI
     return k, OI.homfly_key(OI.reference_pd(k))
 
 
 def classes(d, procs):
+    """Part 1 of the module docstring.
+
+    Input:  d, the directory with the 12 summary files n19.tsv.<s>; procs, the number of processes.
+    Effect: adds up the counts of every HOMFLY class at n = 19 and writes results/Fvec_n19_classes.csv,
+            with the number of knot diagrams with 19 leaves in the class of every knot not realized by
+            the enumeration (or realized only by a targeted search).
+    """
     counts = {}
     shards = [f for f in glob.glob(os.path.join(d, 'n19.tsv.*')) if f.rsplit('.', 1)[1].isdigit()]
     assert len(shards) == 12, shards
@@ -62,6 +71,11 @@ def classes(d, procs):
 
 
 def certify():
+    """Part 2 of the module docstring.
+
+    Effect: checks every diagram of results/Fvec_beyond17_witnesses.csv (in vec{F}, and is_K), adds the
+            certified ones to results/descent_certified.csv and writes results/Fvec_beyond17_certified.md.
+    """
     import certify_indices as CI
     wit = list(csv.DictReader(open(res('Fvec_beyond17_witnesses.csv'))))
     old = [r for r in csv.DictReader(open(res('descent_certified.csv'))) if r['name'] not in ('fvec19', 'construction')]

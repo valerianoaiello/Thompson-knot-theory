@@ -21,6 +21,7 @@ R = os.path.join(HERE, 'results')
 
 
 def load(name, col):
+    """A table of results/: {knot: row} ({} if the file does not exist). col is not used."""
     path = os.path.join(R, name)
     if not os.path.exists(path):
         return {}
@@ -28,12 +29,18 @@ def load(name, col):
 
 
 def value(r, col):
+    """The index in column col of the row r, or '≥ lower bound' if unknown ('?' if there is no row)."""
     if not r:
         return '?'
     return r[col] if r[col] else '≥ %s' % r['lower_bound']
 
 
 def main():
+    """Command line entry point: python3 scripts/small_knots_table.py [max_crossings] (default 9).
+
+    Effect: writes results/Fvec_index_upto<C>.csv and .md, one row per knot with at most C crossings (the
+            four indices, the indices of K and Kr for the non-invertible knots, and a witness of vec{F}).
+    """
     cmax = int(sys.argv[1]) if len(sys.argv) > 1 else 9
     vec, f, f3 = load('Fvec_index.csv', 'Fvec_index'), load('F_index.csv', 'F_index'), load('F3_index.csv', 'F3_index')
     vec3 = load('F3vec_index.csv', 'F3vec_index')
@@ -58,6 +65,7 @@ def main():
                      'top_tree': r['top_tree'] if idx else '', 'bottom_tree': r['bottom_tree'] if idx else ''})
 
     def key(r):
+        """Key that sorts the rows by crossing number, then number."""
         c, rest = r['knot'].split('_')
         return (int(c.rstrip('an')), int(re.sub(r'\D', '', rest)))
 

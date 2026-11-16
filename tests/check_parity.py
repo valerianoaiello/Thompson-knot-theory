@@ -66,6 +66,7 @@ def faces(n, edges):
 
 
 def bipartite(n, edges):
+    """True if the graph with vertices 0..n-1 and the edges (u, w, sign) is connected and bipartite."""
     col = [None] * n
     col[0] = 0
     stack = [0]
@@ -85,6 +86,9 @@ def bipartite(n, edges):
 
 
 def leaf_parity(t):
+    """Parities of the numbers of 1's in the leaf addresses of the binary tree t; (T+, T-) is in
+    vec{F} iff the two trees have the same parities.
+    """
     return tuple(w.count('1') % 2 for w in F.leaf_words(t))
 
 
@@ -124,6 +128,11 @@ def check_top(task):
 
 
 def main():
+    """Command line entry point: python3 tests/check_parity.py [nmax].
+
+    Effect: runs check_top on every tree diagram with n = 2..nmax leaves (in parallel) and prints, for every
+            n, the counts and the failures.
+    """
     nmax = int(sys.argv[1]) if len(sys.argv) > 1 else 9
     bad = 0
     with Pool(os.cpu_count()) as pool:

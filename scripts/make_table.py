@@ -34,6 +34,12 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repository
 
 
 def leaf_exponents(words, k=2):
+    """Exponents of the leaves in the normal form (see the module docstring).
+
+    Input:  words, the leaf addresses of a tree; k, the arity (2 for F, 3 for F_3).
+    Output: the list of the exponents: for each leaf the number of trailing 0's of its address, minus one
+            if the rest of the address only contains the digit k - 1.
+    """
     out = []
     for w in words:
         t = len(w) - len(w.rstrip('0'))
@@ -45,18 +51,27 @@ def leaf_exponents(words, k=2):
 # the top tree to those of the bottom tree, and a product gh means "first g, then h"
 
 def _pl(top, bottom, k):
+    """Piecewise linear map of [0, 1] of a tree diagram.
+
+    Input:  top, bottom, the leaf addresses of the two trees; k, the arity.
+    Output: the list of breakpoints (x, f(x)), exact fractions: the right end of every leaf interval of the
+            top tree goes to the right end of the corresponding leaf interval of the bottom tree.
+    """
     def end(w):
+        """Right end of the interval of [0, 1] of the leaf with address w."""
         return sum(Fraction(int(c), k ** (i + 1)) for i, c in enumerate(w)) + Fraction(1, k ** len(w))
     return [(Fraction(0), Fraction(0))] + [(end(u), end(v)) for u, v in zip(top, bottom)]
 
 
 def _ev(f, t):
+    """Value at t of the piecewise linear map f (list of breakpoints)."""
     for (x0, y0), (x1, y1) in zip(f, f[1:]):
         if x0 <= t <= x1:
             return y0 + (t - x0) * (y1 - y0) / (x1 - x0)
 
 
 def _then(f, g):
+    """The map "first f, then g" (the product fg of the module docstring), as a list of breakpoints."""
     xs = {x for x, _ in f} | {_ev([(y, x) for x, y in f], x) for x, _ in g}
     return [(x, _ev(g, _ev(f, x))) for x in sorted(xs)]
 
@@ -68,6 +83,7 @@ def _generator(i, k):
     leaves = [str(k - 1) * lv + str(d) for lv in range(m) for d in range(k - 1)] + [p + str(d) for d in range(k)]
 
     def expand(c):
+        """The leaf addresses obtained by adding a caret below the leaf p + c."""
         return [u for w in leaves for u in ([w + str(d) for d in range(k)] if w == p + str(c) else [w])]
     return expand(j), expand(k - 1)
 
@@ -86,6 +102,7 @@ def normal_form3(top, bottom):
     assert all(_ev(f, x) == _ev(h, x) for x in {x for x, _ in f} | {x for x, _ in h}), (top, bottom)
 
     def power(i, e):
+        """'y<i>' or 'y<i>^<e>'."""
         return 'y%d' % i + ('^%d' % e if e != 1 else '')
 
     pos = [power(i, e) for i, e in enumerate(a) if e]
@@ -103,6 +120,7 @@ def normal_form(top, bottom):
     assert min(a + b) >= 0 and F.word(*letters) == F.reduce_diagram(g), (top, bottom, letters)
 
     def power(i, e):
+        """'x<i>' or 'x<i>^<e>'."""
         return 'x%d' % i + ('^%d' % e if e != 1 else '')
 
     pos = [power(i, e) for i, e in enumerate(a) if e]
@@ -111,11 +129,19 @@ def normal_form(top, bottom):
 
 
 def crossing_key(name):
+    """Key that sorts the knot names by crossing number, then '' / 'a' / 'n', then number (names that
+    are not knot names, last).
+    """
     m = re.match(r'(\d+)([an]?)_(\d+)', name)
     return (int(m.group(1)), m.group(2), int(m.group(3))) if m else (99, '', 0)
 
 
 def main():
+    """Command line entry point: python3 scripts/make_table.py [F|F3|Fvec|F3vec] [results_dir].
+
+    Effect: reads <G>_index.csv (and knots_beyond_table<suffix>.csv), computes the normal form of every
+            witness and writes <G>_index_table.csv and .md, sorted by index and crossing number.
+    """
     group = sys.argv[1] if len(sys.argv) > 1 else 'F'
     assert group in ('F', 'F3', 'Fvec', 'F3vec')
     ternary = group in ('F3', 'F3vec')

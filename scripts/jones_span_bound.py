@@ -30,6 +30,7 @@ def jones_span(homfly):
 
 
 def load(group):
+    """The index table of a group: {knot: row of results/<group>_index.csv} (run from F_index/)."""
     rows = {}
     with open(f'results/{group}_index.csv') as f:
         for r in csv.DictReader(f):
@@ -38,6 +39,12 @@ def load(group):
 
 
 def main():
+    """Command line entry point: sage -python scripts/jones_span_bound.py.
+
+    Effect: computes the bound span V_K + 1 (odd for vec{F}) for every knot, checks that no index of the F
+            and vec{F} tables violates it, and writes results/jones_span_bound.csv and .md (violations, the
+            differences index - bound, the knots whose index equals the bound).
+    """
     F, Fv = load('F'), load('Fvec')
     nmax = {'F': 13, 'Fvec': 17}
     out = []

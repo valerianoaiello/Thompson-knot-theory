@@ -32,6 +32,7 @@ def best(rows):
 
 
 def write(path, rows, fields):
+    """Write rows (dicts) with the given fields to the CSV file path, header included."""
     with open(path, 'w', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
@@ -39,6 +40,13 @@ def write(path, rows, fields):
 
 
 def main():
+    """Command line entry point: python3 scripts/apply_descent.py.
+
+    Effect: from results/descent_certified.csv, updates results/<G>_index.csv (index and witness when the
+            smallest certified diagram reaches the lower bound, otherwise an upper bound in the status; for
+            vec{F} also the lower bound 20 of the classes absent at n = 19) and makes exact the bounds of
+            results/reverse_bound_<G>.csv reached by an oriented search.
+    """
     rows = list(csv.DictReader(open(os.path.join(HERE, 'results', 'descent_certified.csv'))))
     unoriented = best(r for r in rows if r['relation'] == 'isometric')
     oriented = best(r for r in rows if r['relation'] != 'isometric')

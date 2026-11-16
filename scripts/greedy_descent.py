@@ -30,9 +30,11 @@ def deletions_in(t, lo, hi):
     """Trees obtained from the ternary tree t by deleting one internal vertex (as in descent_search) whose
     leaves are all in [lo, hi] (leaf indices from 0)."""
     def size(s):
+        """Number of leaves of the subtree s."""
         return 1 if s is None else sum(size(c) for c in s)
 
     def rec(s, off):
+        """Deletions inside the subtree s, whose leftmost leaf is leaf number off of t."""
         if s is None:
             return []
         res = []
@@ -114,6 +116,12 @@ def test(task):
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: starting from the diagram of START.json (or from the last one in START_greedy.jsonl), at each
+            step tries k = 2, 4, ... deletions per tree in random order and keeps the first pair that gives
+            the knot, appending it to START_greedy.jsonl; stops when a step finds nothing or at n_min.
+    """
     global GROUP
     args = sys.argv[1:]
     if '--group' in args:
@@ -138,6 +146,7 @@ def main():
     from identify_lib import RobustPool
 
     def log(msg):
+        """Print msg preceded by the time."""
         print(time.strftime('%H:%M:%S'), msg, flush=True)
     with RobustPool(procs) as pool:
         while True:

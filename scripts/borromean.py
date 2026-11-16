@@ -37,6 +37,7 @@ BIN = os.path.join(HERE, 'bin', 'iota_knots')
 
 
 def ternary_trees(c):
+    """All ternary trees with c internal vertices (nested 3-tuples, a leaf is None)."""
     if c == 0:
         return [None]
     return [(l, m, r) for c1 in range(c) for c2 in range(c - c1)
@@ -92,6 +93,9 @@ _STATS = [0, 0]  # per process: diagrams rejected by the linking numbers, by the
 
 
 def _trees(group, n):
+    """The trees of size n of the group (binary with n leaves for F, ternary with n - 1 internal vertices
+    for F_3), cached per process.
+    """
     if (group, n) not in _TREES:
         _TREES[(group, n)] = F.all_trees(n) if group == 'F' else ternary_trees(n - 1)
     return _TREES[(group, n)]
@@ -159,6 +163,12 @@ SWEENEY_INDEX = ('**F-index of the Borromean rings: 9 leaves** (8 internal verti
 
 
 def row_line(group, row):
+    """One line of results/borromean.md.
+
+    Input:  group, 'F' or 'F3'; row = (n, diagrams, with 3 components, with vanishing linking numbers, with
+            the HOMFLY-PT polynomial of L6a4, Borromean rings, witness or None).
+    Output: the line, as a markdown list item.
+    """
     n, total, three, lk0, hom, borromean, witness = row
     return ('- %s, n = %d: %d diagrams, %d with 3 components, %d with vanishing linking numbers, '
             '%d with the HOMFLY-PT polynomial of L6a4, **%d Borromean rings**%s' % (
@@ -191,6 +201,12 @@ def report(rows):
 
 
 def main():
+    """Command line entry point: sage -python scripts/borromean.py [nmax_F] [nmax_F3] (defaults 8 and 6).
+
+    Effect: for n = 2, 3, ... up to the first n with Borromean rings (or nmax), filters all the diagrams of F
+            and of F_3 (three_component_diagrams), tests the candidates with a SnapPy isometry to L6a4 taking
+            meridians to meridians, and writes results/borromean.md (report).
+    """
     import snappy  # noqa: F401
     import spherogram
     nmax = {'F': int(sys.argv[1]) if len(sys.argv) > 1 else 8, 'F3': int(sys.argv[2]) if len(sys.argv) > 2 else 6}

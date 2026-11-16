@@ -16,6 +16,11 @@ G = {'F': 'F', 'F3': 'F₃', 'Fvec': '$\\vec{F}$', 'F3vec': '$\\vec{F}_3$'}
 
 
 def main():
+    """Command line entry point: sage -python scripts/index_bounds.py.
+
+    Effect: reads the braid and arc indices from KnotInfo and the four index tables, compares them (see the
+            module docstring) and writes results/index_bounds.md.
+    """
     from sage.all import KnotInfo
     braid, arc = {}, {}
     for K in KnotInfo:

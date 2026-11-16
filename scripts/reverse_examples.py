@@ -22,6 +22,12 @@ SHOWN = 3  # examples per (knot, n, orientation) in the .md file
 
 
 def classify(task):
+    """Orientation realized by an element of vec{F}.
+
+    Input:  task = (top, bottom, ref): the leaf addresses of g and the PD code of the KnotInfo diagram.
+    Output: (top, bottom, sorted list of the names K, Kr, Km, Kmr that L(g) realizes; empty for another
+            knot with the same HOMFLY polynomial).
+    """
     top, bottom, ref = task
     import ftrees as F
     import oriented as O
@@ -30,6 +36,12 @@ def classify(task):
 
 
 def main():
+    """Command line entry point (see the module docstring for the arguments).
+
+    Effect: for every KNOT and n, classifies g and g^-1 for every diagram of the HOMFLY class of the knot
+            and writes results/reverse_examples.csv (all the elements) and results/reverse_examples.md (at
+            most SHOWN per orientation).
+    """
     from sage.all import KnotInfo
     from oriented_index import homfly_key, diagrams
     from make_table import normal_form

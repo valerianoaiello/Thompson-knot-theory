@@ -18,6 +18,7 @@ Lv, Mv = R.gens()
 
 
 def key_from_cpp(s):
+    """The HOMFLY key written by bin/fknots ('c*L^a*M^b ...') as a polynomial of R (variables L, M)."""
     p = R(0)
     for term in s.split():
         c, l, m = term.split('*')
@@ -26,6 +27,7 @@ def key_from_cpp(s):
 
 
 def bipartite(tp, tm):
+    """True if the Tait graph of (tp, tm) is bipartite (2-colourable)."""
     n = F.n_leaves(tp)
     adj = [[] for _ in range(n)]
     for a, b, s in F.tait_graph(tp, tm):
@@ -46,10 +48,12 @@ def bipartite(tp, tm):
 
 
 def parity(t):
+    """Parities of the numbers of 1's in the leaf addresses of the binary tree t."""
     return [w.count('1') % 2 for w in F.leaf_words(t)]
 
 
 def in_vecF(tp, tm):
+    """True if (tp, tm) is in vec{F}: the two trees have the same leaf parities."""
     return parity(tp) == parity(tm)
 
 

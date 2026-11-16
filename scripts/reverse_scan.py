@@ -68,6 +68,11 @@ def enumerate_n(n, keys_file, processes):
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: steps 1-3 of the module docstring, then writes results/reverse_scan.csv and .md (the vec{F}-index
+            of K and of Kr for every target, with the verdict 'equal' / 'DIFFERENT').
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument('--max-crossings', type=int, default=11)
     ap.add_argument('--nmax', type=int, default=15)
@@ -147,6 +152,7 @@ def main():
 
     # 4) output
     def ckey(k):
+        """Key that sorts the knot names by crossing number, then '' / 'a' / 'n', then number."""
         c, rest = k.split('_')
         return (int(c.rstrip('an')), rest[0] if not rest[0].isdigit() else '', int(rest.lstrip('an')))
 

@@ -22,11 +22,18 @@ HERE = C.HERE
 
 
 def witness_retry(item):
+    """Second attempt at certifying a witness.
+
+    Input:  item = (group, knot, top, bottom).
+    Output: {'item', 'part': 'witnesses', 'kind', 'info'}: kind 'ok' with info 'isosig' if same_complement
+            succeeds, otherwise the result of is_K (all within the time limit of timed).
+    """
     group, knot, top, bottom = item
     import snappy  # noqa: F401
     import spherogram
 
     def run():
+        """same_complement on the simplified witness and the KnotInfo diagram, then is_K."""
         pd = C.pd_of(group, top, bottom)
         L = spherogram.Link([[x - 1 for x in c] for c in pd])
         L.simplify('global')
@@ -42,6 +49,11 @@ def witness_retry(item):
 
 
 def exclusion_retry(item):
+    """Second attempt at certifying that a diagram is not the knot.
+
+    Input:  item = (group, knot, top, bottom).
+    Output: {'item', 'part': 'exclusions', 'kind', 'info'}, the result of not_K with the longer time limit.
+    """
     group, knot, top, bottom = item
     try:
         kind, info = C.timed(C.not_K, C.pd_of(group, top, bottom), knot)
@@ -80,6 +92,12 @@ def open_items(group):
 
 
 def main():
+    """Command line entry point: sage -python scripts/certify_retry.py GROUP [processes] [timeout].
+
+    Effect: runs witness_retry and exclusion_retry on the items left open by the first pass (open_items),
+            with the timeout given (default 1800 s), saving progress in tmp_check/certify_retry_<G>.jsonl,
+            and writes results/certified_retry_<G>.md.
+    """
     from identify_lib import RobustPool
     group = sys.argv[1]
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()

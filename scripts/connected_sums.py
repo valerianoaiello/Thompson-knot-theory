@@ -43,6 +43,7 @@ def parse(key):
 
 
 def mul(p, q):
+    """Product of two polynomials given as {(exponent of L, exponent of M): coefficient}."""
     r = {}
     for (a, b), c in p.items():
         for (x, y), z in q.items():
@@ -51,10 +52,12 @@ def mul(p, q):
 
 
 def mirror(p):
+    """HOMFLY-PT polynomial of the mirror image (L -> L^-1), in the format of parse."""
     return {(-a, b): c for (a, b), c in p.items()}  # knots: only even powers of M
 
 
 def table(group):
+    """The index table of a group: {knot: row of results/<G>_index.csv}."""
     return {r['knot']: r for r in csv.DictReader(open(os.path.join(HERE, 'results', group + '_index.csv')))}
 
 
@@ -92,6 +95,13 @@ def classify(group, top, bottom):
 
 
 def first_class(group, target, nmax):
+    """First occurrence of a HOMFLY-PT class in the enumeration of a group.
+
+    Input:  group; target, the polynomial of the sum and that of its mirror (format of parse); nmax, the
+            largest n to look at (the bound).
+    Output: (n, number of diagrams in the class, stored representatives [top, bottom]) for the first n at
+            which the class occurs, or None.
+    """
     step = 2 if group in ('Fvec', 'F3vec') else 1
     for n in range(1 if step == 2 else 2, nmax + 1, step):
         path = os.path.join(HERE, 'results', RAW[group], 'n%d.tsv' % n)
@@ -105,6 +115,12 @@ def first_class(group, target, nmax):
 
 
 def main():
+    """Command line entry point: sage -python scripts/connected_sums.py.
+
+    Effect: for every connected sum of SUMS and every group, compares the first n of its HOMFLY-PT class with
+            the bound ind(K1) + ind(K2) - 1, looks for a witness among the stored representatives (classify)
+            and writes results/connected_sums.md.
+    """
     lines = ['# Indices of connected sums', '', 'Script `connected_sums.py` (see its docstring). The bound is '
              'ind(K1) + ind(K2) - 1 (graft of two minimal diagrams).', '',
              '| knot | ' + ' | '.join('%s (bound)' % g for g in GROUPS) + ' |', '|---' * (len(GROUPS) + 1) + '|']

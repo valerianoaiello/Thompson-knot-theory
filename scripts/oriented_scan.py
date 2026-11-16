@@ -46,6 +46,11 @@ _REF = {}           # per process: knot -> (volume, exterior)
 
 
 def _ref(knot, pd):
+    """Data of the reference knot, cached per process.
+
+    Input:  knot, a KnotInfo name; pd, the PD code of its KnotInfo diagram.
+    Output: (volume, or None if no hyperbolic structure is found; SnapPy exterior).
+    """
     if knot not in _REF:
         import snappy  # noqa: F401
         import spherogram
@@ -56,6 +61,11 @@ def _ref(knot, pd):
 
 
 def oriented_pd(group, top, bottom):
+    """PD code of the oriented knot of a tree diagram.
+
+    Input:  group, Fvec or F3vec; top, bottom, the leaf addresses of the two trees, comma-separated.
+    Output: the PD code of L(top, bottom) with Jones' orientation (oriented.py).
+    """
     import oriented as O
     if group == 'Fvec':
         import ftrees as F
@@ -132,6 +142,13 @@ def classify_chunk(task):
 
 
 def main():
+    """Command line entry point: sage -python scripts/oriented_scan.py GROUP [processes] [max_crossings].
+
+    Effect: selects the targets (see the module docstring), enumerates for every odd n the diagrams of
+            their HOMFLY classes, classifies them chunk by chunk (classify_chunk, progress saved in
+            tmp_check/oriented_<G>_c<max>.jsonl) until K and Kr are both found, and writes
+            results/oriented_index_<G>.csv and .md.
+    """
     group = sys.argv[1]
     assert group in RAW
     processes = int(sys.argv[2]) if len(sys.argv) > 2 else os.cpu_count()
@@ -183,6 +200,7 @@ def main():
         print('resumed: %d chunks already done' % len(done_chunks), flush=True)
 
     def complete(k, n):
+        """True if both K and Kr of knot k were realized with fewer than n leaves."""
         return all(name in found[k] and found[k][name][0] < n for name in ('K', 'Kr'))
 
     with RobustPool(processes) as pool, open(progress, 'a') as prog:
@@ -210,6 +228,9 @@ def main():
                 n, len(tasks), sum(len(v) for v in by_key.values()), time.time() - t0), flush=True)
 
             def skip(t):
+                """Drop from task t the knots for which K and Kr are both found (updating the orientations found for
+                the others); True if none is left (the task is not run).
+                """
                 for k in list(t[5]):
                     if {'K', 'Kr'} <= set(found[k]):
                         del t[5][k]
@@ -240,6 +261,7 @@ def main():
 
     # output
     def ckey(k):
+        """Key that sorts the knot names by crossing number, then '' / 'a' / 'n', then number."""
         c, rest = k.split('_')
         cr = int(c.rstrip('an'))
         return (cr, c[len(str(cr)):], int(rest))
@@ -250,6 +272,9 @@ def main():
         v = {name: found[k][name][0] if name in found[k] else None for name in ('K', 'Kr', 'Km', 'Kmr')}
 
         def fmt(name):
+            """The index of orientation name of the current knot as a string: the value, or '> n_max' (with
+            the number of undecided diagrams, if any).
+            """
             if v[name] is not None:
                 return str(v[name])
             und = sum(s['undecided'] for s in stats[k].values())

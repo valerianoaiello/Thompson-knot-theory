@@ -31,6 +31,7 @@ BIN = os.path.join(HERE, 'bin', 'iota_knots')
 
 
 def ternary_trees(c):
+    """All ternary trees with c internal vertices (nested 3-tuples, a leaf is None)."""
     if c == 0:
         return [None]
     out = []
@@ -44,10 +45,12 @@ def ternary_trees(c):
 
 
 def leaves(t):
+    """Number of leaves of the ternary tree t."""
     return 1 if t is None else sum(leaves(s) for s in t)
 
 
 def words(t, prefix=''):
+    """Leaf addresses (digits 0, 1, 2) of the ternary tree t, from left to right; a single leaf gets '0'."""
     if t is None:
         return [prefix or '0']
     return [w for i, s in enumerate(t) for w in words(s, prefix + str(i))]
@@ -64,6 +67,7 @@ def tait_edges(t):
     out = []
 
     def rec(s, a):
+        """Add the edges of the subtree s, whose leftmost leaf is leaf number a of t."""
         if s is None:
             return
         l, m, r = (leaves(x) for x in s)
@@ -80,6 +84,7 @@ def tait_edges(t):
 
 
 def bipartite(nv, edges):
+    """True if the graph with vertices 0..nv-1 and the given edges (u, w) is bipartite (2-colourable)."""
     col = [None] * nv
     col[0] = 0
     changed = True
@@ -97,6 +102,7 @@ def bipartite(nv, edges):
 
 
 def in_vec(tp, tm):
+    """True if (tp, tm) is in vec{F}_3: the leaves have the same weight parities in the two trees."""
     return [weight(w) % 2 for w in words(tp)] == [weight(w) % 2 for w in words(tm)]
 
 
@@ -105,6 +111,7 @@ def intervals(t):
     out = {}
 
     def rec(s, a, root):
+        """Add the intervals of the subtree s, whose leftmost leaf is leaf number a of t."""
         if s is None:
             return
         n = leaves(s)
@@ -121,6 +128,7 @@ def intervals(t):
 def collapse(t, iv):
     """Replace the subtree on the leaf interval iv by a leaf."""
     def rec(s, a):
+        """Copy of the subtree s (leftmost leaf a) with the subtree on iv replaced by a leaf."""
         if s is None:
             return None
         if (a, a + leaves(s) - 1) == iv:
@@ -134,10 +142,18 @@ def collapse(t, iv):
 
 
 def iota(t):
+    """The ternary tree iota(t) of a binary tree t (every caret gets a middle leaf)."""
     return None if t is None else (iota(t[0]), None, iota(t[1]))
 
 
 def check_top(task):
+    """Checks on all the pairs (T_i, T) with c internal vertices.
+
+    Input:  task = (c, i): the top tree is the i-th ternary tree with c internal vertices.
+    Output: a dict of counts (pairs, pairs in vec{F}_3, those with j >= i, even grafts), the pairs of
+            vec{F}_3, and the failures of the checks: membership by weights = 2-colourability of the Tait
+            graph, equal weights of the leaves 2k - 1 and 2k, and both pieces of an even graft in vec{F}_3.
+    """
     c, i = task
     trees = ternary_trees(c)
     tp = trees[i]
@@ -177,6 +193,11 @@ def components(pairs):
 
 
 def main():
+    """Command line entry point: python3 tests/check_F3vec.py [cmax].
+
+    Effect: checks the examples of the paper, then for c = 1..cmax the pairs (check_top) and the counts of
+            bin/iota_knots F3vec against this implementation; prints 'all checks passed' or the failures.
+    """
     cmax = int(sys.argv[1]) if len(sys.argv) > 1 else 5
     bad = 0
 

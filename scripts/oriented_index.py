@@ -43,6 +43,11 @@ def homfly_key(pd):
 
 
 def reference_pd(name):
+    """PD code of the oriented KnotInfo diagram of the knot.
+
+    Input:  name, a KnotInfo name such as '8_17'.
+    Output: its PD code (list of lists of ints, Sage's convention).
+    """
     from sage.all import KnotInfo
     K = getattr(KnotInfo, 'K' + name)
     return [list(map(int, c)) for c in K.link().pd_code()]
@@ -85,6 +90,12 @@ NAMES = {'same': 'K', 'reverse': 'Kr', 'mirror': 'Km', 'mirror reverse': 'Kmr'}
 
 
 def main():
+    """Command line entry point (see the module docstring for the options).
+
+    Effect: for every n given, lists the diagrams of vec{F} in the HOMFLY class of the knot (diagrams),
+            classifies g and g^-1 for each of them (classify) and prints how many elements realize K, Kr,
+            Km and Kmr, with an example of each.
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument('knot')
     ap.add_argument('n', type=int, nargs='+')
