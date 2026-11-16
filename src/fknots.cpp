@@ -208,8 +208,9 @@ static void build_diagram(int n, const Tree &tp, const Tree &tm, Diagram &D) {
     }
 }
 
-// Walks along the link; returns the number of components. If `walk` is given and the link is a
-// knot, stores the visited (crossing * 4 + entry slot) in order.
+// Walks along the link; returns the number of components. If `walk` is given, stores the visited
+// (crossing * 4 + entry slot) of the first component in order (the whole knot if the link is a knot;
+// run_shard uses it only in that case).
 static int components(const Diagram &D, int *walk) {
     bool seen[8 * MAXN] = {false};
     int comps = 0, len = 0;
