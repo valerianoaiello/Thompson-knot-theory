@@ -1,5 +1,7 @@
 """
-Oriented knots and links from Jones' oriented subgroup vec{F} (Section 5 of the paper in biblio/).
+Oriented knots and links from Jones' oriented subgroup vec{F} (Section 5 of
+V. Aiello, An introduction to Thompson knot theory and to Jones subgroups, J. Knot Theory Ramifications 34
+(2025), 2340002).
 
 For g = (T+, T-) in vec{F} the Tait graph Gamma(T+, T-) is 2-colourable; its vertices (the black regions
 of the checkerboard colouring of L(g)) get the colours + and -, with the leftmost vertex 0 coloured +
